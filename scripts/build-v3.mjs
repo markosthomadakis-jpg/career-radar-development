@@ -8,5 +8,6 @@ writeFileSync('dist/server/index.js',source.replace('__HTML_LITERAL__',JSON.stri
 writeFileSync('dist/.openai/hosting.json',readFileSync('.openai/hosting.json'));
 mkdirSync('dist/drizzle/meta',{recursive:true});
 copyFileSync('drizzle/0000_ai_trial.sql','dist/drizzle/0000_ai_trial.sql');
+copyFileSync('drizzle/0001_rearm_trial.sql','dist/drizzle/0001_rearm_trial.sql');
 copyFileSync('drizzle/meta/_journal.json','dist/drizzle/meta/_journal.json');
 console.log('Career Radar V3 Worker built');

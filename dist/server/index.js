@@ -39,7 +39,10 @@ async function syntheticTrial(request,env){
     const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',
       headers:{authorization:'Bearer '+env.OPENAI_API_KEY,'content-type':'application/json'},
       body:JSON.stringify(payload),signal:AbortSignal.timeout(20000)});
-    if(!response.ok)return fail('One test request was attempted, but OpenAI responded '+response.status+'. The trial cannot be repeated.',502);
+    if(!response.ok){
+      let code='';try{const problem=await response.json();code=String(problem?.error?.code||problem?.error?.type||'').slice(0,70).replace(/[^a-zA-Z0-9_-]/g,'')}catch{}
+      return fail('One test request was attempted, but OpenAI responded '+response.status+(code?' ('+code+')':'')+'. The trial cannot be repeated.',502);
+    }
     const data=await response.json();
     const output=(data.output||[]).flatMap(x=>x.content||[]).filter(x=>x.type==='output_text').map(x=>x.text).join('');
     return Response.json({success:true,model:data.model,output,trial:'consumed',personal_data_sent:false},
