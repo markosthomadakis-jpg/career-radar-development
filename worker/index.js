@@ -1,9 +1,60 @@
 const originalHtml = __HTML_LITERAL__;
 const matchingScript = __MATCHING_LITERAL__;
+const semanticScript = __SEMANTIC_LITERAL__;
 const liveHtml = `<section class="view hide" id="live"><div class="eyebrow">Adzuna / UK vacancies</div><h1>Search live vacancies.</h1><p class="sub">Live source listings. Always verify the position is still open before applying.</p><div class="panel"><form class="fields" id="liveForm"><div class="field"><label>Keywords</label><input name="what" value="learning coordinator" maxlength="100" required></div><div class="field"><label>Location</label><input name="where" value="Crawley" maxlength="80" required></div><div class="field"><label>Radius (miles)</label><input name="distance" value="10" type="number" min="1" max="100"></div><div class="field"><label>Minimum salary (£)</label><input name="salary_min" type="number" min="0" max="250000" value="30000"></div><div class="row wide"><button class="btn" type="submit">Search Adzuna</button><small id="liveMessage">A new private API key is required to enable search.</small></div></form><div class="callout">Your API credentials never appear in the browser. Listings are not exclusive or verified open. No application is submitted automatically.</div></div><div class="sectionhead"><h2>Results</h2></div><div class="cards" id="liveResults"></div></section>`;
 const addon = `<script>(()=>{const btn='<button data-view="live"><span>⌕</span> Live vacancies</button>';document.querySelector('.sidebar .nav').insertAdjacentHTML('beforeend',btn);document.querySelector('.mobile').insertAdjacentHTML('beforeend',btn);document.querySelectorAll('[data-view="live"]').forEach(b=>b.onclick=()=>go('live'));const form=document.querySelector('#liveForm'),msg=document.querySelector('#liveMessage'),results=document.querySelector('#liveResults');const safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));form.onsubmit=async e=>{e.preventDefault();msg.textContent='Searching…';results.innerHTML='';const p=new URLSearchParams(new FormData(form));try{const r=await fetch('/api/jobs?'+p);const data=await r.json();if(!r.ok)throw Error(data.error||'Search failed');msg.textContent=data.results.length+' results · powered by Adzuna';results.innerHTML=data.results.map(j=>'<article class="job"><h3>'+safe(j.title)+'</h3><div class="company">'+safe(j.company)+' · '+safe(j.location)+'</div><div class="tags"><span>'+safe(j.salary_min?'£'+Math.round(j.salary_min).toLocaleString('en-GB'):'Salary not disclosed')+'</span><span>Adzuna</span></div><p class="risk">Check the original listing for availability and conditions.</p><a target="_blank" rel="noopener noreferrer" href="'+(String(j.url).startsWith('https://')?safe(j.url):'#')+'">View listing ↗</a></article>').join('')||'<div class="empty">No results for these filters.</div>';}catch(err){msg.textContent=err.message}}})();</script>`;
-const html=originalHtml.replace('<section class="view hide" id="profile">',liveHtml+'<section class="view hide" id="profile">').replace('</body>',addon+'<script src="/matching-client.js" defer></script></body>');
-export default {async fetch(request,env){const url=new URL(request.url);if(url.pathname==='/matching-client.js')return new Response(matchingScript,{headers:{'content-type':'application/javascript; charset=utf-8','cache-control':'public, max-age=3600'}});if(url.pathname==='/api/jobs'){
+const html=originalHtml.replace('<section class="view hide" id="profile">',liveHtml+'<section class="view hide" id="profile">').replace('</body>',addon+'<script src="/matching-client.js" defer></script><script src="/semantic-client.js" defer></script></body>');
+
+const profileSchema={type:'object',additionalProperties:false,required:['professional_identity','summary','roles','capabilities','career_paths','uncertainties'],properties:{
+  professional_identity:{type:'string'},summary:{type:'string'},
+  roles:{type:'array',items:{type:'object',additionalProperties:false,required:['employer','title','scope','responsibilities','evidence'],properties:{employer:{type:'string'},title:{type:'string'},scope:{type:'string'},responsibilities:{type:'array',items:{type:'string'}},evidence:{type:'string'}}}},
+  capabilities:{type:'array',items:{type:'object',additionalProperties:false,required:['name','strength','evidence','confidence'],properties:{name:{type:'string'},strength:{type:'string'},evidence:{type:'string'},confidence:{type:'string'}}}},
+  career_paths:{type:'array',items:{type:'object',additionalProperties:false,required:['role_family','rationale'],properties:{role_family:{type:'string'},rationale:{type:'string'}}}},
+  uncertainties:{type:'array',items:{type:'string'}}
+}};
+const matchSchema={type:'object',additionalProperties:false,required:['overall_assessment','fit_score','confidence','aligned_requirements','gaps','hard_requirements','recommendation'],properties:{
+  overall_assessment:{type:'string'},fit_score:{type:'integer'},confidence:{type:'string'},
+  aligned_requirements:{type:'array',items:{type:'object',additionalProperties:false,required:['requirement','cv_evidence'],properties:{requirement:{type:'string'},cv_evidence:{type:'string'}}}},
+  gaps:{type:'array',items:{type:'object',additionalProperties:false,required:['requirement','reason'],properties:{requirement:{type:'string'},reason:{type:'string'}}}},
+  hard_requirements:{type:'array',items:{type:'object',additionalProperties:false,required:['requirement','status'],properties:{requirement:{type:'string'},status:{type:'string'}}}},
+  recommendation:{type:'string'}
+}};
+function fail(message,status=400){return Response.json({error:message},{status,headers:{'cache-control':'no-store'}})}
+async function semantic(request,env,kind){
+  if(request.method!=='POST')return fail('POST required',405);
+  if(request.headers.get('origin')&&request.headers.get('origin')!==new URL(request.url).origin)return fail('Origin not allowed',403);
+  if(!env.OPENAI_API_KEY||env.AI_BILLING_APPROVED!=='true')return fail('AI is not activated. API credentials and explicit billing approval are required.',503);
+  const contentLength=Number(request.headers.get('content-length')||0);if(contentLength>75000)return fail('Request too large',413);
+  let data;try{data=await request.json()}catch{return fail('Invalid JSON')};
+  if(data?.consent!==true)return fail('Explicit consent to transmit professional data to OpenAI is required',403);
+  const cv=typeof data.cv==='string'?data.cv.trim():'';
+  if(cv.length<100||cv.length>60000)return fail('CV text must be between 100 and 60000 characters');
+  let input='';let schema=profileSchema;let name='career_profile';
+  if(kind==='profile')input='CV TEXT:\n'+cv;
+  else{
+    const job=data.job;if(!job||typeof job!=='object'||typeof job.title!=='string'||typeof job.description!=='string'||job.description.length<60||job.description.length>10000)return fail('A sufficiently detailed job description is required');
+    input='CV TEXT:\n'+cv+'\n\nJOB TITLE:\n'+job.title.slice(0,250)+'\n\nJOB DESCRIPTION:\n'+job.description;
+    schema=matchSchema;name='job_match';
+  }
+  const instructions=kind==='profile'?
+    'You are a rigorous career evidence analyst. Extract only claims supported by the CV. Ground capabilities in short exact CV quotations. Distinguish scope from seniority and never invent certifications, management authority, dates or outcomes. Use unknowns for missing facts. Write concise English. Do not infer protected characteristics.' :
+    'You are a rigorous hiring-criteria analyst. Compare CV evidence to the given vacancy; distinguish essential requirements from preferences. Mark requirements as supported, unproven or not met. Never invent CV evidence or hiring probabilities. fit_score is an indicative relevance measure 0-100, not likelihood of interview. If job content is incomplete, lower confidence and explicitly mention unknowns. Write concise English.';
+  const payload={model:env.OPENAI_MODEL||'gpt-4.1-mini',store:false,max_output_tokens:2200,instructions,input, text:{format:{type:'json_schema',name,strict:true,schema}}};
+  try{
+    const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{authorization:'Bearer '+env.OPENAI_API_KEY,'content-type':'application/json'},body:JSON.stringify(payload),signal:AbortSignal.timeout(30000)});
+    if(!response.ok)return fail('OpenAI request failed ('+response.status+'). Check API account and model access.',502);
+    const result=await response.json();const raw=(result.output||[]).flatMap(o=>o.content||[]).filter(c=>c.type==='output_text').map(c=>c.text).join('');
+    if(!raw)return fail('No structured output returned',502);
+    const parsed=JSON.parse(raw);if(kind==='match')parsed.fit_score=Math.max(0,Math.min(100,Number(parsed.fit_score)||0));
+    return Response.json({result:parsed,model:result.model,source:'OpenAI semantic analysis'},{headers:{'cache-control':'no-store'}});
+  }catch{return fail('Semantic analysis failed; no CV data was stored by Career Radar.',502)}
+}
+export default {async fetch(request,env){const url=new URL(request.url);
+  if(url.pathname==='/semantic-client.js')return new Response(semanticScript,{headers:{'content-type':'application/javascript; charset=utf-8'}});
+  if(url.pathname==='/api/ai/status')return Response.json({enabled:Boolean(env.OPENAI_API_KEY&&env.AI_BILLING_APPROVED==='true')},{headers:{'cache-control':'no-store'}});
+  if(url.pathname==='/api/ai/profile')return semantic(request,env,'profile');
+  if(url.pathname==='/api/ai/match')return semantic(request,env,'match');
+  if(url.pathname==='/matching-client.js')return new Response(matchingScript,{headers:{'content-type':'application/javascript; charset=utf-8','cache-control':'public, max-age=3600'}});if(url.pathname==='/api/jobs'){
   if(!env.ADZUNA_APP_ID||!env.ADZUNA_APP_KEY)return Response.json({error:'Adzuna not configured. Rotate the exposed key, then configure the replacement securely.'},{status:503});
   const what=(url.searchParams.get('what')||'').trim().slice(0,100),where=(url.searchParams.get('where')||'').trim().slice(0,80);
   if(!what||!where)return Response.json({error:'Keywords and location are required.'},{status:400});
