@@ -21,14 +21,14 @@ const matchSchema={type:'object',additionalProperties:false,required:['overall_a
 }};
 function fail(message,status=400){return Response.json({error:message},{status,headers:{'cache-control':'no-store'}})}
 function redactCvContactDetails(source){
-  // Remove header/contact lines, then defensively mask inline contact fields.
-  return source.split(/\r?\n/).filter(line=>
-    !/\bmarkos\s+thomadakis\b/i.test(line)&&
-    !/@|linkedin\s*\.|https?:\/\/|\b(?:phone|mobile|telephone|contact|address)\s*:/i.test(line)
-  ).join('\n')
+  // Mask contact spans rather than deleting lines: PDF extraction can flatten
+  // a whole page into one line containing both an email and job evidence.
+  return source
+    .replace(/\bmarkos\s+thomadakis\b/gi,'[name removed]')
     .replace(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/gi,'[email removed]')
-    .replace(/(?:https?:\/\/|www\.)\S+/gi,'[link removed]')
+    .replace(/(?:https?:\/\/|www\.|linkedin\.com\/)[^\s|,;]+/gi,'[link removed]')
     .replace(/(?:\+44\s?\(?0?\)?|\b0)(?:[\s().-]*\d){9,11}\b/g,'[phone removed]')
+    .replace(/\b(?:telephone|mobile|phone|email|linkedin)\s*:\s*(?=\[(?:phone|email|link) removed\])/gi,'')
     .trim();
 }
 async function cvProfileOnce(request,env){
