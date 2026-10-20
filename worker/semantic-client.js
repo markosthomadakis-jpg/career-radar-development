@@ -2,6 +2,7 @@
 (()=>{
   const html=`<section class="view hide" id="semantic"><div class="eyebrow">Career Radar V5 / Semantic intelligence</div><h1>Understand the experience.</h1><p class="sub">OpenAI-assisted analysis of your CV and real job descriptions. This service is opt-in and makes a paid API call only when billing is enabled and you explicitly consent.</p><div class="panel"><div class="row" style="justify-content:space-between"><h2 style="margin:0">AI access</h2><span class="pill" id="aiStatus">Checking configuration…</span></div><p class="sub" style="margin-top:12px">Your CV remains in the browser until you choose an AI action. On consent, relevant CV text is sent to OpenAI through the private Career Radar server. No CV is stored by the Career Radar server. Requests are configured with API response storage disabled.</p><div class="callout">An indicative match score is not a predicted probability of employment. Essential qualifications and vacancy status still need independent verification.</div><div class="field" style="margin-top:20px"><label><input type="checkbox" id="aiConsent"> I understand that my CV and, for job matching, the selected job description will be transmitted to OpenAI for this individual request, potentially incurring API usage charges once separately enabled.</label></div><div class="row" style="margin-top:16px"><button class="btn" id="aiProfileButton" disabled>Build semantic career profile</button><button class="btn outline" id="aiMatchButton" disabled>Evaluate selected vacancy</button></div><div class="fields" style="margin-top:16px"><div class="field wide"><label for="aiJobSelect">Vacancy from your latest Adzuna search</label><select id="aiJobSelect"><option value="">Run a Live Vacancies search first</option></select></div></div><div id="aiMessage" class="callout">AI access is not yet active. No API charges have been incurred from this page.</div></div><div class="sectionhead"><h2>Structured AI assessment</h2></div><div id="aiOutput" class="panel"><p class="sub">Your semantic profile or vacancy assessment will appear here. Every capability must be supported by CV evidence; unknowns will remain visible.</p></div></section>`;
   document.querySelector('#matching').insertAdjacentHTML('afterend',html);
+  document.querySelector('#semantic .panel').insertAdjacentHTML('beforeend',`<div class="callout" style="margin-top:16px"><b>One-time connection test</b><p>Uses a fictional applicant only. This button can consume one small OpenAI API request. It does not transmit your CV.</p><button class="btn outline" id="aiTrialButton">Run the single-use synthetic test</button><p id="aiTrialMessage" class="sub" aria-live="polite">Not tested yet. This action is irreversible.</p></div>`);
   const nav='<button data-view="semantic"><span>✧</span> Semantic AI (V5)</button>';
   document.querySelector('.sidebar .nav').insertAdjacentHTML('beforeend',nav);
   document.querySelector('.mobile').insertAdjacentHTML('beforeend',nav);
@@ -24,4 +25,15 @@
     try{const r=await fetch('/api/ai/'+kind,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}),data=await r.json();if(!r.ok)throw Error(data.error||'Analysis failed');out.innerHTML=kind==='profile'?renderProfile(data.result):renderMatch(data.result);msg.textContent='Analysis complete. Review every evidence claim before relying on it.';}catch(err){msg.textContent=err.message}finally{busy=false;consent.checked=false;buttons()}
   }
   profileButton.onclick=()=>send('profile');matchButton.onclick=()=>send('match');configuration();refreshJobs();
+  const trialButton=el('aiTrialButton'),trialMessage=el('aiTrialMessage');
+  trialButton.onclick=async()=>{
+    if(!window.confirm('Authorise the one permitted OpenAI API test with fictional data? It may incur a small charge and cannot be repeated.'))return;
+    trialButton.disabled=true;trialMessage.textContent='Running the one-time synthetic test…';
+    try{
+      const response=await fetch('/api/ai/test-once',{method:'POST',headers:{'content-type':'application/json'},body:'{}'});
+      const data=await response.json();
+      if(!response.ok)throw Error(data.error||'Test failed');
+      trialMessage.textContent='Connected successfully ('+data.model+'): '+(data.output||'No text returned');
+    }catch(error){trialMessage.textContent=error.message+' No automatic retries will be made.';}
+  };
 })();

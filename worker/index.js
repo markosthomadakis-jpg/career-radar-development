@@ -20,6 +20,32 @@ const matchSchema={type:'object',additionalProperties:false,required:['overall_a
   recommendation:{type:'string'}
 }};
 function fail(message,status=400){return Response.json({error:message},{status,headers:{'cache-control':'no-store'}})}
+// A durable one-attempt budget. The atomic UPDATE is committed before the
+// external request, so failures never trigger a second billable attempt.
+async function syntheticTrial(request,env){
+  if(request.method!=='POST')return fail('POST required',405);
+  const origin=new URL(request.url).origin;
+  if(request.headers.get('origin')!==origin)return fail('Same-origin request required',403);
+  if(!env.OPENAI_API_KEY)return fail('OpenAI API key is not configured',503);
+  if(!env.DB)return fail('Trial database is not configured',503);
+  let claimed;
+  try{claimed=await env.DB.prepare('UPDATE ai_trial_budget SET used = 1 WHERE id = 1 AND used = 0 RETURNING id').first()}
+  catch{return fail('Trial budget is not ready; no API request was made',503)}
+  if(!claimed)return fail('The single-use trial has already been claimed',409);
+  const payload={model:env.OPENAI_MODEL||'gpt-4.1-mini',store:false,max_output_tokens:120,
+    instructions:'Return one short English sentence. Do not ask follow-up questions.',
+    input:'Synthetic career test only: A fictional applicant coordinated 40 workshops and maintained a monthly attendance report. Summarise the directly supported experience.'};
+  try{
+    const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',
+      headers:{authorization:'Bearer '+env.OPENAI_API_KEY,'content-type':'application/json'},
+      body:JSON.stringify(payload),signal:AbortSignal.timeout(20000)});
+    if(!response.ok)return fail('One test request was attempted, but OpenAI responded '+response.status+'. The trial cannot be repeated.',502);
+    const data=await response.json();
+    const output=(data.output||[]).flatMap(x=>x.content||[]).filter(x=>x.type==='output_text').map(x=>x.text).join('');
+    return Response.json({success:true,model:data.model,output,trial:'consumed',personal_data_sent:false},
+      {headers:{'cache-control':'no-store'}});
+  }catch{return fail('One test request was attempted but could not be verified. The trial cannot be repeated.',502)}
+}
 async function semantic(request,env,kind){
   if(request.method!=='POST')return fail('POST required',405);
   if(request.headers.get('origin')&&request.headers.get('origin')!==new URL(request.url).origin)return fail('Origin not allowed',403);
@@ -50,6 +76,7 @@ async function semantic(request,env,kind){
   }catch{return fail('Semantic analysis failed; no CV data was stored by Career Radar.',502)}
 }
 export default {async fetch(request,env){const url=new URL(request.url);
+  if(url.pathname==='/api/ai/test-once')return syntheticTrial(request,env);
   if(url.pathname==='/semantic-client.js')return new Response(semanticScript,{headers:{'content-type':'application/javascript; charset=utf-8'}});
   if(url.pathname==='/api/ai/status')return Response.json({enabled:Boolean(env.OPENAI_API_KEY&&env.AI_BILLING_APPROVED==='true')},{headers:{'cache-control':'no-store'}});
   if(url.pathname==='/api/ai/profile')return semantic(request,env,'profile');
