@@ -1,0 +1,9 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    { "idx": 0, "version": "6", "when": 1792496400000, "tag": "0000_ai_trial", "breakpoints": true },
+    { "idx": 1, "version": "6", "when": 1792497300000, "tag": "0001_rearm_trial", "breakpoints": true },
+    { "idx": 2, "version": "6", "when": 1792497600000, "tag": "0002_cv_profile_budget", "breakpoints": true }
+  ]
+}
