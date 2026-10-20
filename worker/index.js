@@ -20,6 +20,49 @@ const matchSchema={type:'object',additionalProperties:false,required:['overall_a
   recommendation:{type:'string'}
 }};
 function fail(message,status=400){return Response.json({error:message},{status,headers:{'cache-control':'no-store'}})}
+function redactCvContactDetails(source){
+  // Remove header/contact lines, then defensively mask inline contact fields.
+  return source.split(/\r?\n/).filter(line=>
+    !/\bmarkos\s+thomadakis\b/i.test(line)&&
+    !/@|linkedin\s*\.|https?:\/\/|\b(?:phone|mobile|telephone|contact|address)\s*:/i.test(line)
+  ).join('\n')
+    .replace(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/gi,'[email removed]')
+    .replace(/(?:https?:\/\/|www\.)\S+/gi,'[link removed]')
+    .replace(/(?:\+44\s?\(?0?\)?|\b0)(?:[\s().-]*\d){9,11}\b/g,'[phone removed]')
+    .trim();
+}
+async function cvProfileOnce(request,env){
+  if(request.method!=='POST')return fail('POST required',405);
+  if(request.headers.get('origin')!==new URL(request.url).origin)return fail('Same-origin request required',403);
+  if(!env.OPENAI_API_KEY||!env.DB)return fail('Profile analysis is not configured',503);
+  if(Number(request.headers.get('content-length')||0)>75000)return fail('Request too large',413);
+  let body;try{body=await request.json()}catch{return fail('Invalid JSON')}
+  if(body?.consent!==true||body?.purpose!=='career_profile_once')return fail('Specific CV-transmission consent is required',403);
+  const original=typeof body.cv==='string'?body.cv.trim():'';
+  if(original.length<200||original.length>60000)return fail('CV text must be between 200 and 60000 characters');
+  const cv=redactCvContactDetails(original);
+  if(cv.length<150)return fail('Insufficient professional content after removing contact details');
+  let claimed;
+  try{claimed=await env.DB.prepare('UPDATE cv_profile_budget SET used=1 WHERE id=1 AND used=0 RETURNING id').first()}
+  catch{return fail('Profile budget unavailable; no API call was made',503)}
+  if(!claimed)return fail('The one-time CV profile analysis has already been used',409);
+  const payload={model:env.OPENAI_MODEL||'gpt-4.1-mini',store:false,max_output_tokens:2200,
+    instructions:'Create a rigorous structured Career Intelligence Profile from the CV only. Ground every capability in a brief exact quotation from the CV. Distinguish demonstrable skills from plausible transferable potential. Do not invent qualifications, line-management authority, results or dates. Do not infer sensitive/protected characteristics. Mark missing information as unknown, and make confidence appropriately conservative. Use concise English.',
+    input:'REDACTED CV TEXT:\n'+cv,
+    text:{format:{type:'json_schema',name:'career_profile',strict:true,schema:profileSchema}}};
+  try{
+    const response=await fetch('https://api.openai.com/v1/responses',{method:'POST',
+      headers:{authorization:'Bearer '+env.OPENAI_API_KEY,'content-type':'application/json'},
+      body:JSON.stringify(payload),signal:AbortSignal.timeout(30000)});
+    if(!response.ok){let code='';try{const issue=await response.json();code=String(issue?.error?.code||issue?.error?.type||'').slice(0,70).replace(/[^a-zA-Z0-9_-]/g,'')}catch{}
+      return fail('One profile request was attempted; OpenAI responded '+response.status+(code?' ('+code+')':'')+'. No retry was made.',502)}
+    const responseBody=await response.json();
+    const raw=(responseBody.output||[]).flatMap(x=>x.content||[]).filter(x=>x.type==='output_text').map(x=>x.text).join('');
+    if(!raw)return fail('OpenAI returned no structured profile. No retry was made.',502);
+    return Response.json({result:JSON.parse(raw),model:responseBody.model,redacted:true,trial:'consumed'},
+      {headers:{'cache-control':'no-store'}});
+  }catch{return fail('Profile request failed or timed out. The one-time budget was consumed; no retry was made.',502)}
+}
 // A durable one-attempt budget. The atomic UPDATE is committed before the
 // external request, so failures never trigger a second billable attempt.
 async function syntheticTrial(request,env){
@@ -79,9 +122,14 @@ async function semantic(request,env,kind){
   }catch{return fail('Semantic analysis failed; no CV data was stored by Career Radar.',502)}
 }
 export default {async fetch(request,env){const url=new URL(request.url);
+  if(url.pathname==='/api/ai/profile-once')return cvProfileOnce(request,env);
   if(url.pathname==='/api/ai/test-once')return syntheticTrial(request,env);
   if(url.pathname==='/semantic-client.js')return new Response(semanticScript,{headers:{'content-type':'application/javascript; charset=utf-8'}});
-  if(url.pathname==='/api/ai/status')return Response.json({enabled:Boolean(env.OPENAI_API_KEY&&env.AI_BILLING_APPROVED==='true')},{headers:{'cache-control':'no-store'}});
+  if(url.pathname==='/api/ai/status'){
+    let profileOnceAvailable=false;
+    if(env.DB&&env.OPENAI_API_KEY)try{const row=await env.DB.prepare('SELECT used FROM cv_profile_budget WHERE id=1').first();profileOnceAvailable=row?.used===0}catch{}
+    return Response.json({enabled:Boolean(env.OPENAI_API_KEY&&env.AI_BILLING_APPROVED==='true'),profileOnceAvailable},{headers:{'cache-control':'no-store'}});
+  }
   if(url.pathname==='/api/ai/profile')return semantic(request,env,'profile');
   if(url.pathname==='/api/ai/match')return semantic(request,env,'match');
   if(url.pathname==='/matching-client.js')return new Response(matchingScript,{headers:{'content-type':'application/javascript; charset=utf-8','cache-control':'public, max-age=3600'}});if(url.pathname==='/api/jobs'){
