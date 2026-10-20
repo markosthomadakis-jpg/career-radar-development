@@ -47,3 +47,35 @@ export function withEmployerIntelligence(v53,intel={}){
  const priorityScore=v53.fit_score===null?null:Math.max(0,Math.min(100,v53.fit_score+delta));
  return {...v53,intel_signals:signals,priority_adjustment:delta,priority_score:priorityScore,fit_score:v53.fit_score,decision:v53.decision,context_rule:'Context does not erase missing essential skills, expired vacancies, or other hard constraints.'};
 }
+
+// A second, evidence-based lens. It never rewrites advertised essentials or
+// manufactures an interview probability from employer/sector patterns.
+export function evaluateContextualFit(v53, cv, evidence={}){
+ const entries=Array.isArray(evidence.observations)?evidence.observations.filter(x=>x&&typeof x==='object'&&x.source&&x.requirement&&['essential','desirable','mentioned'].includes(x.tier)):[];
+ const distinct=new Set(entries.map(x=>String(x.vacancy_id||x.source)));
+ const sampleSize=distinct.size;
+ if(v53.fit_score===null||sampleSize<3)return {score:null,confidence:'Insufficient',sample_size:sampleSize,signals:[],reason:'At least three distinct, sourced employer/sector vacancy observations and a rated job are required. No contextual score inferred.'};
+ const clean=s=>String(s||'').toLowerCase().replace(/[^a-z0-9+#. ]/g,' ').replace(/\s+/g,' ').trim();
+ const cvText=clean(cv),groups=new Map();
+ for(const row of entries){
+   const key=clean(row.requirement);if(key.length<4)continue;
+   if(!groups.has(key))groups.set(key,{label:row.requirement,vacancies:new Set(),essential:new Set(),sources:new Set(),specificity:0});
+   const g=groups.get(key),id=String(row.vacancy_id||row.source);
+   g.vacancies.add(id);if(row.tier==='essential')g.essential.add(id);
+   g.sources.add(String(row.source));g.specificity=Math.max(g.specificity,Number(row.specificity)||0);
+ }
+ const signals=[...groups.values()].filter(g=>g.vacancies.size>=2).map(g=>{
+   const frequency=g.vacancies.size/sampleSize,criticality=g.essential.size/g.vacancies.size;
+   const weight=frequency*(1+criticality)*(1+Math.min(2,Math.max(0,g.specificity))/4);
+   const tokens=clean(g.label).split(' ').filter(t=>t.length>=3);
+   const supported=tokens.length>0&&tokens.every(t=>cvText.includes(t));
+   return {requirement:g.label,frequency:Number(frequency.toFixed(2)),criticality:Number(criticality.toFixed(2)),specificity:g.specificity,weight,supported,source_count:g.sources.size,sources:[...g.sources].slice(0,3)};
+ }).sort((a,b)=>b.weight-a.weight);
+ const weight=signals.reduce((n,s)=>n+s.weight,0);
+ if(!weight)return {score:null,confidence:'Low',sample_size:sampleSize,signals,reason:'No repeated capability demands found. Missing evidence is unknown, not a zero score.'};
+ const sectorCoverage=100*signals.filter(s=>s.supported).reduce((n,s)=>n+s.weight,0)/weight;
+ const confidence=sampleSize>=15?'Moderate':sampleSize>=6?'Limited':'Low';
+ // Context remains independently inspectable; do not hide its limited provenance.
+ const score=Math.round(0.65*v53.fit_score+0.35*sectorCoverage);
+ return {score,capability_fit:v53.fit_score,sector_coverage:Math.round(sectorCoverage),confidence,sample_size:sampleSize,signals,reason:'65% advertised evidence fit + 35% repeated contextual demand coverage; heuristic, not hiring likelihood. Unverified synonyms may reduce coverage.'};
+}
