@@ -6,6 +6,7 @@
     "build": "node scripts/build-offline.mjs",
     "test": "npm run build && node --test tests/*.test.mjs",
     "test:t2": "node scripts/run-t2-smoke.mjs",
-    "validate": "node scripts/validate-26.mjs"
+    "validate": "node scripts/validate-26.mjs",
+    "smoke:v54": "node scripts/run-v54-chromium.mjs"
   }
 }
