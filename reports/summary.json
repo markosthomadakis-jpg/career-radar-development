@@ -5,11 +5,11 @@
   "human_labels_used": false,
   "evaluation_date": "2026-10-21",
   "identical_repeat": true,
-  "results_sha256": "b94e8bc745edb90e91da6e0ebeb9fc99f7669da7a5f8cd7fe72a8cb41c55c234",
+  "results_sha256": "c1a3e090b9a96c0f2dd9e3671c0dd383bfe575e5587fa46985ee8f438a1aac11",
   "decisions": {
     "Apply with tailoring": 7,
-    "Investigate": 6,
-    "Not assessable": 2,
+    "Investigate": 5,
+    "Not assessable": 3,
     "Apply": 5,
     "Skip": 2
   },
@@ -29,7 +29,7 @@
     100,
     59,
     100,
-    67,
+    null,
     85,
     44,
     100,

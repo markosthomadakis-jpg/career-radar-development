@@ -17,3 +17,5 @@ copyFileSync('drizzle/0001_rearm_trial.sql','dist/drizzle/0001_rearm_trial.sql')
 copyFileSync('drizzle/0002_cv_profile_budget.sql','dist/drizzle/0002_cv_profile_budget.sql');
 copyFileSync('drizzle/meta/_journal.json','dist/drizzle/meta/_journal.json');
 console.log('Career Radar V3 Worker built');
+
+copyFileSync('worker/vacancy-input.mjs','dist/server/vacancy-input.mjs');
