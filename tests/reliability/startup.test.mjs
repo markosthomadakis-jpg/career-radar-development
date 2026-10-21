@@ -9,5 +9,5 @@ test('matching mounts dependent DOM synchronously even when engine import is unr
 });
 test('versioned asset URLs prevent old script cache from restoring broken startup',()=>{
  const worker=fs.readFileSync(new URL('../../worker/index.js',import.meta.url),'utf8');
- for(const file of ['matching-client.js','semantic-client.js','calibration-client.js'])assert.ok(worker.includes(`src="/${file}?v=5.4.5"`));
+ for(const file of ['matching-client.js','semantic-client.js','calibration-client.js'])assert.ok(worker.includes(`src="/${file}?v=5.4.6"`));
 });

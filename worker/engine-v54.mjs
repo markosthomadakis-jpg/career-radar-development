@@ -1,5 +1,5 @@
 // Pure offline engine. No clock, storage or network. Versioned separately from historical engines.
-export const MODEL_VERSION='5.4.5';
+export const MODEL_VERSION='5.4.6';
 const MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
 const day=(y,m,d)=>{const dt=new Date(Date.UTC(y,m-1,d));return dt.getUTCFullYear()===y&&dt.getUTCMonth()===m-1&&dt.getUTCDate()===d?`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`:null;};
 export function parseDate(value){
@@ -17,7 +17,7 @@ const catalog=[
  ['participants','Participant administration',/\b(?:participant\w*|registration\w*|delegate\w*|attend\w*|learner\w*)\b/i],
  ['suppliers','Instructor / supplier coordination',/\b(?:instructor\w*|supplier\w*|vendor\w*|trainer\w*|external provider\w*)\b/i],
  ['excel','Excel / spreadsheets',/\b(?:excel|spreadsheets?|pivot tables?|vlookup|xlookup)\b/i],
- ['records','Records / data quality',/\b(?:records?|data accuracy|data quality|reconcil\w*|validat\w*)\b/i],
+ ['records','Records / data quality',/\b(?:records?|files?|data accuracy|data quality|reconcil\w*|validat\w*)\b/i],
  ['reporting','Operational reporting',/\b(?:report\w*|dashboards?|kpis?)\b/i],
  ['documentation','Documentation',/\b(?:documents?|documentation|procedures?|meeting notes|minutes|process documentation)\b/i],
  ['projects','Project support',/\b(?:project coordination|programme coordination|action logs?|milestones?|dependencies|pmo)\b/i],
@@ -37,37 +37,80 @@ const catalog=[
  ['housing','Housing legislation',/\b(?:housing legislation|homelessness legislation|housing options|landlord statutory compliance)\b/i,'specialist']
 ].map(([id,label,re,specificity='generic'])=>({id,label,re,specificity}));
 const units=s=>String(s||'').replace(/<[^>]*>/g,' ').replace(/\r/g,'\n').split(/\n+|(?<=[.!?;])\s+/).map(s=>s.trim()).filter(Boolean);
-function extract(text,title){
- const matched=new Map();let tier='context',benefits=false;
- for(const line of units(text)){
-  // Employer recruitment/accessibility commitments are not candidate criteria.
-  if(/\b(?:we (?:encourage|welcome) applications|applications from all backgrounds|equal opportunit(?:y|ies)|reasonable adjustments|fair (?:recruitment )?process|disability confident)\b/i.test(line))continue;
-  if(/^(?:benefits|what we offer|what you(?:'ll| will) get|rewards|our offer)\s*:?$/i.test(line)){benefits=true;continue;}
-  if(/^(?:responsibilities|duties|essential.*|desirable.*|requirements|person specification|about you|the role)\s*:?$/i.test(line))benefits=false;
-  if(benefits)continue;
-  if(/\b(?:training opportunities|training (?:is |will be )?provided|career (?:development|progression)|rewarding career)\b/i.test(line)&&!/\b(?:deliver|coordinate|administer|organise|manage)\w*\s+(?:the |staff |employee )?training\b/i.test(line))continue;
-  if(tier==='context'&&line.split(/\s+/).length<=3&&!ACTION.test(line)&&!catalog.some(c=>c.specificity!=='generic'&&c.re.test(line))&&!/\b(?:essential|required|must)\b/i.test(line))continue;
-  if(/^(?:essential(?: criteria| requirements| skills)?|what (?:we need|you need)|minimum requirements|must.have)\s*:?$/i.test(line)){tier='essential';continue;}
-  if(/^(?:desirable(?: criteria| requirements| skills)?|preferred|nice.to.have)\s*:?$/i.test(line)){tier='desirable';continue;}
-  if(/^(?:responsibilities|duties|benefits|about (?:us|the company)|the role|how to apply|\[SUPPLEMENT.*)\s*:?$/i.test(line)){tier='context';continue;}
+// Retain every source unit; category coverage is distinct from full semantic coverage.
+const sourceUnits=text=>String(text||'').replace(/<(?:br\b[^>]*|\/(?:p|div|li|h[1-6]|tr))>/gi,'\n').replace(/<[^>]*>/g,' ').replace(/\r/g,'\n').split(/\n+|[•●]|(?<=[.!?;])\s+/).map(x=>x.trim()).filter(Boolean);
+const DUTY_ACTION=/\b(?:support(?:ing)?|creat\w*|updat\w*|process\w*|review\w*|monitor\w*|handl\w*|cover\w*|assist\w*|check\w*|administration|responsib\w*)\b/i;
+const facets=[
+ ['payroll_support','Payroll queries / document liaison (scope to verify)',/\bpayroll\b/i],
+ ['recruitment','Recruitment administration',/\brecruitment\b/i],
+ ['onboarding','Employee onboarding / induction',/\b(?:onboarding|new starters?|new employees?|induction)\b/i],
+ ['employment_changes','Employment changes / leavers',/\b(?:employment changes|leavers?|maternity|paternity|changes to (?:employment|contracts?))\b/i],
+ ['hr_records','HR / personnel records',/\b(?:hr (?:paper )?files?|personnel (?:files?|records?)|employee records?)\b/i],
+ ['workforce_compliance','Workforce / operational compliance checks',/\b(?:compliance checks?|workforce compliance)\b/i],
+ ['er_processes','Employee relations processes',/\b(?:internal er|employee relations)\b/i],
+ ['contract_paperwork','Employment contract paperwork',/\b(?:variation to contract|contract (?:variation|paperwork))\b/i],
+ ['named_systems','Named systems / platforms',/\b(?:[Uu]nit4|[Hh]oneydew)\b|\b[A-Z][a-z]+[A-Z][A-Za-z0-9]+\b.{0,30}\b(?:systems?|platforms?)\b/],
+ ['confidentiality','Confidentiality / information security',/\b(?:confidentiality|information security|data protection)\b/i],
+ ['reception','Reception / front desk',/\b(?:reception|front desk)\b/i],
+ ['admin_experience','Stated administrative / secretarial experience',/\b(?:secretarial|administration|administrative)\b.{0,30}\bexperience\b/i],
+ ['word','Microsoft Word',/\b(?:ms |microsoft )?word\b/i],
+ ['powerpoint','Microsoft PowerPoint',/\bpowerpoint\b/i],
+ ['outlook','Microsoft Outlook',/\boutlook\b/i],
+ ['general_skills','Organisation / communication / time management',/\b(?:organisational|organizational|communication|time management|prioritis\w*|prioritiz\w*)\b/i]
+];
+export function extractVacancyRequirements(text,title=''){
+ const matched=new Map(),audit=[];let section='context',tier='context';
+ const rank={context:0,desirable:1,essential:2};
+ const add=(req,unit)=>{const old=matched.get(req.id),ref={unit_id:unit.unit_id,text:unit.source,section:unit.section};
+  if(old){if(!old.sources.some(x=>x.text===ref.text))old.sources.push(ref);if(rank[req.importance]>rank[old.importance])Object.assign(old,{...req,sources:old.sources});}
+  else matched.set(req.id,{...req,sources:[ref]});
+  unit.requirement_ids.push(req.id);
+ };
+ const lines=sourceUnits(text);
+ for(let i=0;i<lines.length;i++){
+  const line=lines[i],heading=line.replace(/[’‘]/g,"'").replace(/^#{1,6}\s+|^[-*]\s+/,'').replace(/[:.]+$/,'').trim();
+  const unit={unit_id:`unit-${i+1}`,source:line,section,disposition:'context_unreviewed',reason:'Context text; no reliable requirement boundary identified.',requirement_ids:[]};audit.push(unit);
+  const setHeading=(next,nextTier,reason)=>{section=next;tier=nextTier;Object.assign(unit,{section,disposition:'heading',reason});};
+  if(/^(?:essential(?: criteria| requirements| skills)?|what (?:we need|you need)|minimum requirements|must.have|to be successful.*you (?:will|must|should) have|what you(?:'ll| will) (?:need|bring)|person specification|(?:key )?requirements|skills and experience|what we(?:'re| are) looking for|about you)$/i.test(heading)){setHeading('criteria','essential','Candidate criteria heading');continue;}
+  if(/^(?:desirable(?: criteria| requirements| skills)?|preferred|nice.to.have)$/i.test(heading)){setHeading('criteria','desirable','Desirable criteria heading');continue;}
+  if(/^(?:responsibilities|(?:key |main )?duties|(?:key |main )?responsibilities|the role|(?:as .{1,90} )?you (?:will|would) (?:be|do|be responsible for)|your responsibilities|your role|about the role|what you(?:'ll| will) (?:do|be doing)|you will|\[SUPPLEMENT.*)$/i.test(heading)){setHeading('duties','context','Published duties heading');continue;}
+  if(/^(?:benefits|what we offer|what you(?:'ll| will) get|rewards|our offer)$/i.test(heading)){setHeading('benefits','context','Employer benefits heading');continue;}
+  if(/^(?:where you (?:will|would) be working|location|about (?:us|the company|the service|the employer)|how to apply|application process)$/i.test(heading)){setHeading('employer_context','context','Employer/location/application context heading');continue;}
+  if(/\b(?:we (?:encourage|welcome) applications|applications from all backgrounds|equal opportunit(?:y|ies)|reasonable adjustments|fair (?:recruitment )?process|disability confident)\b/i.test(line)){Object.assign(unit,{disposition:'excluded',reason:'Employer recruitment/accessibility statement'});continue;}
+  if(section==='benefits'||section==='employer_context'){Object.assign(unit,{disposition:'excluded',reason:section==='benefits'?'Employer benefit; not a candidate requirement':'Employer/location/application context'});continue;}
+  const trainingBenefit=/\b(?:training opportunities|training (?:is |will be )?provided|career (?:development|progression)|rewarding career)\b/i.test(line)&&!/\b(?:deliver|coordinate|administer|organise|manage)\w*\s+(?:the |staff |employee )?training\b/i.test(line);
+  const candidateSkill=/\b(?:experience|skills|knowledge|qualification|degree|gcse|confidentiality)\b/i.test(line);
+  if(trainingBenefit&&!candidateSkill){Object.assign(unit,{disposition:'excluded',reason:'Training / career development offered by employer'});continue;}
   const explicitDesirable=/\b(?:desirable|preferred|advantageous|ideally|beneficial|not essential)\b/i.test(line);
-  const importance=explicitDesirable?'desirable':/\b(?:essential|must|minimum|proven experience)\b|\b(?:you (?:are |will be )?required to|required (?:skills|experience|qualifications)|requirements? include)\b|\b(?:experience|qualification|licen[cs]e|certificate|degree|knowledge|skills)\b.{0,60}\b(?:is |are )?required\b/i.test(line.replace(/\bas required\b/gi,''))?'essential':tier;
-  if(/\b(?:not required|no .{0,40}experience (?:is )?(?:required|needed))\b/i.test(line))continue;
-  if(importance==='essential'&&/\b(?:degree|qualification|licen[cs]e|certificat\w*|professional registration)\b/i.test(line)&&!catalog.some(c=>c.specificity==='credential'&&c.re.test(line))){
-   const id='credential_'+line.toLowerCase().replace(/[^a-z0-9]+/g,'_');matched.set(id,{id,label:'Stated qualification / credential',importance:'essential',tier:'essential',weight:3,specificity:'credential',source:line,uncatalogued:true});
+  const explicitEssential=/\b(?:essential|must|minimum|proven experience)\b|\b(?:you (?:are |will be )?required to|required (?:skills|experience|qualifications)|requirements? include)\b|\b(?:experience|qualification|licen[cs]e|certificate|degree|knowledge|skills)\b.{0,60}\b(?:is |are )?required\b/i.test(line.replace(/\bas required\b/gi,''));
+  const importance=explicitDesirable?'desirable':explicitEssential?'essential':tier;
+  if(/\b(?:not required|no .{0,40}experience (?:is )?(?:required|needed))\b/i.test(line)){Object.assign(unit,{disposition:'excluded',reason:'Requirement explicitly waived; not evidence of candidate inability'});continue;}
+  const shortHeading=section!=='criteria'&&line.split(/\s+/).length<=3&&!ACTION.test(line)&&!DUTY_ACTION.test(line)&&!catalog.some(c=>c.specificity!=='generic'&&c.re.test(line))&&!explicitEssential;
+  if(shortHeading){
+   if(section==='duties'){
+    add({id:'ambiguous_'+line.toLowerCase().replace(/[^a-z0-9]+/g,'_'),label:'Ambiguous duty — clarify scope',importance:'context',tier:'context',weight:2,source:line,specificity:'unclassified',uncatalogued:true},unit);
+    Object.assign(unit,{disposition:'manual_review',reason:'Short duty/heading retained for clarification; no competence inferred.'});
+   }else Object.assign(unit,{disposition:'context_unreviewed',reason:'Short ambiguous heading; confirm whether it represents a duty'});
+   continue;
   }
-  if(importance==='essential'&&!catalog.some(c=>c.re.test(line))){
-   const id='unclassified_'+line.toLowerCase().replace(/[^a-z0-9]+/g,'_');matched.set(id,{id,label:'Published requirement — manual review',importance,tier:importance,weight:3,specificity:'unclassified',source:line,uncatalogued:true});
-  }
-  for(const c of catalog){if(!c.re.test(line))continue;const old=matched.get(c.id);const rank={context:0,desirable:1,essential:2};if(!old||rank[importance]>rank[old.importance])matched.set(c.id,{id:c.id,label:c.label,importance,tier:importance,weight:importance==='essential'?3:importance==='desirable'?1:2,specificity:c.specificity,source:line});}
+  const known=catalog.filter(c=>c.re.test(line)&&!(trainingBenefit&&c.id==='courses'));
+  const relevant=section==='duties'||section==='criteria'||explicitEssential||known.length>0||ACTION.test(line)||DUTY_ACTION.test(line)||candidateSkill||facets.some(([, ,re])=>re.test(line));
+  if(!relevant)continue;
+  const common={importance,tier:importance,weight:importance==='essential'?3:importance==='desirable'?1:2,source:line,importance_basis:explicitEssential?'Explicit candidate obligation':explicitDesirable?'Explicit desirable wording':section==='criteria'?'Candidate criteria heading':'Duty / contextual wording'};
+  for(const c of known)add({...common,id:c.id,label:c.label,specificity:c.specificity},unit);
+  const credential=/\b(?:degree|qualification|licen[cs]e|certificat\w*|professional registration|gcses?|a.levels?)\b/i.test(line)&&!known.some(c=>c.specificity==='credential');
+  if(credential)add({...common,id:'credential_'+line.toLowerCase().replace(/[^a-z0-9]+/g,'_'),label:'Stated qualification / credential — verify full condition',specificity:'credential',uncatalogued:true},unit);
+  for(const [id,label,re] of facets)if(re.test(line))add({...common,id:'manual_'+id,label,specificity:'unclassified',uncatalogued:true},unit);
+  if(!unit.requirement_ids.length)add({...common,id:'unclassified_'+line.toLowerCase().replace(/[^a-z0-9]+/g,'_'),label:'Published duty / criterion — manual review',specificity:'unclassified',uncatalogued:true},unit);
+  Object.assign(unit,{disposition:unit.requirement_ids.some(id=>matched.get(id)?.uncatalogued)?'manual_review':'classified',reason:'Source retained. Category matches do not certify complete interpretation of every clause.'});
  }
- // A specialist occupation in the title is relevant, but its detailed criteria remain unverified.
- for(const c of catalog.filter(x=>x.specificity==='specialist'))if(c.re.test(title)&&!matched.has(c.id))matched.set(c.id,{id:c.id,label:c.label,importance:'essential',tier:'essential',weight:3,specificity:c.specificity,source:title,derived_from_title:true});
- // Specialist role titles establish core-role relevance, not an invented licence requirement.
+ for(const c of catalog.filter(x=>x.specificity==='specialist'))if(c.re.test(title)&&!matched.has(c.id))matched.set(c.id,{id:c.id,label:c.label,importance:'essential',tier:'essential',weight:3,specificity:c.specificity,source:title,sources:[{unit_id:'title',text:title,section:'title'}],derived_from_title:true});
  const roleCore=[['developer',/\b(?:developer|software engineer)\b/i],['surveying',/\bsurveyor\b/i],['procurement',/\bprocurement officer\b/i],['accounting',/\b(?:accountant|accounts payable)\b/i],['zoo',/\bzookeeper\b/i],['cemetery',/\bcemeteries|cemetery\b/i],['research',/\bresearcher development\b/i]];
- for(const [id,re] of roleCore)if(re.test(title)){const c=catalog.find(x=>x.id===id);const old=matched.get(id);matched.set(id,{...old,id,label:c.label,importance:'essential',tier:'essential',weight:3,specificity:'specialist',source:old?.source||title,derived_from_title:true,interpretation:'Core occupational relevance inferred from title; detailed employer criteria require verification.'});}
- return [...matched.values()];
+ for(const [id,re] of roleCore)if(re.test(title)){const c=catalog.find(x=>x.id===id),old=matched.get(id);matched.set(id,{...old,id,label:c.label,importance:'essential',tier:'essential',weight:3,specificity:'specialist',source:old?.source||title,sources:old?.sources||[{unit_id:'title',text:title,section:'title'}],derived_from_title:true,interpretation:'Core occupational relevance inferred from title; detailed employer criteria require verification.'});}
+ return {requirements:[...matched.values()],audit,summary:{source_units:audit.length,classified_units:audit.filter(x=>x.disposition==='classified').length,manual_review_units:audit.filter(x=>x.disposition==='manual_review').length,excluded_units:audit.filter(x=>x.disposition==='excluded').length,context_unreviewed_units:audit.filter(x=>x.disposition==='context_unreviewed').length,semantic_completeness:'unverified'}};
 }
+function extract(text,title){return extractVacancyRequirements(text,title).requirements;}
+
 function closingDate(v){
  if(v.closing_date!==undefined&&v.closing_date!==null&&String(v.closing_date).trim())return {date:parseDate(v.closing_date),source:String(v.closing_date)};
  const matches=[...String(v.description||'').matchAll(/(?:closing date|close date|apply by|applications? (?:close|deadline)|closing)\s*[:\-]?\s*(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)?\s*[,]?\s*(\d{4}-\d{2}-\d{2}|\d{1,2}\/\d{1,2}\/\d{4}|\d{1,2}(?:st|nd|rd|th)?\s+[a-z]+\s+\d{4})/gi)];
@@ -95,7 +138,7 @@ function eligibility(v,p,date){
 export function evaluate({profile,vacancy={},preferences={},evaluationDate,history}){
  const date=parseDate(String(evaluationDate||'').slice(0,10));if(!date)throw Error('Valid explicit evaluationDate required');const cv=typeof profile==='string'?profile:String(profile?.text||'');
  const v=vacancy,p={...preferences,history:history??preferences.history};const gate=eligibility(v,p,date);
- const reqs=extract(v.description,v.title||''),sentences=units(cv).filter(x=>!NEG.test(x)&&!/^\s*(?:skills|systems|keywords|qualifications)\s*:/i.test(x)&&!(x.includes('|')&&!/[.!?]/.test(x)));
+ const extraction=extractVacancyRequirements(v.description,v.title||''),reqs=extraction.requirements,sentences=units(cv).filter(x=>!NEG.test(x)&&!/^\s*(?:skills|systems|keywords|qualifications)\s*:/i.test(x)&&!(x.includes('|')&&!/[.!?]/.test(x)));
  const requirements=reqs.map(req=>{
   const c=catalog.find(x=>x.id===req.id);const relevant=c?sentences.filter(x=>c.re.test(x)):[];
   const quote=relevant.find(x=>!PROFILE_SUMMARY.test(x)&&(c.specificity==='credential'?/\b(?:holds?|obtained|awarded|qualified|completed|certified)\b/i.test(x):ACTION.test(x)));
@@ -120,12 +163,13 @@ export function evaluate({profile,vacancy={},preferences={},evaluationDate,histo
  const summaryOnly=v.description_kind==='summary'||v.full_description===false;
  if(summaryOnly){score=null;decision='Investigate — full advert needed';confidence='Low';missing.unshift('Full original advert including requirements');}
  if(gate.status==='ineligible'){score=null;decision='Skip';}
- const assessmentReasons=[];if(requirements.length<3)assessmentReasons.push('Too few classifiable requirements to support a numeric assessment.');if(wordCount<65)assessmentReasons.push('Insufficient original advert detail.');if(coverage<.3)assessmentReasons.push('Too little demonstrated evidence for the detected requirements.');if(!cv.trim())assessmentReasons.push('No evidence profile supplied.');if(completeness<.5)assessmentReasons.push('Advert completeness is below the assessment threshold.');if(requirements.some(x=>x.uncatalogued))assessmentReasons.push('Published requirements need manual review.');if(gate.status==='unknown')assessmentReasons.push('Eligibility facts remain unknown.');
+ const assessmentReasons=[];if(requirements.length<3)assessmentReasons.push('Too few classifiable requirements to support a numeric assessment.');if(wordCount<65)assessmentReasons.push('Insufficient original advert detail.');if(coverage<.3)assessmentReasons.push('Too little demonstrated evidence for the detected requirements.');if(!cv.trim())assessmentReasons.push('No evidence profile supplied.');if(completeness<.5)assessmentReasons.push('Advert completeness is below the assessment threshold.');if(requirements.some(x=>x.uncatalogued))assessmentReasons.push('Published duties or criteria need manual review; they are not automatically classified as candidate deficits.');if(gate.status==='unknown')assessmentReasons.push('Eligibility facts remain unknown.');
  const expectedDetails=expectedMissing.map(id=>({id,label:catalog.find(x=>x.id===id).label,reason:'Expected role-family category not found in extracted advert requirements; not a candidate deficit or a published essential.'}));
  const verificationActions=gate.checks.filter(x=>x.status==='unknown').map(x=>({criterion:x.name,action:x.name==='Contract duration'?`Confirm permanent employment or a guaranteed contract of at least ${Number(p.minContractMonths)} months; a possible extension is insufficient.`:x.name==='Salary floor'?'Confirm the published base salary, paid hours and whether the amount is an estimate.':x.name==='Closing date'?'Check the original vacancy is still accepting applications and confirm any deadline.':x.name==='Location'?'Verify the workplace, commute and attendance pattern against your preferences.':'Verify this eligibility fact with the original source.'}));
+ for(const req of requirements.filter(x=>x.uncatalogued))verificationActions.push({criterion:req.label,action:'Review the full published condition and your actual evidence; this item was retained but not automatically matched.',source:req.source});
  const tailoringActions=requirements.filter(x=>x.status==='demonstrated').map(x=>({criterion:x.label,what_to_evidence:'Use this existing example to address the quoted duty; do not claim broader expertise.',evidence:x.evidence,source:x.source}));
  const contextual_fit={status:'disabled',signals:[],reason:'Context does not change candidate fit or eligibility.'};
- return {version:MODEL_VERSION,engine_version:MODEL_VERSION,evaluation_date:date,fit_score:score,band:score===null?'Not assessable':score>=80?'Strong':score>=60?'Moderate':'Weak',decision,eligibility:{status:gate.status,reasons:gate.reasons},hard_constraints:gate.checks,advert_completeness:{score:Number(completeness.toFixed(2)),missing},confidence:{label:confidence,reason:summaryOnly?'Provider summary only; open the original and supply the full advert before fit scoring.':assessmentReasons.length?assessmentReasons.join(' '):critical.length?'Specialist essential evidence remains unverified.':wordCount<145?'Limited advert detail.':'Published requirement coverage; rules are not outcome-calibrated.'},requirements,screening_evidence:{criteria:requirements},critical_evidence_gaps:gaps,evidence_coverage:{evidenced:evidence,total:requirements.length,ratio:coverage},expected_capability_gaps:expectedMissing,expected_capability_details:expectedDetails,verification_actions:verificationActions,decision_reason:decision==='Skip'?'A configured hard constraint is not met.':decision==='Not assessable'?assessmentReasons.join(' '):decision.startsWith('Investigate')?verificationActions.length?'Resolve the listed checks before deciding whether to apply.':'Review the listed evidence or requirement uncertainties before deciding whether to apply.':decision==='Apply with tailoring'?'Relevant evidence was detected; address the listed checks and tailor with the cited examples.':'Detected requirements have evidence and configured eligibility checks pass; the final decision is yours.',tailoring_examples:tailoringActions,tailoring_prompts:gaps.filter(x=>x.severity!=='critical').map(x=>({criterion:x.label,what_to_evidence:'Provide an accurate example if you have one; do not invent experience.'})),contextual_fit,assessment_scope:{classified:requirements.filter(x=>!x.uncatalogued).length,manual_review:requirements.filter(x=>x.uncatalogued).map(x=>x.source),demonstrated:evidence,unknown:requirements.filter(x=>x.status==='unknown').length,partial:requirements.filter(x=>x.status==='partial').length,complete_job_coverage:false},score_meaning:'Evidence coverage within detected capability categories only; not overall job suitability or hiring probability. Full requirement extraction is not guaranteed.',limitations:['Limited rule catalogue; uncatalogued requirements need human review.','Scores are provisional and uncalibrated.','Structured salary/location/contract facts require verified input; absent facts are not inferred.']};
+ return {version:MODEL_VERSION,engine_version:MODEL_VERSION,evaluation_date:date,fit_score:score,band:score===null?'Not assessable':score>=80?'Strong':score>=60?'Moderate':'Weak',decision,eligibility:{status:gate.status,reasons:gate.reasons},hard_constraints:gate.checks,advert_completeness:{score:Number(completeness.toFixed(2)),missing},confidence:{label:confidence,reason:summaryOnly?'Provider summary only; open the original and supply the full advert before fit scoring.':assessmentReasons.length?assessmentReasons.join(' '):critical.length?'Specialist essential evidence remains unverified.':wordCount<145?'Limited advert detail.':'Published requirement coverage; rules are not outcome-calibrated.'},requirements,extraction_audit:extraction.audit,extraction_summary:extraction.summary,screening_evidence:{criteria:requirements},critical_evidence_gaps:gaps,evidence_coverage:{evidenced:evidence,total:requirements.length,ratio:coverage},expected_capability_gaps:expectedMissing,expected_capability_details:expectedDetails,verification_actions:verificationActions,decision_reason:decision==='Skip'?'A configured hard constraint is not met.':decision==='Not assessable'?assessmentReasons.join(' '):decision.startsWith('Investigate')?verificationActions.length?'Resolve the listed checks before deciding whether to apply.':'Review the listed evidence or requirement uncertainties before deciding whether to apply.':decision==='Apply with tailoring'?'Relevant evidence was detected; address the listed checks and tailor with the cited examples.':'Detected requirements have evidence and configured eligibility checks pass; the final decision is yours.',tailoring_examples:tailoringActions,tailoring_prompts:gaps.filter(x=>x.severity!=='critical').map(x=>({criterion:x.label,what_to_evidence:'Provide an accurate example if you have one; do not invent experience.'})),contextual_fit,assessment_scope:{classified:requirements.filter(x=>!x.uncatalogued).length,manual_review:[...new Set(requirements.filter(x=>x.uncatalogued).flatMap(x=>(x.sources||[{text:x.source}]).map(s=>s.text)))],demonstrated:evidence,unknown:requirements.filter(x=>x.status==='unknown').length,partial:requirements.filter(x=>x.status==='partial').length,complete_job_coverage:false},score_meaning:'Evidence coverage within detected capability categories only; not overall job suitability or hiring probability. Full requirement extraction is not guaranteed.',limitations:['Limited rule catalogue; uncatalogued requirements need human review.','Scores are provisional and uncalibrated.','Structured salary/location/contract facts require verified input; absent facts are not inferred.']};
 }
 export function compareResults(a,b){const rank={High:2,Medium:1,Low:0};const skipped=Number(a.decision==='Skip')-Number(b.decision==='Skip');return skipped||(rank[b.confidence?.label]??0)-(rank[a.confidence?.label]??0)||(b.fit_score??-1)-(a.fit_score??-1);}
 export function addIntelligence(result,{enabled=false,observations=[]}={}){const signals=enabled?observations.filter(x=>/^https:\/\//.test(x.source||'')&&parseDate(x.captured_at)&&typeof x.note==='string').map(x=>({source:x.source,captured_at:x.captured_at,note:x.note})):[];return {...result,contextual_fit:{status:!enabled?'disabled':signals.length?'sourced_notes':'unknown',signals,reason:'Research notes only; no automatic fit or decision adjustment. Small or unknown employers receive no penalty.'}};}
