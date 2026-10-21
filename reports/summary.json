@@ -1,0 +1,42 @@
+{
+  "cases": 22,
+  "profile": "SYN-ADMIN-01",
+  "personal_cv_used": false,
+  "human_labels_used": false,
+  "evaluation_date": "2026-10-21",
+  "identical_repeat": true,
+  "results_sha256": "b94e8bc745edb90e91da6e0ebeb9fc99f7669da7a5f8cd7fe72a8cb41c55c234",
+  "decisions": {
+    "Apply with tailoring": 7,
+    "Investigate": 6,
+    "Not assessable": 2,
+    "Apply": 5,
+    "Skip": 2
+  },
+  "scores": [
+    100,
+    59,
+    null,
+    100,
+    null,
+    87,
+    85,
+    100,
+    59,
+    100,
+    75,
+    59,
+    100,
+    59,
+    100,
+    67,
+    85,
+    44,
+    100,
+    null,
+    73,
+    null
+  ],
+  "skip_with_score": 0,
+  "low_confidence_apply": 0
+}

@@ -1,0 +1,12 @@
+import http from 'node:http';
+import worker from '../dist/server/index.js';
+const description='Coordinate course schedules and participant registrations. Maintain Excel reporting and accurate records. Liaise with instructors and suppliers. Prepare process documentation and project action logs. Respond to customer service queries. '+('The administrative team supports course delivery and bookings. '.repeat(15));
+const fixtures=[{id:'qa-admin',company:'Fictional Learning Centre',title:'Course Administrator',description:description+' Closing date 1 November 2026.',closing_date:'2026-11-01',salary_min:30000,salary_max:32000,location:'Crawley',contract_type:'permanent',url:'https://example.org/qa-admin'},{id:'qa-expired',company:'Fictional Learning Centre',title:'Expired Course Administrator',description:description+' Closing date 15 October 2026.',closing_date:'2026-10-15',salary_min:30000,salary_max:32000,location:'Crawley',contract_type:'permanent',url:'https://example.org/qa-expired'},{id:'qa-dev',company:'Fictional Software Studio',title:'Lead Developer – Dynamics 365',description:description+' Essential production software development using Dynamics 365 and C#.',closing_date:'2026-11-01',salary_min:50000,salary_max:60000,location:'Crawley',contract_type:'permanent',url:'https://example.org/qa-dev'}];
+http.createServer(async(req,res)=>{try{
+ const url=new URL(req.url,'http://terminal.local:4173');let response;
+ if(url.pathname==='/api/jobs')response=Response.json({count:fixtures.length,results:fixtures});
+ else if(url.pathname.startsWith('/api/ai/'))response=Response.json({enabled:false,profileOnceAvailable:false,error:'Paid APIs disabled in local QA'},{status:url.pathname.endsWith('/status')?200:403});
+ else response=await worker.fetch(new Request(url),{});
+ res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));
+ }catch(e){res.writeHead(500);res.end('Local QA server error: '+e.message);}
+}).listen(4173,'0.0.0.0',()=>console.log('QA preview http://terminal.local:4173 — synthetic fixtures, paid APIs blocked'));

@@ -1,0 +1,52 @@
+{
+  "checked_at": "2026-10-21T21:43:19.147Z",
+  "browser": "Cloud Chromium via supervised local preview",
+  "base_version": 13,
+  "base_commit": "4f64039d4c2d2973c5548096760a6191664cc9f4",
+  "tabs": [
+    {
+      "name": "▦ Daily dashboard",
+      "hasVisibleView": true
+    },
+    {
+      "name": "◉ Career profile",
+      "hasVisibleView": true
+    },
+    {
+      "name": "▤ Application tracker",
+      "hasVisibleView": true
+    },
+    {
+      "name": "⚙ Search preferences",
+      "hasVisibleView": true
+    },
+    {
+      "name": "◈ Evidence matching",
+      "hasVisibleView": true
+    },
+    {
+      "name": "✧ Semantic AI (V5)",
+      "hasVisibleView": true
+    },
+    {
+      "name": "⚖ Fit Calibration (V5.4)",
+      "hasVisibleView": true
+    },
+    {
+      "name": "⌕ Live vacancies",
+      "hasVisibleView": true
+    }
+  ],
+  "synthetic_profile_only": true,
+  "mocked_jobs_only": true,
+  "calibration_rendered": true,
+  "review_choices_persisted": [
+    "apply",
+    "skip",
+    "investigate"
+  ],
+  "expired_unrated": true,
+  "specialist_investigate_59": true,
+  "application_console_errors": [],
+  "scope": "Local preview only. No publication or real job/API request."
+}

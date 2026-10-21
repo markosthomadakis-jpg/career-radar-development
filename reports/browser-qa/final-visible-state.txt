@@ -1,0 +1,3 @@
+Browser tab: 8, Title: "Career Radar · Private prototype", URL: "http://terminal.local:4173/".
+There has been no change in the accessibility tree.
+The focused UI element is 1 AXWebArea Career Radar · Private prototype, URL: terminal.local:4173/

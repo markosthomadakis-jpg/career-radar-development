@@ -1,0 +1,2138 @@
+[
+  {
+    "id": "SRC-06",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 70,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "scheduling",
+          "label": "Programme scheduling",
+          "tier": "important",
+          "weight": 2,
+          "source": "Coordinating event requirements, schedules, and documentation",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Coordinated weekly course schedules and room bookings.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Liaising with clients, suppliers, and internal teams",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "Experience in events, hospitality, administration, or customer service",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "This is a varied, hands-on role involving client liaison, event planning, administration, and on-site event support.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Ensuring required event and health and safety documentation is in place",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        },
+        {
+          "id": "excel",
+          "label": "Excel and spreadsheet reporting",
+          "tier": "important",
+          "weight": 2,
+          "source": "Good Microsoft Office skills, particularly Outlook, Word, and Excel",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [],
+      "evidence_coverage": {
+        "evidenced": 6,
+        "total": 6
+      },
+      "recommendation": "Worth applying after verification",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 70,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "APPLY CANDIDATE \u2014 check logistics"
+    }
+  },
+  {
+    "id": "SRC-24",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 22,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Specific role-critical requirements require additional evidence."
+      },
+      "requirements": [
+        {
+          "id": "scheduling",
+          "label": "Programme scheduling",
+          "tier": "important",
+          "weight": 2,
+          "source": "(i)   To become familiar with the Councils ICT systems, works ordering and scheduling procedures",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Coordinated weekly course schedules and room bookings.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "essential",
+          "weight": 3,
+          "source": "(f)   Where required to coach staff and contractors to provide a general surveying service",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 1.0499999999999998
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "work closely with housing officers, contractors and stakeholders",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "compliance is maintained including meeting relevant Crawley Homes policies & procedures.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "important",
+          "weight": 2,
+          "source": "support asset data updates and statutory compliance",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "people_management",
+          "label": "Line management",
+          "tier": "important",
+          "weight": 2,
+          "source": "No direct reports but responsible for Contractors, Consultants and mentoring the assistant building surveyor,",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Regulatory and compliance support",
+        "Line management"
+      ],
+      "evidence_coverage": {
+        "evidenced": 4,
+        "total": 6
+      },
+      "recommendation": "Low demonstrated coverage \u2014 investigate",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 40,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [
+        {
+          "id": "line_management",
+          "label": "Direct line or volunteer management",
+          "status": "unverified_essential_or_role_specific",
+          "severity": "critical"
+        }
+      ],
+      "decision": "VERIFY \u2014 specialist requirement"
+    }
+  },
+  {
+    "id": "SRC-05",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 85,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Low",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Proven experience working in a similar customer service - sales support type role ideally within the manufacturing, construction, or engineering sector",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [],
+      "evidence_coverage": {
+        "evidenced": 1,
+        "total": 1
+      },
+      "recommendation": "Worth applying after verification",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 85,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "APPLY CANDIDATE \u2014 check logistics"
+    }
+  },
+  {
+    "id": "SRC-09",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 75,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "essential",
+          "weight": 3,
+          "source": "This is a varied role that combines office coordination, administration, and sales support responsibilities, making it ideal for someone who enjoys working across multiple functions and keeping operations running smoothly.The successful candidate wil",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 1.0499999999999998
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "essential",
+          "weight": 3,
+          "source": "This is a varied role that combines office coordination, administration, and sales support responsibilities, making it ideal for someone who enjoys working across multiple functions and keeping operations running smoothly.The successful candidate wil",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "essential",
+          "weight": 3,
+          "source": "This is a varied role that combines office coordination, administration, and sales support responsibilities, making it ideal for someone who enjoys working across multiple functions and keeping operations running smoothly.The successful candidate wil",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "essential",
+          "weight": 3,
+          "source": "This is a varied role that combines office coordination, administration, and sales support responsibilities, making it ideal for someone who enjoys working across multiple functions and keeping operations running smoothly.The successful candidate wil",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        },
+        {
+          "id": "excel",
+          "label": "Excel and spreadsheet reporting",
+          "tier": "essential",
+          "weight": 3,
+          "source": "This is a varied role that combines office coordination, administration, and sales support responsibilities, making it ideal for someone who enjoys working across multiple functions and keeping operations running smoothly.The successful candidate wil",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [],
+      "evidence_coverage": {
+        "evidenced": 5,
+        "total": 5
+      },
+      "recommendation": "Worth applying after verification",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 75,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "APPLY CANDIDATE \u2014 check logistics"
+    }
+  },
+  {
+    "id": "SRC-14",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 35,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Low",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Working closely with delivery teams and stakeholders, you will define architecture, guide implementation and ensure solutions are secure, scalable and maintainable.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [],
+      "evidence_coverage": {
+        "evidenced": 1,
+        "total": 1
+      },
+      "recommendation": "Low demonstrated coverage \u2014 investigate",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 35,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-02",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 48,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "learning_operations",
+          "label": "Learning operations",
+          "tier": "important",
+          "weight": 2,
+          "source": "Organise meetings, workshops, and conferences, handling agendas, logistics, minutes, and follow\u2011up actions.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "scheduling",
+          "label": "Programme scheduling",
+          "tier": "important",
+          "weight": 2,
+          "source": "Coordinate all diary management, ensuring efficient scheduling, adequate preparation time, and timely planning for upcoming deadlines and deliverables.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Coordinated weekly course schedules and room bookings.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "Support corporate reporting cycles by providing timely, high\u2011quality inputs.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "This role acts as a trusted partner, ensuring the smooth day\u2011to\u2011day operation of the Directors\u2019 commitments, priorities, and stakeholder interactions.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "Arrange domestic and international travel, logistics, and all supporting documentation to ensure cost\u2011effective and seamless itineraries.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "important",
+          "weight": 2,
+          "source": "Have worked in a Regulatory environment",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Learning operations",
+        "Regulatory and compliance support"
+      ],
+      "evidence_coverage": {
+        "evidenced": 4,
+        "total": 6
+      },
+      "recommendation": "Review essential gaps",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 48,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-12",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 39,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "The data is used only as an input to provide insights for the screening process and is not retained by the model or by UK Power Networks\u2019 contractor, shared with the contractor\u2019s other customers or with OpenAI, or used to train or improve AI models.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Experience of building and maintaining effective relationships with customers and internal or external stakeholders.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "important",
+          "weight": 2,
+          "source": "You will act as a point of contact for customers and their representatives, maintain accurate connection records and help ensure activities meet regulatory, data protection and confidentiality requirements.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "excel",
+          "label": "Excel and spreadsheet reporting",
+          "tier": "important",
+          "weight": 2,
+          "source": "Confidence using Microsoft Excel and Word to manage information and produce documents.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Regulatory and compliance support"
+      ],
+      "evidence_coverage": {
+        "evidenced": 3,
+        "total": 4
+      },
+      "recommendation": "Low demonstrated coverage \u2014 investigate",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 39,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-10",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 59,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Position Title: Event Support AdministratorLocation- Office Based Gatwick Department: Finance & OperationsKey Internal Stakeholders:Compliance/Regulatory, Marketing, Sales, Market Access, Sourcing/Procurement, Legal, and wider UK affiliate teamsKey E",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 1.0499999999999998
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Position Title: Event Support AdministratorLocation- Office Based Gatwick Department: Finance & OperationsKey Internal Stakeholders:Compliance/Regulatory, Marketing, Sales, Market Access, Sourcing/Procurement, Legal, and wider UK affiliate teamsKey E",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        },
+        {
+          "id": "data_quality",
+          "label": "Data quality and reconciliation",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Position Title: Event Support AdministratorLocation- Office Based Gatwick Department: Finance & OperationsKey Internal Stakeholders:Compliance/Regulatory, Marketing, Sales, Market Access, Sourcing/Procurement, Legal, and wider UK affiliate teamsKey E",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Position Title: Event Support AdministratorLocation- Office Based Gatwick Department: Finance & OperationsKey Internal Stakeholders:Compliance/Regulatory, Marketing, Sales, Market Access, Sourcing/Procurement, Legal, and wider UK affiliate teamsKey E",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 1.0499999999999998
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Position Title: Event Support AdministratorLocation- Office Based Gatwick Department: Finance & OperationsKey Internal Stakeholders:Compliance/Regulatory, Marketing, Sales, Market Access, Sourcing/Procurement, Legal, and wider UK affiliate teamsKey E",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Position Title: Event Support AdministratorLocation- Office Based Gatwick Department: Finance & OperationsKey Internal Stakeholders:Compliance/Regulatory, Marketing, Sales, Market Access, Sourcing/Procurement, Legal, and wider UK affiliate teamsKey E",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "excel",
+          "label": "Excel and spreadsheet reporting",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Position Title: Event Support AdministratorLocation- Office Based Gatwick Department: Finance & OperationsKey Internal Stakeholders:Compliance/Regulatory, Marketing, Sales, Market Access, Sourcing/Procurement, Legal, and wider UK affiliate teamsKey E",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Regulatory and compliance support"
+      ],
+      "evidence_coverage": {
+        "evidenced": 6,
+        "total": 7
+      },
+      "recommendation": "Review essential gaps",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 59,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-20",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 52,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Reporting to the Accounts Payable Manager, you will play a key role in delivering an efficient and customer-focused accounts payable service, ensuring suppliers are paid accurately and on time while maintaining the highest standards of financial gove",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "You will be a proactive and organised individual with a strong attention to detail and commitment to delivering excellent customer service.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "Reporting to the Accounts Payable Manager, you will play a key role in delivering an efficient and customer-focused accounts payable service, ensuring suppliers are paid accurately and on time while maintaining the highest standards of financial gove",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "data_quality",
+          "label": "Data quality and reconciliation",
+          "tier": "important",
+          "weight": 2,
+          "source": "Working within a supportive local government environment, you will be responsible for processing invoices, resolving payment queries, reconciling supplier accounts, and supporting the continuous improvement of creditor processes.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Liaise with the Procurement team to ensure that new suppliers are set up correctly and that SME\u2019s are",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "ensure compliance with our Financial Regulations, procurement procedures, and internal controls",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "important",
+          "weight": 2,
+          "source": "ensure compliance with our Financial Regulations, procurement procedures, and internal controls",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "people_management",
+          "label": "Line management",
+          "tier": "essential",
+          "weight": 3,
+          "source": "To carry out any other reasonable duties as required by the line manager.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "excel",
+          "label": "Excel and spreadsheet reporting",
+          "tier": "important",
+          "weight": 2,
+          "source": "experience of using financial systems and Microsoft Office applications, particularly Excel",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Regulatory and compliance support",
+        "Line management"
+      ],
+      "evidence_coverage": {
+        "evidenced": 7,
+        "total": 9
+      },
+      "recommendation": "Review essential gaps",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 52,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-15",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 75,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "scheduling",
+          "label": "Programme scheduling",
+          "tier": "important",
+          "weight": 2,
+          "source": "Provide meeting and event administration, including room bookings, catering, calendar management, agendas, action logs and papers.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Coordinated weekly course schedules and room bookings.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "Excellent written and verbal communication skills, with a professional and responsive approach to customer service.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "programme_governance",
+          "label": "Programme governance and PMO",
+          "tier": "important",
+          "weight": 2,
+          "source": "bookings, catering orders, calendar management, agendas, action log and",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Supported project coordination through action logs and milestone updates.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "Key Areas of accountability and Key Performance Indicators (KPIs)",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Liaise as required across the School to ensure efficient information exchange",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 1.0499999999999998
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "Process Improvement",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "excel",
+          "label": "Excel and spreadsheet reporting",
+          "tier": "important",
+          "weight": 2,
+          "source": "Proficiency in commonly used IT packages, particularly Microsoft Word and Excel;",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [],
+      "evidence_coverage": {
+        "evidenced": 7,
+        "total": 7
+      },
+      "recommendation": "Worth applying after verification",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 75,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "APPLY CANDIDATE \u2014 check logistics"
+    }
+  },
+  {
+    "id": "SRC-04",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 60,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Low",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Oversee office facilities, maintenance, repairs and contractor services.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "Maintain procedures, databases and intranet information.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [],
+      "evidence_coverage": {
+        "evidenced": 2,
+        "total": 2
+      },
+      "recommendation": "Review essential gaps",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 60,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-23",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 43,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "a commitment to continuous improvement and delivering outstanding customer service",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "d) Develop and review appropriate local procedures and provide comprehensive advice and guidance to",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "important",
+          "weight": 2,
+          "source": "c) Ensure that all duties are carried out in compliance with current legal and corporate requirements.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "people_management",
+          "label": "Line management",
+          "tier": "important",
+          "weight": 2,
+          "source": "This is an exciting opportunity for a confident and resilient leader with detailed knowledge of homelessness legislation and suitability requirements, excellent people management skills, and a commitment to delivering customer-focused services.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Regulatory and compliance support",
+        "Line management"
+      ],
+      "evidence_coverage": {
+        "evidenced": 2,
+        "total": 4
+      },
+      "recommendation": "Low demonstrated coverage \u2014 investigate",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 43,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "SKIP \u2014 published hard constraint"
+    }
+  },
+  {
+    "id": "SRC-17",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 73,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "scheduling",
+          "label": "Programme scheduling",
+          "tier": "important",
+          "weight": 2,
+          "source": "To collaborate with Course leaders and timetabling team to support the smooth",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Coordinated weekly course schedules and room bookings.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "Providing a seamless and excellent customer service to staff and students and in",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "External Examiners, including liaison, responding to their queries and providing",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "maintenance for a specified portfolio of courses, in accordance with the procedures and",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [],
+      "evidence_coverage": {
+        "evidenced": 4,
+        "total": 4
+      },
+      "recommendation": "Worth applying after verification",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 73,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "APPLY CANDIDATE \u2014 check logistics"
+    }
+  },
+  {
+    "id": "SRC-21",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 40,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "learning_operations",
+          "label": "Learning operations",
+          "tier": "important",
+          "weight": 2,
+          "source": "Assist or where appropriate develop and deliver procurement training programmes to officers",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "scheduling",
+          "label": "Programme scheduling",
+          "tier": "important",
+          "weight": 2,
+          "source": "establish appropriate timetable.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Coordinated weekly course schedules and room bookings.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "essential",
+          "weight": 3,
+          "source": "You will be undertaking market and supplier analysis to inform procurement activity and delivering training across the councils so an eye for detail, the ability to undertake research and analysis along with sound IT skills is essential.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 1.0499999999999998
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "Contract Registers and Transparency reporting requirements.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "This is a hands-on role that requires a pro-active individual who is willing to learn, share their experience and champion a best practice culture with stakeholders that ensures savings are made through innovative procurement and contract management.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "You should have experience managing procurement processes from planning through to contract award and implementation, as well as developing effective tender documentation and evaluation criteria.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "important",
+          "weight": 2,
+          "source": "\u2022   To ensure full compliance with the Health and Safety at Work Act 1974, the Council\u2019s",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "people_management",
+          "label": "Line management",
+          "tier": "important",
+          "weight": 2,
+          "source": "\u2022   To carry out such duties as the line manager may, from time to time reasonably",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Learning operations",
+        "Regulatory and compliance support",
+        "Line management"
+      ],
+      "evidence_coverage": {
+        "evidenced": 5,
+        "total": 8
+      },
+      "recommendation": "Low demonstrated coverage \u2014 investigate",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 40,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-16",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 54,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "learning_operations",
+          "label": "Learning operations",
+          "tier": "important",
+          "weight": 2,
+          "source": "Assist Programme Managers with the planning and delivery of programme activities, practitioner courses, skills courses, meetings, workshops and events.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "A professional, responsive and student-focused approach to customer service.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "Key Areas of accountability and Key Performance Indicators (KPIs)",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Main Responsibilities Act as a key point of contact for students, alumni and stakeholders, providing timely, professional and student-focused support.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "Maintain knowledge o f programme regulations, policies and procedures and",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "important",
+          "weight": 2,
+          "source": "Compliance with relevant School policies, procedures and quality assurance",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "excel",
+          "label": "Excel and spreadsheet reporting",
+          "tier": "important",
+          "weight": 2,
+          "source": "Strong Microsoft Office skills, particularly Word and Excel.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Learning operations",
+        "Regulatory and compliance support"
+      ],
+      "evidence_coverage": {
+        "evidenced": 5,
+        "total": 7
+      },
+      "recommendation": "Review essential gaps",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 54,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-08",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 85,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Low",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "The Role Manage diaries, appointments & customer meetings Coordinate site visits, CPDs & customer events Take meeting notes & follow up actions Prepare customer documents, presentations and literature Arrange samples and other customer requirements H",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [],
+      "evidence_coverage": {
+        "evidenced": 1,
+        "total": 1
+      },
+      "recommendation": "Worth applying after verification",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 85,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "APPLY CANDIDATE \u2014 check logistics"
+    }
+  },
+  {
+    "id": "SRC-11",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 68,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "scheduling",
+          "label": "Programme scheduling",
+          "tier": "important",
+          "weight": 2,
+          "source": "Schedule: Monday to Friday",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Coordinated weekly course schedules and room bookings.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Purchasing & Supplier Support",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "Finance, Excel & Reporting",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "data_quality",
+          "label": "Data quality and reconciliation",
+          "tier": "important",
+          "weight": 2,
+          "source": "Check information, reconcile figures and investigate discrepancies.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Place purchase orders, carry out online ordering and liaise with suppliers.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "excel",
+          "label": "Excel and spreadsheet reporting",
+          "tier": "important",
+          "weight": 2,
+          "source": "This is an excellent opportunity for someone who enjoys working with numbers, is confident using Excel and technology, and likes finding better and more efficient ways of working.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [],
+      "evidence_coverage": {
+        "evidenced": 6,
+        "total": 6
+      },
+      "recommendation": "Review essential gaps",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 68,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-25",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 43,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "meeting contractors for repairs or maintenance including compliance checks",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "To deliver exemplary customer service (internal and external).",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "delivering a clean safe and well maintained town, and reporting for action any aspect of the environment that",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "To liaise with members of the public in a sensitive and respectful manner",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "Record keeping regarding burials, in liaison with the Facilities bookings team.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "important",
+          "weight": 2,
+          "source": "meeting contractors for repairs or maintenance including compliance checks",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "people_management",
+          "label": "Line management",
+          "tier": "essential",
+          "weight": 3,
+          "source": "To deputise, if required, for the Line Manager in his/her absence.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        }
+      ],
+      "hard_constraints": [
+        {
+          "name": "Specific mandatory certification/licence",
+          "status": "unknown",
+          "source": "Employer asks for a credential; exact match requires manual verification"
+        }
+      ],
+      "unknowns": [
+        "Regulatory and compliance support",
+        "Line management"
+      ],
+      "evidence_coverage": {
+        "evidenced": 5,
+        "total": 7
+      },
+      "recommendation": "Low demonstrated coverage \u2014 investigate",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 43,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-01",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 61,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Low",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "Our comprehensive on the job training means you'll need to be flexible \u2013 processing different types of applications and information, dealing with telephone queries, managing emails and\u202flearning about all aspects of the SSC and its' services all the w",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "essential",
+          "weight": 3,
+          "source": "You will need to be conscientious in your own work with an emphasis on quality and high standards, as well as having an eye for detail when checking and reviewing documentation received into the department.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        },
+        {
+          "id": "compliance",
+          "label": "Regulatory and compliance support",
+          "tier": "important",
+          "weight": 2,
+          "source": "The Shared Service Centre (SSC) at the Civil Aviation Authority (CAA) provides a range of services that underpin the UK\u2019s Aviation Safety framework and is the starting point for so many CAA processes where the first line of regulatory control and saf",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Regulatory and compliance support"
+      ],
+      "evidence_coverage": {
+        "evidenced": 2,
+        "total": 3
+      },
+      "recommendation": "Review essential gaps",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 61,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-19",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 41,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "learning_operations",
+          "label": "Learning operations",
+          "tier": "important",
+          "weight": 2,
+          "source": "If you are imaginative and hold knowledge and experience in using development frameworks to develop, manage and evaluate training programmes, in a similar setting but not limited to an educational environment, then we encourage you to apply for this ",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "instructors",
+          "label": "Instructor and supplier coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "suppliers, registration, room booking, catering, promotion of events, arranging",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "suppliers, registration, room booking, catering, promotion of events, arranging",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "\uf0b7   Support the collation and analysis of data to inform reporting requirements including",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "person, online and dual delivery, including liaising with workshop leads/ external",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "University\u2019s policies and procedures, as laid down in the Financial Regulations.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "virtual_delivery",
+          "label": "Virtual learning delivery",
+          "tier": "important",
+          "weight": 2,
+          "source": "payments, coordination and digital support of online events through Teams and Zoom",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        },
+        {
+          "id": "people_management",
+          "label": "Line management",
+          "tier": "important",
+          "weight": 2,
+          "source": "Head of PGR (Line Manager), Dean of Doctoral School, Directors of Researcher",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Learning operations",
+        "Virtual learning delivery",
+        "Line management"
+      ],
+      "evidence_coverage": {
+        "evidenced": 5,
+        "total": 8
+      },
+      "recommendation": "Low demonstrated coverage \u2014 investigate",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 41,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-13",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 66,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Advertised requirements only; hidden requirements remain unknown."
+      },
+      "requirements": [
+        {
+          "id": "scheduling",
+          "label": "Programme scheduling",
+          "tier": "important",
+          "weight": 2,
+          "source": "Maintain programme calendars, learning plans, induction schedules, review points and development milestones.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Coordinated weekly course schedules and room bookings.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "Support employees in navigating professional development routes, including initial professional development, continuing professional development and preparation for professional registration.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "programme_governance",
+          "label": "Programme governance and PMO",
+          "tier": "important",
+          "weight": 2,
+          "source": "Maintain programme calendars, learning plans, induction schedules, review points and development milestones.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Supported project coordination through action logs and milestone updates.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "Experience preparing simple reports, dashboards or management information.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "Strong planning, coordination and stakeholder management skills.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "important",
+          "weight": 2,
+          "source": "Maintain guidance materials, templates and trackers to support development objectives, learning activity, reflection and evidence of competence.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "people_management",
+          "label": "Line management",
+          "tier": "important",
+          "weight": 2,
+          "source": "Culture team, the role collaborates with leaders, mentors, line managers and People colleagues to deliver structured development programmes that support progression, professional competence and long-term career development.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Line management"
+      ],
+      "evidence_coverage": {
+        "evidenced": 6,
+        "total": 7
+      },
+      "recommendation": "Review essential gaps",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 66,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [],
+      "decision": "REVIEW \u2014 weaker evidence"
+    }
+  },
+  {
+    "id": "SRC-18",
+    "v53": {
+      "version": "5.3.0-evaluation",
+      "fit_score": 45,
+      "score_meaning": "Conservative evidence coverage with provisional gap deductions, not a hiring probability",
+      "confidence": {
+        "label": "Moderate",
+        "reason": "Specific role-critical requirements require additional evidence."
+      },
+      "requirements": [
+        {
+          "id": "scheduling",
+          "label": "Programme scheduling",
+          "tier": "important",
+          "weight": 2,
+          "source": "schedule.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Coordinated weekly course schedules and room bookings.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "participants",
+          "label": "Participant and client support",
+          "tier": "important",
+          "weight": 2,
+          "source": "excellent customer service.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained participant registrations and answered customer service queries.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "reporting",
+          "label": "Reporting and management information",
+          "tier": "important",
+          "weight": 2,
+          "source": "\u2022   Manage the delivery of effective reporting and monitoring mechanisms to underpin and",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "data_quality",
+          "label": "Data quality and reconciliation",
+          "tier": "important",
+          "weight": 2,
+          "source": "Quality Review, Course Validation and External Examiner nominations",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Maintained Excel spreadsheets, checked data accuracy and reconciled booking records.",
+          "evidence_strength": 0.85,
+          "contribution": 1.7
+        },
+        {
+          "id": "stakeholders",
+          "label": "Stakeholder coordination",
+          "tier": "important",
+          "weight": 2,
+          "source": "You will be organised and able to plan a busy workload, communicating with colleagues in your team and key stakeholders.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "limited_evidence",
+          "evidence": "Liaised with instructors and external suppliers.",
+          "evidence_strength": 0.35,
+          "contribution": 0.7
+        },
+        {
+          "id": "documentation",
+          "label": "Documentation and process improvement",
+          "tier": "essential",
+          "weight": 3,
+          "source": "A key part of the role will involve working alongside academics with essential tasks such as monitoring student attendance, exam boards and assessments, course documentation as well as quality processes.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "supported",
+          "evidence": "Prepared routine reporting, meeting notes and process documentation.",
+          "evidence_strength": 0.85,
+          "contribution": 2.55
+        },
+        {
+          "id": "lms",
+          "label": "Learning management system (LMS)",
+          "tier": "important",
+          "weight": 2,
+          "source": "Assisting Course Leaders with updating Course Moodle pages.",
+          "weight_basis": "explicit wording / pilot rules",
+          "status": "unknown",
+          "evidence": null,
+          "evidence_strength": null,
+          "contribution": 0
+        }
+      ],
+      "hard_constraints": [],
+      "unknowns": [
+        "Learning management system (LMS)"
+      ],
+      "evidence_coverage": {
+        "evidenced": 6,
+        "total": 7
+      },
+      "recommendation": "Review essential gaps",
+      "limitations": [
+        "Weights are provisional and not outcome-calibrated.",
+        "Only published requirements are visible.",
+        "An absent CV statement is unknown, not proof of inability.",
+        "No employer-specific intelligence has been applied."
+      ],
+      "unadjusted_coverage": 67,
+      "description_depth": "substantial",
+      "critical_evidence_gaps": [
+        {
+          "id": "line_management",
+          "label": "Direct line or volunteer management",
+          "status": "unverified_essential_or_role_specific",
+          "severity": "critical"
+        },
+        {
+          "id": "lms",
+          "label": "Specific LMS implementation/administration",
+          "status": "unverified_essential_or_role_specific",
+          "severity": "desirable_or_contextual"
+        }
+      ],
+      "decision": "VERIFY \u2014 specialist requirement"
+    }
+  }
+]
