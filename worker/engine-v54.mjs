@@ -1,5 +1,5 @@
 // Pure offline engine. No clock, storage or network. Versioned separately from historical engines.
-export const MODEL_VERSION='5.4.2';
+export const MODEL_VERSION='5.4.3';
 const MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
 const day=(y,m,d)=>{const dt=new Date(Date.UTC(y,m-1,d));return dt.getUTCFullYear()===y&&dt.getUTCMonth()===m-1&&dt.getUTCDate()===d?`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`:null;};
 export function parseDate(value){
@@ -9,7 +9,7 @@ export function parseDate(value){
  const month=MONTHS.findIndex(x=>x===m[2].toLowerCase()||x.slice(0,3)===m[2].toLowerCase());return month<0?null:day(+m[3],month+1,+m[1]);
 }
 const ACTION=/\b(?:coordinat(?:e|ed|es|ing)|manag(?:e|ed|es|ing)|maintain(?:ed|s|ing)?|reconcil(?:e|ed|es|ing)|prepar(?:e|ed|es|ing)|support(?:ed|s|ing)?|develop(?:ed|s|ing)?|implement(?:ed|s|ing)?|deliver(?:ed|s|ing)?|liais(?:e|ed|es|ing)|organis(?:e|ed|es|ing)|organiz(?:e|ed|es|ing)|led|supervis(?:e|ed|es|ing)|produc(?:e|ed|es|ing)|respond(?:ed|s|ing)?|administ(?:er|ered|ers|ering)|schedul(?:e|ed|es|ing))\b/i;
-const PROFILE_SUMMARY=/^(?:an? experienced\b|experienced (?:in|at|with)\b|brings?\b|skilled (?:in|at)\b|professional (?:with|in)\b)/i;
+const PROFILE_SUMMARY=/^(?:an? experienced\b|experienced (?:in|at|with)\b|brings?\b|skilled (?:in|at)\b|professional (?:with|in)\b|[^.!?]{0,100}\bprofessional with\b)/i;
 const NEG=/\b(?:no|not|never|without|lack\w*|do not|don't|cannot|not yet)\b/i;
 const catalog=[
  ['courses','Course / training administration',/\b(?:courses?|training|learning operations?|seminars?|workshops?)\b/i],
@@ -38,8 +38,13 @@ const catalog=[
 ].map(([id,label,re,specificity='generic'])=>({id,label,re,specificity}));
 const units=s=>String(s||'').replace(/<[^>]*>/g,' ').replace(/\r/g,'\n').split(/\n+|(?<=[.!?;])\s+/).map(s=>s.trim()).filter(Boolean);
 function extract(text,title){
- const matched=new Map();let tier='context';
+ const matched=new Map();let tier='context',benefits=false;
  for(const line of units(text)){
+  if(/^(?:benefits|what we offer|what you(?:'ll| will) get|rewards|our offer)\s*:?$/i.test(line)){benefits=true;continue;}
+  if(/^(?:responsibilities|duties|essential.*|desirable.*|requirements|person specification|about you|the role)\s*:?$/i.test(line))benefits=false;
+  if(benefits)continue;
+  if(/\b(?:training opportunities|training (?:is |will be )?provided|career (?:development|progression)|rewarding career)\b/i.test(line)&&!/\b(?:deliver|coordinate|administer|organise|manage)\w*\s+(?:the |staff |employee )?training\b/i.test(line))continue;
+  if(tier==='context'&&line.split(/\s+/).length<=3&&!ACTION.test(line)&&!catalog.some(c=>c.specificity!=='generic'&&c.re.test(line))&&!/\b(?:essential|required|must)\b/i.test(line))continue;
   if(/^(?:essential(?: criteria| requirements| skills)?|what (?:we need|you need)|minimum requirements|must.have)\s*:?$/i.test(line)){tier='essential';continue;}
   if(/^(?:desirable(?: criteria| requirements| skills)?|preferred|nice.to.have)\s*:?$/i.test(line)){tier='desirable';continue;}
   if(/^(?:responsibilities|duties|benefits|about (?:us|the company)|the role|how to apply|\[SUPPLEMENT.*)\s*:?$/i.test(line)){tier='context';continue;}
@@ -48,6 +53,9 @@ function extract(text,title){
   if(/\b(?:not required|no .{0,40}experience (?:is )?(?:required|needed))\b/i.test(line))continue;
   if(importance==='essential'&&/\b(?:degree|qualification|licen[cs]e|certificat\w*|professional registration)\b/i.test(line)&&!catalog.some(c=>c.specificity==='credential'&&c.re.test(line))){
    const id='credential_'+line.toLowerCase().replace(/[^a-z0-9]+/g,'_');matched.set(id,{id,label:'Stated qualification / credential',importance:'essential',tier:'essential',weight:3,specificity:'credential',source:line,uncatalogued:true});
+  }
+  if(importance==='essential'&&!catalog.some(c=>c.re.test(line))){
+   const id='unclassified_'+line.toLowerCase().replace(/[^a-z0-9]+/g,'_');matched.set(id,{id,label:'Published requirement — manual review',importance,tier:importance,weight:3,specificity:'unclassified',source:line,uncatalogued:true});
   }
   for(const c of catalog){if(!c.re.test(line))continue;const old=matched.get(c.id);const rank={context:0,desirable:1,essential:2};if(!old||rank[importance]>rank[old.importance])matched.set(c.id,{id:c.id,label:c.label,importance,tier:importance,weight:importance==='essential'?3:importance==='desirable'?1:2,specificity:c.specificity,source:line});}
  }
@@ -95,7 +103,7 @@ export function evaluate({profile,vacancy={},preferences={},evaluationDate,histo
  const wordCount=String(v.description||'').trim().split(/\s+/).filter(Boolean).length;const evidence= requirements.filter(x=>x.status==='demonstrated').length,coverage=requirements.length?evidence/requirements.length:0;
  const missing=[];if(wordCount<65)missing.push('Detailed description');if(requirements.length<3)missing.push('Enough classifiable requirements');if(!reqs.some(x=>x.importance==='essential'))missing.push('Explicit essential criteria');if(!v.location)missing.push('Structured location');if(!v.contract_type)missing.push('Structured contract');if(v.salary_min==null&&v.salary_max==null)missing.push('Structured salary');
  const completeness=Math.min(1,(wordCount>=65?.3:0)+(requirements.length>=3?.25:0)+(reqs.some(x=>x.importance==='essential')?.15:0)+(v.location?.1:0)+(v.contract_type?.1:0)+(v.salary_min!=null||v.salary_max!=null?.1:0));
- const gaps=requirements.filter(x=>x.importance==='essential'&&x.status!=='demonstrated').map(x=>({id:x.id,label:x.label,status:'unknown',severity:x.specificity==='generic'?'evidence':'critical',source:x.source}));
+ const gaps=requirements.filter(x=>x.importance==='essential'&&x.status!=='demonstrated').map(x=>({id:x.id,label:x.label,status:'unknown',severity:x.specificity==='unclassified'?'manual review':x.specificity==='generic'?'evidence':'critical',source:x.source}));
  const critical=gaps.filter(x=>x.severity==='critical');const total=requirements.reduce((n,x)=>n+x.weight,0);let score=total?Math.round(100*requirements.filter(x=>x.status==='demonstrated').reduce((n,x)=>n+x.weight,0)/total):null;
  // Missing expected role-family capabilities affect denominator, never invent source requirements.
  const expected=/\b(?:course|training|learning)\b/i.test(v.title||'')?['courses','scheduling','participants','records','stakeholders']:/\b(?:admin|coordinator|assistant|support)\b/i.test(v.title||'')?['records','documentation','stakeholders']:[];
@@ -105,13 +113,13 @@ export function evaluate({profile,vacancy={},preferences={},evaluationDate,histo
  let confidence=gate.status==='unknown'||wordCount<145||requirements.length<4||critical.length?'Low':'Medium';
  let decision=score!==null&&score>=70?(gaps.length?'Apply with tailoring':'Apply'):'Investigate';
  if(confidence==='Low'&&decision==='Apply')decision='Apply with tailoring';
- if(critical.length)decision='Investigate';
+ if(critical.length||requirements.some(x=>x.uncatalogued))decision='Investigate';
  if(wordCount<65||requirements.length<3||completeness<.5||coverage<.3||!cv.trim()){score=null;decision='Not assessable';confidence='Low';}
  const summaryOnly=v.description_kind==='summary'||v.full_description===false;
  if(summaryOnly){score=null;decision='Investigate — full advert needed';confidence='Low';missing.unshift('Full original advert including requirements');}
  if(gate.status==='ineligible'){score=null;decision='Skip';}
  const contextual_fit={status:'disabled',signals:[],reason:'Context does not change candidate fit or eligibility.'};
- return {version:MODEL_VERSION,engine_version:MODEL_VERSION,evaluation_date:date,fit_score:score,band:score===null?'Not assessable':score>=80?'Strong':score>=60?'Moderate':'Weak',decision,eligibility:{status:gate.status,reasons:gate.reasons},hard_constraints:gate.checks,advert_completeness:{score:Number(completeness.toFixed(2)),missing},confidence:{label:confidence,reason:summaryOnly?'Provider summary only; open the original and supply the full advert before fit scoring.':gate.status==='unknown'?'Eligibility facts remain unknown.':critical.length?'Specialist essential evidence remains unverified.':wordCount<145?'Limited advert detail.':'Published requirement coverage; rules are not outcome-calibrated.'},requirements,screening_evidence:{criteria:requirements},critical_evidence_gaps:gaps,evidence_coverage:{evidenced:evidence,total:requirements.length,ratio:coverage},expected_capability_gaps:expectedMissing,tailoring_prompts:gaps.filter(x=>x.severity!=='critical').map(x=>({criterion:x.label,what_to_evidence:'Provide an accurate example if you have one; do not invent experience.'})),contextual_fit,score_meaning:'Heuristic evidence coverage, not hiring probability. Unknown evidence does not mean inability.',limitations:['Limited rule catalogue; uncatalogued requirements need human review.','Scores are provisional and uncalibrated.','Structured salary/location/contract facts require verified input; absent facts are not inferred.']};
+ return {version:MODEL_VERSION,engine_version:MODEL_VERSION,evaluation_date:date,fit_score:score,band:score===null?'Not assessable':score>=80?'Strong':score>=60?'Moderate':'Weak',decision,eligibility:{status:gate.status,reasons:gate.reasons},hard_constraints:gate.checks,advert_completeness:{score:Number(completeness.toFixed(2)),missing},confidence:{label:confidence,reason:summaryOnly?'Provider summary only; open the original and supply the full advert before fit scoring.':gate.status==='unknown'?'Eligibility facts remain unknown.':critical.length?'Specialist essential evidence remains unverified.':wordCount<145?'Limited advert detail.':'Published requirement coverage; rules are not outcome-calibrated.'},requirements,screening_evidence:{criteria:requirements},critical_evidence_gaps:gaps,evidence_coverage:{evidenced:evidence,total:requirements.length,ratio:coverage},expected_capability_gaps:expectedMissing,tailoring_prompts:gaps.filter(x=>x.severity!=='critical').map(x=>({criterion:x.label,what_to_evidence:'Provide an accurate example if you have one; do not invent experience.'})),contextual_fit,assessment_scope:{classified:requirements.filter(x=>!x.uncatalogued).length,manual_review:requirements.filter(x=>x.uncatalogued).map(x=>x.source),demonstrated:evidence,unknown:requirements.filter(x=>x.status==='unknown').length,partial:requirements.filter(x=>x.status==='partial').length,complete_job_coverage:false},score_meaning:'Evidence coverage within detected capability categories only; not overall job suitability or hiring probability. Full requirement extraction is not guaranteed.',limitations:['Limited rule catalogue; uncatalogued requirements need human review.','Scores are provisional and uncalibrated.','Structured salary/location/contract facts require verified input; absent facts are not inferred.']};
 }
 export function compareResults(a,b){const rank={High:2,Medium:1,Low:0};const skipped=Number(a.decision==='Skip')-Number(b.decision==='Skip');return skipped||(rank[b.confidence?.label]??0)-(rank[a.confidence?.label]??0)||(b.fit_score??-1)-(a.fit_score??-1);}
 export function addIntelligence(result,{enabled=false,observations=[]}={}){const signals=enabled?observations.filter(x=>/^https:\/\//.test(x.source||'')&&parseDate(x.captured_at)&&typeof x.note==='string').map(x=>({source:x.source,captured_at:x.captured_at,note:x.note})):[];return {...result,contextual_fit:{status:!enabled?'disabled':signals.length?'sourced_notes':'unknown',signals,reason:'Research notes only; no automatic fit or decision adjustment. Small or unknown employers receive no penalty.'}};}
