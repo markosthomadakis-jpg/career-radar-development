@@ -1,0 +1,15 @@
+{
+  "fixture_version": "new-2026-10-21-unlabelled-structure",
+  "evaluation_date": "2026-10-20",
+  "owner_cv_in_repo": false,
+  "profile_id": "synthetic-training-coordinator-v1",
+  "salary_floor": 35000,
+  "min_months": 6,
+  "status": "AWAITING_26_REAL_ADVERTS_AND_INDEPENDENT_HUMAN_LABELS",
+  "categories": {
+    "suitable": 8,
+    "uncertain": 10,
+    "negative": 8
+  },
+  "source": "No actual employer text populated; intentionally blocked"
+}
