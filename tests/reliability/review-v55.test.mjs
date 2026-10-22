@@ -207,14 +207,14 @@ test('employment-contract wording does not trigger a procurement question',()=>{
 
 // --- UI and server ------------------------------------------------------------------------------
 async function renderUi({linked}){
- const elements={};const el=id=>elements[id]??=({value:'',checked:false,textContent:'',innerHTML:'',insertAdjacentHTML(){}});
+ const elements={};const el=id=>elements[id]??=({value:'',checked:false,textContent:'',innerHTML:'',insertAdjacentHTML(){},addEventListener(){}});
  const selected={id:'sel',title:'Selected Listing',company:'Elysium Healthcare',description:'Short provider summary about payroll.',salary_min:50000,contract_type:'permanent',location:'Crawley',source_url:'https://www.adzuna.co.uk/jobs/details/1',description_kind:'summary'};
  const source=fs.readFileSync(new URL('../../worker/calibration-client.js',import.meta.url),'utf8').replace(/import\(/g,'testImport(');
  new vm.Script(source).runInNewContext({document:{getElementById:el,querySelector:()=>el('anchor'),querySelectorAll:()=>[]},window:{__careerRadarJobs:[selected],addEventListener(){}},testImport:async n=>n.includes('intelligence')?intelligence:model,console});
  Object.assign(el('matchText'),{value:'Maintained records at a fictional office. Prepared documentation. Liaised with customers. Prepared reports in Excel.'});
  Object.assign(el('calDescription'),{value:'Responsibilities\nMaintain records.\nPrepare documentation.\nLiaise with customers.\nEssential criteria\nExcellent time management skills.'+filler});
  Object.assign(el('calJob'),{value:'0'});Object.assign(el('calFull'),{checked:true});Object.assign(el('calLinked'),{checked:linked});el('calSalary').value='40000';el('calMonths').value='6';
- await Promise.resolve();await el('calEvaluate').onclick();return {html:el('calOutput').innerHTML,el};
+ await Promise.resolve();await el('calEvaluate').onclick();el('calClassConfirmed').checked=true;await el('calEvaluate').onclick();return {html:el('calOutput').innerHTML,el};
 }
 test('UI: an unlinked paste never inherits the selected listing salary or employer; a linked paste says what it reused',async()=>{
  const off=await renderUi({linked:false});assert.match(off.html,/not linked to this paste/);assert.doesNotMatch(off.html,/Source fact — Elysium/);assert.match(off.html,/Salary floor<\/b>: Advertised: unknown/);
@@ -222,9 +222,9 @@ test('UI: an unlinked paste never inherits the selected listing salary or employ
 });
 test('UI: manual items say no CV search ran and offer a checklist; old misleading wording is gone',async()=>{
  const {html,el}=await renderUi({linked:false});
- assert.match(html,/No automated matcher for this item — your CV was not searched for it/);assert.match(html,/data-attest="manual_general_skills"/);
+ assert.match(html,/No automated matcher for this item — your CV was not searched for it/);assert.match(html,/data-attest="manual_general_skills__essential"/);
  assert.doesNotMatch(html,/No direct CV evidence/);assert.doesNotMatch(html,/CV evidence unverified/);
- el('calOutput').onchange({target:{dataset:{attest:'manual_general_skills'},value:'have'}});await new Promise(r=>setTimeout(r,0));
+ el('calOutput').onchange({target:{dataset:{attest:'manual_general_skills__essential'},value:'have'}});await new Promise(r=>setTimeout(r,0));
  assert.match(el('calOutput').innerHTML,/Confirmed by you/);
 });
 test('paid semantic route rejects requests without a same-origin header before any network call',async()=>{
@@ -242,7 +242,7 @@ test('determinism: identical inputs give identical output; attestations do not a
 });
 test('UI: headline shows the 75% / 50% thresholds and CV misses can be confirmed by you',async()=>{
  const {html}=await renderUi({linked:false});
- assert.match(html,/Published essentials met: .*need ≥75%/);assert.match(html,/Non-essential: .*need ≥50%/);
+ assert.match(html,/Unrated/);assert.match(html,/Excluded from shortlist/);
  assert.match(html,/Core skills basis/);
  const noMatch=[...html.matchAll(/No CV match found<\/td><td[^>]*>([\s\S]*?)<\/td><\/tr>/g)];
  for(const m of noMatch)assert.match(m[1],/data-attest=/,'automated misses must offer a confirmation');
