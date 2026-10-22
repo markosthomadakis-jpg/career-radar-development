@@ -6,7 +6,7 @@
 //   4. candidate evidence         (CV quote / partial / self-attested / not found / explicit absence)
 //   5. eligibility                (hard constraints and pre-employment conditions)
 // Engine limitations are never reported as candidate shortcomings.
-export const MODEL_VERSION='5.5.4';
+export const MODEL_VERSION='5.6.0-rc1';
 const MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
 const day=(y,m,d)=>{const dt=new Date(Date.UTC(y,m-1,d));return dt.getUTCFullYear()===y&&dt.getUTCMonth()===m-1&&dt.getUTCDate()===d?`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`:null;};
 export function parseDate(value){
@@ -105,10 +105,10 @@ const EO=/\b(?:we (?:encourage|welcome) applications|applications from all backg
 const WAIVED=/\b(?:not (?:required|necessary|needed)|(?:do|does|will) not need|don'?t need|no need (?:for|to)|no (?:previous |prior |formal )?(?:[\w-]+ ){0,4}(?:experience|qualifications?|degree)s? (?:is |are )?(?:required|needed|necessary))\b/i;
 const DESIRABLE=/\b(?:desirable|preferred|advantageous|an advantage|(?:would be|is|are) (?:an? )?(?:plus|bonus|asset|helpful|useful|beneficial)|ideally|beneficial|not essential|nice to have|desired)\b/i;
 const ESSENTIAL=/\b(?:essential|must|minimum (?:of \d|\d|requirements?|qualifications?|criteria|experience)|proven experience)\b|\b(?:you (?:are |will be )?required to|required (?:skills|experience|qualifications)|requirements? include)\b|\b(?:experience|qualification|licen[cs]e|certificate|degree|knowledge|skills)\b.{0,60}\b(?:is |are )?required\b/i;
-export function extractVacancyRequirements(text,title='',options={}){
+export function extractVacancyRequirements(text,title=''){
  const matched=new Map(),audit=[];let section='context',tier='context';
  const rank={context:0,desirable:1,essential:2};
- const add=(req,unit)=>{if(options.strictImportance&&req.match_mode!=='condition'){req={...req,catalog_id:req.id,id:req.id+'__'+req.importance};}const old=matched.get(req.id),ref={unit_id:unit.unit_id,text:unit.source,section:unit.section};
+ const add=(req,unit)=>{const old=matched.get(req.id),ref={unit_id:unit.unit_id,text:unit.source,section:unit.section};
   if(old){if(!old.sources.some(x=>x.text===ref.text))old.sources.push(ref);if(rank[req.importance]>rank[old.importance])Object.assign(old,{...req,sources:old.sources});}
   else matched.set(req.id,{...req,sources:[ref]});
   if(!unit.requirement_ids.includes(req.id))unit.requirement_ids.push(req.id);
@@ -118,7 +118,6 @@ export function extractVacancyRequirements(text,title='',options={}){
   const line=lines[i],heading=line.replace(/[’‘]/g,"'").replace(/^#{1,6}\s+|^[-*]\s+/,'').replace(/[:.]+$/,'').trim();
   const unit={unit_id:`unit-${i+1}`,source:line,section,disposition:'context_unreviewed',reason:'Context text; no reliable requirement boundary identified.',requirement_ids:[]};audit.push(unit);
   const setHeading=(next,nextTier,reason)=>{section=next;tier=nextTier;Object.assign(unit,{section,disposition:'heading',reason});};
-  if(options.strictImportance&&/^(?:what (?:we need|you need)|what you(?:'ll| will) (?:need|bring)|person specification|(?:key )?requirements|skills and experience|what we(?:'re| are) looking for|about you)$/i.test(heading)){setHeading('criteria','context','Candidate criteria; priority not specified');continue;}
   if(/^(?:essential(?: criteria| requirements| skills)?|what (?:we need|you need)|minimum requirements|must.have|to be successful.*you (?:will|must|should) have|what you(?:'ll| will) (?:need|bring)|person specification|(?:key )?requirements|skills and experience|what we(?:'re| are) looking for|about you)$/i.test(heading)){setHeading('criteria','essential','Candidate criteria heading');continue;}
   if(/^(?:desirable(?: criteria| requirements| skills)?|preferred|nice.to.have)$/i.test(heading)){setHeading('criteria','desirable','Desirable criteria heading');continue;}
   if(/^(?:responsibilities|(?:key |main )?duties|(?:key |main )?responsibilities|the role|(?:as .{1,90} )?you (?:will|would) (?:be|do|be responsible for)|your responsibilities|your role|about the role|what you(?:'ll| will) (?:do|be doing)|you will|\[SUPPLEMENT.*)$/i.test(heading)){setHeading('duties','context','Published duties heading');continue;}
@@ -172,10 +171,10 @@ export function extractVacancyRequirements(text,title='',options={}){
   const ids=unit.requirement_ids.filter(id=>!id.startsWith('condition_'));
   Object.assign(unit,{disposition:!ids.length?'condition':ids.some(id=>matched.get(id)?.uncatalogued)?'manual_review':'classified',reason:(mixed?'Mixed statement: employer/waiver clause set aside, candidate obligation retained. ':'')+(negated.length?`Negated mention not treated as a requirement: ${negated.map(c=>c.label).join(', ')}. `:'')+'Source retained. Category matches do not certify complete interpretation of every clause.'});
  }
- for(const c of catalog.filter(x=>x.specificity==='specialist'))if(c.re.test(title)&&![...matched.values()].some(r=>(r.catalog_id||r.id)===c.id))matched.set(c.id,{id:c.id,label:c.label,importance:'essential',tier:'essential',weight:3,specificity:c.specificity,match_mode:'automated',source:title,sources:[{unit_id:'title',text:title,section:'title'}],derived_from_title:true});
+ for(const c of catalog.filter(x=>x.specificity==='specialist'))if(c.re.test(title)&&!matched.has(c.id))matched.set(c.id,{id:c.id,label:c.label,importance:'essential',tier:'essential',weight:3,specificity:c.specificity,match_mode:'automated',source:title,sources:[{unit_id:'title',text:title,section:'title'}],derived_from_title:true});
  // "Accounts Payable" no longer implies an ACCA/CIMA qualification.
  const roleCore=[['developer',/\b(?:developer|software engineer)\b/i],['surveying',/\bsurveyor\b/i],['procurement',/\bprocurement officer\b/i],['accounting',/\baccountant\b/i],['zoo',/\bzookeeper\b/i],['cemetery',/\bcemeteries|cemetery\b/i],['research',/\bresearcher development\b/i]];
- for(const [id,re] of roleCore)if(re.test(title)&&(!options.strictImportance||![...matched.values()].some(r=>(r.catalog_id||r.id)===id))){const c=catalog.find(x=>x.id===id),old=matched.get(id);matched.set(id,{...old,id,label:c.label,importance:'essential',tier:'essential',weight:3,specificity:'specialist',match_mode:'automated',source:old?.source||title,sources:old?.sources||[{unit_id:'title',text:title,section:'title'}],derived_from_title:true,interpretation:'Core occupational relevance inferred from title; detailed employer criteria require verification.'});}
+ for(const [id,re] of roleCore)if(re.test(title)){const c=catalog.find(x=>x.id===id),old=matched.get(id);matched.set(id,{...old,id,label:c.label,importance:'essential',tier:'essential',weight:3,specificity:'specialist',match_mode:'automated',source:old?.source||title,sources:old?.sources||[{unit_id:'title',text:title,section:'title'}],derived_from_title:true,interpretation:'Core occupational relevance inferred from title; detailed employer criteria require verification.'});}
  const count=d=>audit.filter(x=>x.disposition===d).length;
  return {requirements:[...matched.values()],audit,summary:{source_units:audit.length,classified_units:count('classified'),manual_review_units:count('manual_review'),condition_units:count('condition'),excluded_units:count('excluded'),context_unreviewed_units:count('context_unreviewed'),heading_units:count('heading'),semantic_completeness:'unverified'}};
 }
@@ -388,16 +387,12 @@ const ATTEST=new Set(['have','partial','no','unsure']);
 export function evaluate({profile,vacancy={},preferences={},evaluationDate,history,attestations={}}){
  const date=parseDate(String(evaluationDate||'').slice(0,10));if(!date)throw Error('Valid explicit evaluationDate required');const cv=typeof profile==='string'?profile:String(profile?.text||'');
  const v=vacancy,p={...preferences,history:history??preferences.history};const gate=eligibility(v,p,date);
- const extraction=extractVacancyRequirements(v.description,v.title||'',{strictImportance:!!preferences.requireClassificationReview});
- const review=v.requirement_review;
- const reviewValid=review?.description===v.description&&review?.title===(v.title||'')&&review?.confirmed===true;
- const classificationComplete=reviewValid&&extraction.requirements.filter(r=>r.match_mode!=='condition').every(r=>['essential','desirable','context'].includes(review.overrides?.[r.id]));
- if(preferences.requireClassificationReview)extraction.requirements=extraction.requirements.map(r=>{if(r.match_mode==='condition')return r;const original=r.derived_from_title?'context':r.importance;const chosen=reviewValid?review.overrides?.[r.id]:null;const importance=['essential','desirable','context'].includes(chosen)?chosen:original;return {...r,importance,tier:importance,weight:importance==='essential'?3:importance==='desirable'?1:2,published_importance:original,classification_origin:chosen?'user_review':r.derived_from_title?'title_inference':'source_rules',importance_basis:chosen?'User-reviewed classification; original source retained':r.derived_from_title?'Title inference only; published priority unspecified':r.importance_basis};});
+ const extraction=extractVacancyRequirements(v.description,v.title||'');
  const sector=inferSector(v,extraction.audit);
  const reqs=extraction.requirements.map(r=>{
-  const enriched={...r,published_importance:r.published_importance||r.importance,inferred_core:sector.core_ids.includes(r.catalog_id||r.id)&&r.importance!=='desirable'};
+  const enriched={...r,published_importance:r.importance,inferred_core:sector.core_ids.includes(r.id)&&r.importance!=='desirable'};
   if(!preferences.useInferredCore)return enriched;
-  if(!sector.core_ids.includes(r.catalog_id||r.id)||r.importance==='essential'||r.importance==='desirable'||r.derived_from_title)return r;
+  if(!sector.core_ids.includes(r.id)||r.importance==='essential'||r.importance==='desirable'||r.derived_from_title)return r;
   const emp=sector.employer&&SECTORS.find(x=>x.id===sector.employer.id),rol=sector.role&&SECTORS.find(x=>x.id===sector.role.id);
   const why=[emp?.core.includes(r.id)?`employer sector: ${sector.employer.label}`:'',rol?.core.includes(r.id)?`role title: ${sector.role.label}`:'',sector.is_ld_role&&emp?.ld.includes(r.id)?`L&D skill for ${emp.label}`:''].filter(Boolean).join('; ');
   return {...r,published_importance:r.importance,importance:'essential',tier:'essential',weight:3,core:true,importance_basis:`Core skill for this role (${why}); listed in the advert as a duty`};
@@ -412,7 +407,7 @@ export function evaluate({profile,vacancy={},preferences={},evaluationDate,histo
    const state=a==='have'?'self_attested':a==='partial'?'self_attested_partial':a==='no'?'absent_self_reported':'not_assessed';
    return {...req,match_mode:mode,status:a==='have'?'supported':a==='partial'?'partial':a==='no'?'not_met':'unknown',evidence_state:state,attestation:a||null,evidence:null,cv_evidence:null,evidence_basis:state==='not_assessed'?'No automated matcher exists for this item; no CV search was performed.':state==='absent_self_reported'?'You indicated you do not meet this item.':'Your own confirmation; no CV quotation was checked.'};
   }
-  const c=catalog.find(x=>x.id===(req.catalog_id||req.id));
+  const c=catalog.find(x=>x.id===req.id);
   const relevant=c?sentences.filter(x=>catMatch(c,x)&&!cvNegated(c,x)&&!(c.specificity==='credential'&&LAPSED.test(x))):[];
   const quote=relevant.filter(x=>!PROFILE_SUMMARY.test(x)&&(c.specificity==='credential'?/\b(?:holds?|held|obtained|awarded|qualified|completed|certified|passed)\b/i.test(x):ACTION.test(x))).map((text,index)=>({text,index,missing:unverifiedQualifiers(c,req,text).length})).sort((a,b)=>a.missing-b.missing||a.index-b.index)[0]?.text;
   const partial=quote?null:relevant.find(x=>c.specificity!=='credential'&&PROFILE_SUMMARY.test(x));
@@ -436,7 +431,7 @@ export function evaluate({profile,vacancy={},preferences={},evaluationDate,histo
  const assessedW=sum(assessed),totalW=sum(candidateReqs),assessedRatio=totalW?assessedW/totalW:0;
  // Threshold bounds: low counts unknowns as unmet, high counts them as met. Decided when both sides agree.
  const bounds=list=>{const w=sum(list);if(!w)return null;const low=list.reduce((n,x)=>n+(creditOf(x)??0)*x.weight,0)/w,high=list.reduce((n,x)=>n+(creditOf(x)??1)*x.weight,0)/w;return {low:Number(low.toFixed(3)),high:Number(high.toFixed(3)),weight:w,open:list.filter(x=>creditOf(x)===null).length};};
- const essentials=candidateReqs.filter(x=>x.importance==='essential'),others=candidateReqs.filter(x=>preferences.requireClassificationReview?x.importance==='desirable':x.importance!=='essential');
+ const essentials=candidateReqs.filter(x=>x.importance==='essential'),others=candidateReqs.filter(x=>x.importance!=='essential');
  // Non-essential duties are numerous and descriptive: their ratio uses items assessed by CV or by you only.
  const othersAssessed=others.filter(x=>creditOf(x)!==null||x.evidence_state==='no_match_found');
  const E=bounds(essentials),N=bounds(othersAssessed);
@@ -452,7 +447,7 @@ export function evaluate({profile,vacancy={},preferences={},evaluationDate,histo
  // A strong-looking number must not hide failing screening criteria.
  if(score!==null&&(critical.length||(E&&E.high<ESSENTIAL_MIN)))score=Math.min(score,59);
  const expected=/\b(?:course|training|learning)\b/i.test(v.title||'')?['courses','scheduling','participants','records','stakeholders']:/\b(?:admin(?:istrat(?:or|ion|ive))?|coordinator|assistant|support|pa)\b/i.test(v.title||'')?['records','documentation','stakeholders']:[];
- const expectedMissing=expected.filter(id=>!requirements.some(x=>(x.catalog_id||x.id)===id));
+ const expectedMissing=expected.filter(id=>!requirements.some(x=>x.id===id));
  const summaryOnly=v.description_kind==='summary'||v.full_description===false;
  const hardUnknown=gate.checks.filter(x=>x.status==='unknown'&&x.name!=='Closing date');
  const unratedReasons=[];
@@ -504,12 +499,8 @@ export function evaluate({profile,vacancy={},preferences={},evaluationDate,histo
   candidate_evidence:Object.fromEntries(['cv_quoted','qualifier_unverified','partial','no_match_found','self_attested','self_attested_partial','absent_self_reported','not_assessed'].map(k=>[k,candidateReqs.filter(x=>x.evidence_state===k).length])),
   eligibility:{status:gate.status,unknown:gate.checks.filter(x=>x.status==='unknown').map(x=>x.name),not_met:gate.checks.filter(x=>x.status==='not_met').map(x=>x.name),conditions_to_confirm:conditions.map(x=>x.label)}
  };
- if(preferences.requireClassificationReview&&!essentials.length&&gate.status!=='ineligible'){score=null;decision='Not assessable';reasons.push('No confirmed essential criteria; no essential-fit percentage or application recommendation is supported.');}
- const readiness=vacancyReadiness(v,date);
- if(preferences.requireClassificationReview&&!classificationComplete){score=null;decision='Investigate';confidence='Low';basis.push('classification_review_required');reasons.push('Review and confirm every requirement classification before scoring.');}
- if(preferences.requireListingCompleteness&&!readiness.ready){score=null;decision='Not assessable';confidence='Low';basis.push('listing_incomplete');reasons.push('Excluded from shortlist: '+readiness.missing.join(', ')+'.');}
  const decisionReason=reasons.filter(Boolean).join(' ')||(decision==='Apply'?'Thresholds met and eligibility checks pass; the final decision is yours.':'Review the listed items.');
- return {listing_readiness:readiness,classification_review:{required:!!preferences.requireClassificationReview,confirmed:classificationComplete},version:MODEL_VERSION,engine_version:MODEL_VERSION,evaluation_date:date,fit_score:score,band:score===null?'Not assessable':score>=80?'Strong':score>=60?'Moderate':'Weak',decision,decision_basis:basis,thresholds:coverageReport.thresholds,sector,eligibility:{status:gate.status,reasons:gate.reasons},hard_constraints:gate.checks,advert_completeness:{score:Number(completeness.toFixed(2)),missing},confidence:{label:confidence,reason:assessmentReasons.length?assessmentReasons.join(' '):wordCount<145?'Limited advert detail.':'Published requirement coverage; rules are not outcome-calibrated.'},requirements,pre_employment_conditions:conditions,extraction_audit:extraction.audit,extraction_summary:extraction.summary,coverage:coverageReport,unrated_reasons:unratedReasons,screening_evidence:{criteria:candidateReqs},critical_evidence_gaps:gaps,evidence_coverage:{evidenced:evidence,total:automated.length,ratio:coverage,scope:'automated requirements only'},expected_capability_gaps:expectedMissing,expected_capability_details:expectedDetails,verification_actions:verificationActions,decision_reason:decisionReason,tailoring_examples:tailoringActions,tailoring_prompts:gaps.filter(x=>x.severity==='evidence'||x.severity==='critical').map(x=>({criterion:x.label,what_to_evidence:'Provide an accurate example if you have one; do not invent experience.'})),contextual_fit,assessment_scope:{classified:automated.length,manual_review:[...new Set(candidateReqs.filter(x=>x.evidence_state==='not_assessed').flatMap(x=>(x.sources||[{text:x.source}]).map(s=>s.text)))],demonstrated:evidence,unknown:candidateReqs.filter(x=>x.status==='unknown').length,partial:candidateReqs.filter(x=>x.status==='partial').length,self_attested:attested.length,conditions:conditions.length,complete_job_coverage:false},score_meaning:'Share of assessed requirement weight with evidence (CV quotation or your own confirmation). Decision thresholds are shown separately. Inferred sector relevance is advisory by default. Not overall job suitability or hiring probability.',limitations:['Limited rule catalogue; items without an automated matcher need your confirmation.','Self-confirmed items are your judgement and are labelled as such.','Scores are provisional and uncalibrated.','Structured salary/location/contract facts require verified input; salary found in advert text is shown with its source passage.']};
+ return {version:MODEL_VERSION,engine_version:MODEL_VERSION,evaluation_date:date,fit_score:score,band:score===null?'Not assessable':score>=80?'Strong':score>=60?'Moderate':'Weak',decision,decision_basis:basis,thresholds:coverageReport.thresholds,sector,eligibility:{status:gate.status,reasons:gate.reasons},hard_constraints:gate.checks,advert_completeness:{score:Number(completeness.toFixed(2)),missing},confidence:{label:confidence,reason:assessmentReasons.length?assessmentReasons.join(' '):wordCount<145?'Limited advert detail.':'Published requirement coverage; rules are not outcome-calibrated.'},requirements,pre_employment_conditions:conditions,extraction_audit:extraction.audit,extraction_summary:extraction.summary,coverage:coverageReport,unrated_reasons:unratedReasons,screening_evidence:{criteria:candidateReqs},critical_evidence_gaps:gaps,evidence_coverage:{evidenced:evidence,total:automated.length,ratio:coverage,scope:'automated requirements only'},expected_capability_gaps:expectedMissing,expected_capability_details:expectedDetails,verification_actions:verificationActions,decision_reason:decisionReason,tailoring_examples:tailoringActions,tailoring_prompts:gaps.filter(x=>x.severity==='evidence'||x.severity==='critical').map(x=>({criterion:x.label,what_to_evidence:'Provide an accurate example if you have one; do not invent experience.'})),contextual_fit,assessment_scope:{classified:automated.length,manual_review:[...new Set(candidateReqs.filter(x=>x.evidence_state==='not_assessed').flatMap(x=>(x.sources||[{text:x.source}]).map(s=>s.text)))],demonstrated:evidence,unknown:candidateReqs.filter(x=>x.status==='unknown').length,partial:candidateReqs.filter(x=>x.status==='partial').length,self_attested:attested.length,conditions:conditions.length,complete_job_coverage:false},score_meaning:'Share of assessed requirement weight with evidence (CV quotation or your own confirmation). Decision thresholds are shown separately. Inferred sector relevance is advisory by default. Not overall job suitability or hiring probability.',limitations:['Limited rule catalogue; items without an automated matcher need your confirmation.','Self-confirmed items are your judgement and are labelled as such.','Scores are provisional and uncalibrated.','Structured salary/location/contract facts require verified input; salary found in advert text is shown with its source passage.']};
 }
 export function compareResults(a,b){const rank={High:2,Medium:1,Low:0};const skipped=Number(a.decision==='Skip')-Number(b.decision==='Skip');return skipped||(rank[b.confidence?.label]??0)-(rank[a.confidence?.label]??0)||(b.fit_score??-1)-(a.fit_score??-1);}
 export function addIntelligence(result,{enabled=false,observations=[]}={}){const signals=enabled?observations.filter(x=>/^https:\/\//.test(x.source||'')&&parseDate(x.captured_at)&&typeof x.note==='string').map(x=>({source:x.source,captured_at:x.captured_at,note:x.note})):[];return {...result,contextual_fit:{status:!enabled?'disabled':signals.length?'sourced_notes':'unknown',signals,reason:'Research notes only; no automatic fit or decision adjustment. Small or unknown employers receive no penalty.'}};}
@@ -522,25 +513,6 @@ export function createReviewRecord({vacancyId,sourceUrl,decision,rationale='',en
 
 // Vacancy-only extraction for explanatory comparisons; no profile or score involved.
 export function describeVacancy(vacancy={}){return extract(vacancy.description,vacancy.title||'').filter(x=>!x.derived_from_title);}
-
-// Strict visible-shortlist policy. Missing facts are not inferred from search estimates.
-export function vacancyReadiness(v={},asOf){
- const missing=[],text=String(v.description||''),close=closingDate(v),date=parseDate(asOf||'');
- if(v.source_provider==='adzuna'&&v.source_verification?.status!=='retrieved')missing.push('Original source not verified');
- if(!close.date)missing.push('Published closing date');else if(date&&close.date<date)missing.push('Vacancy closed');
- const pay=salaryFromText(text),hasStructured=Number(v.salary_min)>0||Number(v.salary_max)>0;
- const period=pay?.period||v.salary_period;
- if(!pay&&(!hasStructured||v.salary_is_predicted!==false))missing.push('Published salary (not an estimate)');
- const hours=Number(v.hours_per_week)||Number(text.match(/(\d+(?:\.\d+)?)\s*hours?\s*(?:per|a|\/)\s*week/i)?.[1]);
- if((period==='hour'||/\b(?:part.time|pro.rata)\b/i.test(text+' '+(v.contract_time||'')))&&!(hours>0))missing.push('Paid weekly hours');
- const loc=String(v.location||text.match(/(?:^|\n)\s*(?:location|workplace|office location)\s*:\s*([^\n]+)/i)?.[1]||'').trim();
- if(!loc||/^(?:London|UK|United Kingdom|England|South East|Remote|Hybrid)$/i.test(loc))missing.push('Specific workplace location');
- const contract=String(v.contract_type||'')+' '+text;
- if(!/\bpermanent\b/i.test(contract)&&!Number(v.contract_months)&&!/(?:\d+[- ]months?\s*(?:temporary\s+)?(?:contract|fixed.term|ftc)|(?:contract|fixed.term|ftc)\s*(?:for\s*)?\d+\s*months?)/i.test(contract))missing.push('Contract type and duration');
- if(text.trim().split(/\s+/).length<65)missing.push('Detailed duties and requirements');
- try{const u=new URL(v.source_url||v.url);if(u.protocol!=='https:')throw Error();}catch{missing.push('Original advert URL');}
- return {ready:missing.length===0,missing,closing_date:close.date,location:loc,hours_per_week:hours||null,policy:'strict-552'};
-}
 
 // Search visibility only. A provider NEW badge is an indicator, never a timestamp override.
 export function publicationWindow(v={},searchStartedAt){

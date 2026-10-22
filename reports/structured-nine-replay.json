@@ -1,0 +1,161 @@
+{
+  "engine": "5.6.0-rc1",
+  "baseline_commit": "6a92982cda5cf87e75302c15d97093a2022533d5",
+  "source_export_sha256": "f0702954f6b554c57b5e4004d9a28ea17fbf5dda18311ccc6d8267148fafc93e",
+  "personal_cv_used": false,
+  "profile": "SYN-STRUCTURED-01",
+  "human_labels_changed": false,
+  "accuracy_claim": "No accuracy or decision agreement measured: synthetic profile differs from owner profile; sectioning is not independently labelled",
+  "cases": [
+    {
+      "vacancy_id": "5937234130",
+      "title": "Business Support Administrator",
+      "employer": "HCRG Care Group",
+      "source_sha256": "c685ef8cd9cfee32f71862b54c754a704a4279b14077fa373a8ee4ec28fb9b43",
+      "original_human_decision": "skip",
+      "original_human_assessment": "accurate",
+      "legacy_requirement_count": 27,
+      "structured_requirement_count": 29,
+      "synthetic_decision": "Apply",
+      "synthetic_score_range": {
+        "low": 19,
+        "high": 100
+      },
+      "normalization_coverage": 13,
+      "sectioning": "heuristic test import; requires owner confirmation; not gold labels"
+    },
+    {
+      "vacancy_id": "5931392640",
+      "title": "Global Programme Coordinator, Training & Accreditation - Private Bank",
+      "employer": "HSBC",
+      "source_sha256": "f2eb7335c89ac8fa58ff51ba987d676cda18e98f6c570f121be0eca280b9ab6c",
+      "original_human_decision": "apply",
+      "original_human_assessment": "accurate",
+      "legacy_requirement_count": 24,
+      "structured_requirement_count": 32,
+      "synthetic_decision": "Apply",
+      "synthetic_score_range": {
+        "low": 21,
+        "high": 100
+      },
+      "normalization_coverage": 15,
+      "sectioning": "heuristic test import; requires owner confirmation; not gold labels"
+    },
+    {
+      "vacancy_id": "5905307172",
+      "title": "Senior Learning & Development Coordinator",
+      "employer": "Ryder Reid Legal Limited",
+      "source_sha256": "cc534bf54392f61e4201f2fefa2880c6be56b97d340300159fe3e153608784a1",
+      "original_human_decision": "investigate",
+      "original_human_assessment": "accurate",
+      "legacy_requirement_count": 15,
+      "structured_requirement_count": 11,
+      "synthetic_decision": "Apply",
+      "synthetic_score_range": {
+        "low": 9,
+        "high": 100
+      },
+      "normalization_coverage": 5,
+      "sectioning": "heuristic test import; requires owner confirmation; not gold labels"
+    },
+    {
+      "vacancy_id": "5936638797",
+      "title": "Professional Development Specialist",
+      "employer": "Larbey Evans Ltd",
+      "source_sha256": "d86cfd73d33141fa2c70c4fdf31dd32fe7fa6f66ae0bdb9de2f4debc365d0c16",
+      "original_human_decision": "apply",
+      "original_human_assessment": "accurate",
+      "legacy_requirement_count": 19,
+      "structured_requirement_count": 27,
+      "synthetic_decision": "Apply",
+      "synthetic_score_range": {
+        "low": 28,
+        "high": 100
+      },
+      "normalization_coverage": 7,
+      "sectioning": "heuristic test import; requires owner confirmation; not gold labels"
+    },
+    {
+      "vacancy_id": "5914213549",
+      "title": "Training Manager",
+      "employer": "First Response Group",
+      "source_sha256": "7d6ec312a07af18b9a58a37d15f5aeadf52f65fe1054a669f18a6f0f34f5e7e2",
+      "original_human_decision": "apply",
+      "original_human_assessment": "accurate",
+      "legacy_requirement_count": 17,
+      "structured_requirement_count": 26,
+      "synthetic_decision": "Apply",
+      "synthetic_score_range": {
+        "low": 15,
+        "high": 100
+      },
+      "normalization_coverage": 10,
+      "sectioning": "heuristic test import; requires owner confirmation; not gold labels"
+    },
+    {
+      "vacancy_id": "5927154099",
+      "title": "Learning & Development Specialist (UK)",
+      "employer": "Employment Hero",
+      "source_sha256": "a2a34094d81f1fa7595939bbfd85aea11ceec0922b5547b750446084dd8a9780",
+      "original_human_decision": "apply",
+      "original_human_assessment": "accurate",
+      "legacy_requirement_count": 21,
+      "structured_requirement_count": 21,
+      "synthetic_decision": "Apply",
+      "synthetic_score_range": {
+        "low": 18,
+        "high": 100
+      },
+      "normalization_coverage": 12,
+      "sectioning": "heuristic test import; requires owner confirmation; not gold labels"
+    },
+    {
+      "vacancy_id": "5936932334",
+      "title": "Learning Coordinator",
+      "employer": "Huntress - Maidstone",
+      "source_sha256": "3187af1edf93dde2dc814487f4b5e7671e8b67a6b3c8773970dcabe4bff7c1f6",
+      "original_human_decision": "investigate",
+      "original_human_assessment": "accurate",
+      "legacy_requirement_count": 16,
+      "structured_requirement_count": 22,
+      "synthetic_decision": "Apply",
+      "synthetic_score_range": {
+        "low": 36,
+        "high": 100
+      },
+      "normalization_coverage": 13,
+      "sectioning": "heuristic test import; requires owner confirmation; not gold labels"
+    },
+    {
+      "vacancy_id": "5934431286",
+      "title": "Talent development lead",
+      "employer": "Oakleaf Partnership",
+      "source_sha256": "edf15e3ad5bc918b4635eff19aa38082dcb1ffa883f39abbb4f14f622085bdcf",
+      "original_human_decision": "skip",
+      "original_human_assessment": "accurate",
+      "legacy_requirement_count": 18,
+      "structured_requirement_count": 34,
+      "synthetic_decision": "Apply",
+      "synthetic_score_range": {
+        "low": 17,
+        "high": 100
+      },
+      "normalization_coverage": 11,
+      "sectioning": "heuristic test import; requires owner confirmation; not gold labels"
+    },
+    {
+      "vacancy_id": "5896924130",
+      "title": "Professional Training Manager",
+      "employer": "PA Media Group",
+      "source_sha256": "b0924248d7771beddb09cff9892805764c407a86f980f40704339a1af4ab703c",
+      "original_human_decision": "skip",
+      "original_human_assessment": "accurate",
+      "legacy_requirement_count": 16,
+      "structured_requirement_count": 33,
+      "synthetic_decision": "Apply",
+      "synthetic_score_range": null,
+      "normalization_coverage": 1,
+      "sectioning": "heuristic test import; requires owner confirmation; not gold labels"
+    }
+  ]
+}

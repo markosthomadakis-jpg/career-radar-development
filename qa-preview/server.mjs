@@ -1,24 +1,12 @@
 import http from 'node:http';
 import worker from '../dist/server/index.js';
-import {issueTicket,checkTicket,verifySource} from '../worker/source-verification.mjs';
 const description='Coordinate course schedules and participant registrations. Maintain Excel reporting and accurate records. Liaise with instructors and suppliers. Prepare process documentation and project action logs. Respond to customer service queries. '+('The administrative team supports course delivery and bookings. '.repeat(15));
 const fixtures=[{id:'qa-admin',company:'Fictional Learning Centre',title:'Course Administrator',description:description+' Closing date 1 November 2026.',closing_date:'2026-11-01',salary_min:30000,salary_max:32000,location:'Crawley',contract_type:'permanent',url:'https://example.org/qa-admin'},{id:'qa-expired',company:'Fictional Learning Centre',title:'Expired Course Administrator',description:description+' Closing date 15 October 2026.',closing_date:'2026-10-15',salary_min:30000,salary_max:32000,location:'Crawley',contract_type:'permanent',url:'https://example.org/qa-expired'},{id:'qa-dev',company:'Fictional Software Studio',title:'Lead Developer – Dynamics 365',description:description+' Essential production software development using Dynamics 365 and C#.',closing_date:'2026-11-01',salary_min:50000,salary_max:60000,location:'Crawley',contract_type:'permanent',url:'https://example.org/qa-dev'}];
-for(const f of fixtures){f.source_provider='adzuna';f.description_kind='summary';f.full_description=false;}
+for(const [i,f] of fixtures.entries()){f.created=new Date(Date.now()-[1,24,168][i]*3600000).toISOString();f.source_provider='adzuna';f.description_kind='summary';f.full_description=false;}
 fixtures.push({id:'qa-short',title:'Temporary Administrator',company:'Fictional Agency',description:'Contract: Temporary, initially 3–4 weeks with possible extension.',contract_type:'temporary',salary_min:28000,salary_max:30000,location:'Crawley',description_kind:'summary',full_description:false,url:'https://example.org/qa-short'},{id:'qa-panel',title:'Administrator - Focus Group Panelists',company:'Fictional Research Panel',description:'Paid participation in focus group studies. Earn up to £700 per week.',description_kind:'summary',full_description:false,url:'https://example.org/qa-panel'});
 http.createServer(async(req,res)=>{try{
  const url=new URL(req.url,'http://terminal.local:4173');let response;
- if(url.pathname==='/api/jobs'){const ages=[1,24,168,169,-1];response=Response.json({count:fixtures.length,results:fixtures.map((f,i)=>({...f,created:new Date(Date.now()-ages[i]*3600000).toISOString(),freshness_badge:i===0?'NEW':null,source_url:f.url}))});}
- else if(url.pathname==='/api/jobs/verify'){
-  let body='';for await(const chunk of req)body+=chunk;const job=await checkTicket(JSON.parse(body),'qa-only-secret');
-  if(!job)response=Response.json({error:'Invalid QA ticket'},{status:400});else{
-   const fetcher=async target=>{
-    if(!['qa-admin','qa-expired','qa-dev'].includes(job.id))return new Response('Unavailable synthetic source',{status:403});
-    if(target.includes('adzuna'))return new Response(null,{status:302,headers:{location:'https://www.driverhire.co.uk/job/'+job.id}});
-    const p={'@type':'JobPosting',title:job.title,description:job.description+' Permanent.',jobLocation:{address:{addressLocality:'Crawley',postalCode:'RH10 1AA'}},baseSalary:{currency:'GBP',value:{minValue:30000,maxValue:32000,unitText:'YEAR'}},...(job.id==='qa-dev'?{}:{validThrough:job.closing_date})};
-    return new Response('<script type="application/ld+json">'+JSON.stringify(p)+'</script>',{headers:{'content-type':'text/html'}});
-   };response=Response.json({job:await verifySource(job,{fetcher,useCache:false})});
-  }
- }
+ if(url.pathname==='/api/jobs')response=Response.json({count:fixtures.length,results:fixtures});
  else if(url.pathname.startsWith('/api/ai/'))response=Response.json({enabled:false,profileOnceAvailable:false,error:'Paid APIs disabled in local QA'},{status:url.pathname.endsWith('/status')?200:403});
  else response=await worker.fetch(new Request(url),{});
  res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));
