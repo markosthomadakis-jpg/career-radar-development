@@ -1,6 +1,4 @@
 import {readFileSync,writeFileSync,mkdirSync,copyFileSync} from 'node:fs';
-const structuredModel=readFileSync('worker/structured-model.mjs','utf8');
-const conceptDictionary=readFileSync('worker/concept-dictionary.mjs','utf8');
 const source=readFileSync('worker/index.js','utf8');
 const html=readFileSync('dist/index.html','utf8');
 const matching=readFileSync('worker/matching-client.js','utf8');
@@ -14,7 +12,7 @@ const employerContextData=readFileSync('worker/employer-context-data.mjs','utf8'
 const calibrationV54=readFileSync('worker/calibration-v54.mjs','utf8');
 const calibrationV53=readFileSync('worker/calibration-v53.mjs','utf8');
 mkdirSync('dist/server',{recursive:true});mkdirSync('dist/.openai',{recursive:true});
-writeFileSync('dist/server/index.js',source.replace('__STRUCTUREDMODEL_LITERAL__',JSON.stringify(structuredModel)).replace('__CONCEPTDICTIONARY_LITERAL__',JSON.stringify(conceptDictionary)).replace('__HTML_LITERAL__',JSON.stringify(html)).replace('__MATCHING_LITERAL__',JSON.stringify(matching)).replace('__SEMANTIC_LITERAL__',JSON.stringify(semantic)).replace('__CALIBRATION_LITERAL__',JSON.stringify(calibration)).replace('__CALIBRATION_MODEL_LITERAL__',JSON.stringify(calibrationModel)).replace('__CALIBRATION_V53_LITERAL__',JSON.stringify(calibrationV53)).replace('__ENGINE_V54_LITERAL__',JSON.stringify(engineV54)).replace('__CALIBRATION_V54_LITERAL__',JSON.stringify(calibrationV54)).replace('__FEEDBACK_CYCLE_LITERAL__',JSON.stringify(feedbackCycle)).replace('__INTELLIGENCE_V1_LITERAL__',JSON.stringify(intelligenceV1)).replace('__EMPLOYER_CONTEXT_LITERAL__',JSON.stringify(employerContextData)));
+writeFileSync('dist/server/index.js',source.replace('__HTML_LITERAL__',JSON.stringify(html)).replace('__MATCHING_LITERAL__',JSON.stringify(matching)).replace('__SEMANTIC_LITERAL__',JSON.stringify(semantic)).replace('__CALIBRATION_LITERAL__',JSON.stringify(calibration)).replace('__CALIBRATION_MODEL_LITERAL__',JSON.stringify(calibrationModel)).replace('__CALIBRATION_V53_LITERAL__',JSON.stringify(calibrationV53)).replace('__ENGINE_V54_LITERAL__',JSON.stringify(engineV54)).replace('__CALIBRATION_V54_LITERAL__',JSON.stringify(calibrationV54)).replace('__FEEDBACK_CYCLE_LITERAL__',JSON.stringify(feedbackCycle)).replace('__INTELLIGENCE_V1_LITERAL__',JSON.stringify(intelligenceV1)).replace('__EMPLOYER_CONTEXT_LITERAL__',JSON.stringify(employerContextData)));
 writeFileSync('dist/.openai/hosting.json',readFileSync('.openai/hosting.json'));
 mkdirSync('dist/drizzle/meta',{recursive:true});
 copyFileSync('drizzle/0000_ai_trial.sql','dist/drizzle/0000_ai_trial.sql');

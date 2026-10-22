@@ -209,7 +209,7 @@ test('employment-contract wording does not trigger a procurement question',()=>{
 async function renderUi({linked}){
  const elements={};const el=id=>elements[id]??=({value:'',checked:false,textContent:'',innerHTML:'',insertAdjacentHTML(){}});
  const selected={id:'sel',title:'Selected Listing',company:'Elysium Healthcare',description:'Short provider summary about payroll.',salary_min:50000,contract_type:'permanent',location:'Crawley',source_url:'https://www.adzuna.co.uk/jobs/details/1',description_kind:'summary'};
- const source=fs.readFileSync(new URL('../fixtures/calibration-client-551.js',import.meta.url),'utf8').replace(/import\(/g,'testImport(');
+ const source=fs.readFileSync(new URL('../../worker/calibration-client.js',import.meta.url),'utf8').replace(/import\(/g,'testImport(');
  new vm.Script(source).runInNewContext({document:{getElementById:el,querySelector:()=>el('anchor'),querySelectorAll:()=>[]},window:{__careerRadarJobs:[selected],addEventListener(){}},testImport:async n=>n.includes('intelligence')?intelligence:model,console});
  Object.assign(el('matchText'),{value:'Maintained records at a fictional office. Prepared documentation. Liaised with customers. Prepared reports in Excel.'});
  Object.assign(el('calDescription'),{value:'Responsibilities\nMaintain records.\nPrepare documentation.\nLiaise with customers.\nEssential criteria\nExcellent time management skills.'+filler});

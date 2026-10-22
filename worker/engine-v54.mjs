@@ -6,7 +6,7 @@
 //   4. candidate evidence         (CV quote / partial / self-attested / not found / explicit absence)
 //   5. eligibility                (hard constraints and pre-employment conditions)
 // Engine limitations are never reported as candidate shortcomings.
-export const MODEL_VERSION='5.6.0-rc1';
+export const MODEL_VERSION='5.5.1-r1';
 const MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
 const day=(y,m,d)=>{const dt=new Date(Date.UTC(y,m-1,d));return dt.getUTCFullYear()===y&&dt.getUTCMonth()===m-1&&dt.getUTCDate()===d?`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`:null;};
 export function parseDate(value){
@@ -514,7 +514,6 @@ export function createReviewRecord({vacancyId,sourceUrl,decision,rationale='',en
 // Vacancy-only extraction for explanatory comparisons; no profile or score involved.
 export function describeVacancy(vacancy={}){return extract(vacancy.description,vacancy.title||'').filter(x=>!x.derived_from_title);}
 
-// Search visibility only. A provider NEW badge is an indicator, never a timestamp override.
 export function publicationWindow(v={},searchStartedAt){
  const end=Date.parse(searchStartedAt),raw=v.created||v.published_at||null;
  const explicit=typeof raw==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})$/.test(raw);
@@ -523,3 +522,5 @@ export function publicationWindow(v={},searchStartedAt){
  const valid=Number.isFinite(end)&&Number.isFinite(published),age=valid?end-published:null;
  return {visible:valid&&age>=0&&age<=7*86400000,reason:!Number.isFinite(end)?'Invalid search time':!Number.isFinite(published)?'Publication timestamp not supplied':age<0?'After search started':age>7*86400000?'Older than seven days':'Within seven-day window',published_at:raw,new_badge:badge,date_basis:'Provider publication timestamp; original publication/reposting not independently verified',search_started_at:searchStartedAt};
 }
+
+export function applicationDecision(decision){return decision === "Skip" ? "Discard-Skip" : "Apply";}

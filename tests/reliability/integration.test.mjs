@@ -8,7 +8,7 @@ test('built app serves exact tested engine bytes and new UI adapter',async()=>{
 });
 test('built frontend scripts parse and active matching no longer uses V4 denominator',async()=>{
  const matching=await (await worker.fetch(req('/matching-client.js'),{})).text();new vm.Script(matching);assert.match(matching,/engine\.evaluate/);assert.doesNotMatch(matching,/const score=totalWeight/);
- const calibration=await (await worker.fetch(req('/calibration-client.js'),{})).text();new vm.Script(calibration);assert.match(calibration,/structured-model\.mjs/);assert.doesNotMatch(calibration,/calibration-v53\.mjs/);
+ const calibration=await (await worker.fetch(req('/calibration-client.js'),{})).text();new vm.Script(calibration);assert.match(calibration,/calibration-v54\.mjs/);assert.doesNotMatch(calibration,/calibration-v53\.mjs/);
  const html=await (await worker.fetch(req('/'),{})).text();let n=0;for(const m of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)){if(!/src=/.test(m[1])){new vm.Script(m[2]);n++;}}assert.ok(n>0);
 });
 test('AI status remains disabled with empty environment; no network required',async()=>{
