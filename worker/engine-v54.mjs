@@ -6,7 +6,7 @@
 //   4. candidate evidence         (CV quote / partial / self-attested / not found / explicit absence)
 //   5. eligibility                (hard constraints and pre-employment conditions)
 // Engine limitations are never reported as candidate shortcomings.
-export const MODEL_VERSION='5.5.3';
+export const MODEL_VERSION='5.5.4';
 const MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
 const day=(y,m,d)=>{const dt=new Date(Date.UTC(y,m-1,d));return dt.getUTCFullYear()===y&&dt.getUTCMonth()===m-1&&dt.getUTCDate()===d?`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`:null;};
 export function parseDate(value){
@@ -540,4 +540,14 @@ export function vacancyReadiness(v={},asOf){
  if(text.trim().split(/\s+/).length<65)missing.push('Detailed duties and requirements');
  try{const u=new URL(v.source_url||v.url);if(u.protocol!=='https:')throw Error();}catch{missing.push('Original advert URL');}
  return {ready:missing.length===0,missing,closing_date:close.date,location:loc,hours_per_week:hours||null,policy:'strict-552'};
+}
+
+// Search visibility only. A provider NEW badge is an indicator, never a timestamp override.
+export function publicationWindow(v={},searchStartedAt){
+ const end=Date.parse(searchStartedAt),raw=v.created||v.published_at||null;
+ const explicit=typeof raw==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})$/.test(raw);
+ const published=explicit?Date.parse(raw):NaN;
+ const badge=String(v.freshness_badge||'').toUpperCase()==='NEW';
+ const valid=Number.isFinite(end)&&Number.isFinite(published),age=valid?end-published:null;
+ return {visible:valid&&age>=0&&age<=7*86400000,reason:!Number.isFinite(end)?'Invalid search time':!Number.isFinite(published)?'Publication timestamp not supplied':age<0?'After search started':age>7*86400000?'Older than seven days':'Within seven-day window',published_at:raw,new_badge:badge,date_basis:'Provider publication timestamp; original publication/reposting not independently verified',search_started_at:searchStartedAt};
 }

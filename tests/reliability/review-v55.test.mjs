@@ -242,7 +242,7 @@ test('determinism: identical inputs give identical output; attestations do not a
 });
 test('UI: headline shows the 75% / 50% thresholds and CV misses can be confirmed by you',async()=>{
  const {html}=await renderUi({linked:false});
- assert.match(html,/Unrated/);assert.match(html,/Excluded from shortlist/);
+ assert.match(html,/Published essentials met: .*need ≥75%/);assert.match(html,/Desirable: .*need ≥50%/);assert.match(html,/Source checks still open/);
  assert.match(html,/Core skills basis/);
  const noMatch=[...html.matchAll(/No CV match found<\/td><td[^>]*>([\s\S]*?)<\/td><\/tr>/g)];
  for(const m of noMatch)assert.match(m[1],/data-attest=/,'automated misses must offer a confirmation');

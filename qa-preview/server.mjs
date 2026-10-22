@@ -7,7 +7,7 @@ for(const f of fixtures){f.source_provider='adzuna';f.description_kind='summary'
 fixtures.push({id:'qa-short',title:'Temporary Administrator',company:'Fictional Agency',description:'Contract: Temporary, initially 3–4 weeks with possible extension.',contract_type:'temporary',salary_min:28000,salary_max:30000,location:'Crawley',description_kind:'summary',full_description:false,url:'https://example.org/qa-short'},{id:'qa-panel',title:'Administrator - Focus Group Panelists',company:'Fictional Research Panel',description:'Paid participation in focus group studies. Earn up to £700 per week.',description_kind:'summary',full_description:false,url:'https://example.org/qa-panel'});
 http.createServer(async(req,res)=>{try{
  const url=new URL(req.url,'http://terminal.local:4173');let response;
- if(url.pathname==='/api/jobs')response=Response.json({count:fixtures.length,results:await Promise.all(fixtures.map(f=>issueTicket({...f,source_url:'https://www.adzuna.co.uk/jobs/land/ad/'+f.id},'qa-only-secret')))});
+ if(url.pathname==='/api/jobs'){const ages=[1,24,168,169,-1];response=Response.json({count:fixtures.length,results:fixtures.map((f,i)=>({...f,created:new Date(Date.now()-ages[i]*3600000).toISOString(),freshness_badge:i===0?'NEW':null,source_url:f.url}))});}
  else if(url.pathname==='/api/jobs/verify'){
   let body='';for await(const chunk of req)body+=chunk;const job=await checkTicket(JSON.parse(body),'qa-only-secret');
   if(!job)response=Response.json({error:'Invalid QA ticket'},{status:400});else{
