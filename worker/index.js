@@ -7,11 +7,12 @@ const calibrationModel = __CALIBRATION_MODEL_LITERAL__;
 const calibrationV53 = __CALIBRATION_V53_LITERAL__;
 const engineV54 = __ENGINE_V54_LITERAL__;
 const calibrationV54 = __CALIBRATION_V54_LITERAL__;
+const feedbackCycle = __FEEDBACK_CYCLE_LITERAL__;
 const intelligenceV1 = __INTELLIGENCE_V1_LITERAL__;
 const employerContextData = __EMPLOYER_CONTEXT_LITERAL__;
 const liveHtml = `<section class="view hide" id="live"><div class="eyebrow">Adzuna / UK vacancies</div><h1>Search live vacancies.</h1><p class="sub">Live source listings. Always verify the position is still open before applying.</p><div class="panel"><form class="fields" id="liveForm"><div class="field"><label>Keywords</label><input name="what" value="learning coordinator" maxlength="100" required></div><div class="field"><label>Location</label><input name="where" value="Crawley" maxlength="80" required></div><div class="field"><label>Radius (miles)</label><input name="distance" value="10" type="number" min="1" max="100"></div><div class="field"><label>Minimum salary (£)</label><input name="salary_min" type="number" min="0" max="250000" value="30000"></div><div class="row wide"><button class="btn" type="submit">Search Adzuna</button><small id="liveMessage">A new private API key is required to enable search.</small></div></form><div class="callout">Your API credentials never appear in the browser. Listings are not exclusive or verified open. No application is submitted automatically.</div></div><div class="sectionhead"><h2>Results</h2></div><div class="cards" id="liveResults"></div></section>`;
 const addon = `<script>(()=>{const btn='<button data-view="live"><span>⌕</span> Live vacancies</button>';document.querySelector('.sidebar .nav').insertAdjacentHTML('beforeend',btn);document.querySelector('.mobile').insertAdjacentHTML('beforeend',btn);document.querySelectorAll('[data-view="live"]').forEach(b=>b.onclick=()=>go('live'));const form=document.querySelector('#liveForm'),msg=document.querySelector('#liveMessage'),results=document.querySelector('#liveResults');const safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));form.onsubmit=async e=>{e.preventDefault();msg.textContent='Searching…';results.innerHTML='';const p=new URLSearchParams(new FormData(form));try{const r=await fetch('/api/jobs?'+p);const data=await r.json();if(!r.ok)throw Error(data.error||'Search failed');msg.textContent=data.results.length+' results · powered by Adzuna';results.innerHTML=data.results.map(j=>'<article class="job"><h3>'+safe(j.title)+'</h3><div class="company">'+safe(j.company)+' · '+safe(j.location)+'</div><div class="tags"><span>'+safe(j.salary_min?'£'+Math.round(j.salary_min).toLocaleString('en-GB'):'Salary not disclosed')+'</span><span>Adzuna</span></div><p class="risk">Check the original listing for availability and conditions.</p><a target="_blank" rel="noopener noreferrer" href="'+(String(j.url).startsWith('https://')?safe(j.url):'#')+'">View listing ↗</a></article>').join('')||'<div class="empty">No results for these filters.</div>';}catch(err){msg.textContent=err.message}}})();</script>`;
-const html=originalHtml.replace('<section class="view hide" id="profile">',liveHtml+'<section class="view hide" id="profile">').replace('</body>',addon+'<script src="/matching-client.js?v=5.4.6" defer></script><script src="/semantic-client.js?v=5.4.6" defer></script><script src="/calibration-client.js?v=5.4.6" defer></script></body>');
+const html=originalHtml.replace('<section class="view hide" id="profile">',liveHtml+'<section class="view hide" id="profile">').replace('</body>',addon+'<script src="/matching-client.js?v=5.5.1" defer></script><script src="/semantic-client.js?v=5.5.1" defer></script><script src="/calibration-client.js?v=5.5.1" defer></script></body>');
 
 const profileSchema={type:'object',additionalProperties:false,required:['professional_identity','summary','roles','capabilities','career_paths','uncertainties'],properties:{
   professional_identity:{type:'string'},summary:{type:'string'},
@@ -28,11 +29,13 @@ const matchSchema={type:'object',additionalProperties:false,required:['overall_a
   recommendation:{type:'string'}
 }};
 function fail(message,status=400){return Response.json({error:message},{status,headers:{'cache-control':'no-store'}})}
-function redactCvContactDetails(source){
+function redactCvContactDetails(source,names=''){
   // Mask contact spans rather than deleting lines: PDF extraction can flatten
   // a whole page into one line containing both an email and job evidence.
-  return source
-    .replace(/\bmarkos\s+thomadakis\b/gi,'[name removed]')
+  // Names to mask come from configuration (REDACT_NAMES, comma-separated), never from source code.
+  let out=String(source);
+  for(const n of String(names||'').split(',').map(x=>x.trim()).filter(Boolean)){const re=new RegExp('\\b'+n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/\s+/g,'\\s+')+'\\b','gi');out=out.replace(re,'[name removed]');}
+  return out
     .replace(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/gi,'[email removed]')
     .replace(/(?:https?:\/\/|www\.|linkedin\.com\/)[^\s|,;]+/gi,'[link removed]')
     .replace(/(?:\+44\s?\(?0?\)?|\b0)(?:[\s().-]*\d){9,11}\b/g,'[phone removed]')
@@ -48,7 +51,7 @@ async function cvProfileOnce(request,env){
   if(body?.consent!==true||body?.purpose!=='career_profile_once')return fail('Specific CV-transmission consent is required',403);
   const original=typeof body.cv==='string'?body.cv.trim():'';
   if(original.length<200||original.length>60000)return fail('CV text must be between 200 and 60000 characters');
-  const cv=redactCvContactDetails(original);
+  const cv=redactCvContactDetails(original,env.REDACT_NAMES);
   if(cv.length<150)return fail('Insufficient professional content after removing contact details');
   let claimed;
   try{claimed=await env.DB.prepare('UPDATE cv_profile_budget SET used=1 WHERE id=1 AND used=0 RETURNING id').first()}
@@ -102,13 +105,17 @@ async function syntheticTrial(request,env){
 }
 async function semantic(request,env,kind){
   if(request.method!=='POST')return fail('POST required',405);
-  if(request.headers.get('origin')&&request.headers.get('origin')!==new URL(request.url).origin)return fail('Origin not allowed',403);
+  // Paid route: a missing Origin is rejected too (previously any non-browser client could call it).
+  // NOTE: Origin is not authentication; production should also sit behind Cloudflare Access or a per-user session.
+  if(request.headers.get('origin')!==new URL(request.url).origin)return fail('Same-origin request required',403);
   if(!env.OPENAI_API_KEY||env.AI_BILLING_APPROVED!=='true')return fail('AI is not activated. API credentials and explicit billing approval are required.',503);
   const contentLength=Number(request.headers.get('content-length')||0);if(contentLength>75000)return fail('Request too large',413);
   let data;try{data=await request.json()}catch{return fail('Invalid JSON')};
   if(data?.consent!==true)return fail('Explicit consent to transmit professional data to OpenAI is required',403);
-  const cv=typeof data.cv==='string'?data.cv.trim():'';
-  if(cv.length<100||cv.length>60000)return fail('CV text must be between 100 and 60000 characters');
+  const rawCv=typeof data.cv==='string'?data.cv.trim():'';
+  if(rawCv.length<100||rawCv.length>60000)return fail('CV text must be between 100 and 60000 characters');
+  // Same contact-detail redaction as the one-time profile route.
+  const cv=redactCvContactDetails(rawCv,env.REDACT_NAMES);
   let input='';let schema=profileSchema;let name='career_profile';
   if(kind==='profile')input='CV TEXT:\n'+cv;
   else{
@@ -134,6 +141,7 @@ export default {async fetch(request,env){const url=new URL(request.url);
   if(url.pathname==='/api/ai/test-once')return syntheticTrial(request,env);
   if(url.pathname==='/semantic-client.js')return new Response(semanticScript,{headers:{'content-type':'application/javascript; charset=utf-8'}});
   if(url.pathname==='/calibration-client.js')return new Response(calibrationScript,{headers:{'content-type':'application/javascript; charset=utf-8'}});
+  if(url.pathname==='/feedback-cycle.mjs')return new Response(feedbackCycle,{headers:{'content-type':'text/javascript; charset=utf-8','cache-control':'no-store'}});
   if(url.pathname==='/intelligence-v1.mjs')return new Response(intelligenceV1,{headers:{'content-type':'text/javascript; charset=utf-8','cache-control':'no-store'}});
   if(url.pathname==='/employer-context-data.mjs')return new Response(employerContextData,{headers:{'content-type':'text/javascript; charset=utf-8','cache-control':'no-store'}});
   if(url.pathname==='/engine-v54.mjs')return new Response(engineV54,{headers:{'content-type':'text/javascript; charset=utf-8','cache-control':'no-store'}});

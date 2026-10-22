@@ -66,7 +66,11 @@
   }
   function scoreJob(job){
     if(!engine)return {score:null,confidence:'Low',confidenceLabel:'Low',decision:'Not assessable',active:[]};
-    const result=engine.evaluate({profile,vacancy:job,preferences:{salaryFloor:Number(form.elements.salary_min?.value)||0,minContractMonths:6},evaluationDate:new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())});
+    // Human Skip reviews become an explicit exclusion; preferences come from the same controls as the evaluation screen.
+    let reviews=[];try{reviews=JSON.parse(localStorage.getItem('career-radar-human-reviews-v1')||'[]')}catch{}
+    const history=[]; // Review choices are feedback; only explicit exclusions may gate eligibility.
+    const months=Number(document.getElementById('calMonths')?.value);
+    const result=engine.evaluate({profile,vacancy:job,history,preferences:{salaryFloor:Number(form.elements.salary_min?.value)||0,minContractMonths:Number.isFinite(months)?months:6},evaluationDate:new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/London',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())});
     return {...result,score:result.fit_score,confidenceLabel:result.confidence.label,confidence:result.confidence.label,active:result.requirements.map(r=>({name:r.label,hit:r.status==='demonstrated',available:r.evidence?[r.evidence]:[]}))};
   }
   function displayJobs(list){const target=document.querySelector('#liveResults');if(!profile.trim()){target.innerHTML='<div class="empty" style="grid-column:1/-1">Add your CV in Evidence matching to score these results.</div>'+list.map(renderBasic).join('');return;}
@@ -77,14 +81,14 @@
     target.querySelectorAll('[data-assess-id]').forEach(button=>button.onclick=()=>{
       const index=jobs.findIndex(j=>String(j.id)===button.dataset.assessId);if(index<0)return;
       const pick=document.getElementById('calJob');if(!pick)return;pick.value=String(index);
-      document.getElementById('calTitle').value=jobs[index].title||'';document.getElementById('calDescription').value='';document.getElementById('calFull').checked=false;
+      document.getElementById('calTitle').value=jobs[index].title||'';const linked=document.getElementById('calLinked');if(linked)linked.checked=true;document.getElementById('calDescription').value='';document.getElementById('calFull').checked=false;
       document.getElementById('calSalary').value=form.elements.salary_min.value||'0';
       document.getElementById('calStatus').textContent='Open Original listing, paste its full text including requirements, then confirm completeness below.';go('calibration');
     });
     target.querySelectorAll('[data-review-id]').forEach(button=>button.onclick=()=>{
       const job=list.find(j=>String(j.id)===button.dataset.reviewId);if(!job||!engine)return;
       const record=engine.createReviewRecord({vacancyId:String(job.id),sourceUrl:job.url,decision:button.dataset.choice,reviewedAt:new Date().toISOString()});
-      try{const key='career-radar-human-reviews-v1';const existing=JSON.parse(localStorage.getItem(key)||'[]');existing.push(record);localStorage.setItem(key,JSON.stringify(existing));button.textContent='Recorded: '+button.dataset.choice+' (no application sent)';}catch{button.textContent='Could not save review';}
+      try{const key='career-radar-human-reviews-v1';const existing=JSON.parse(localStorage.getItem(key)||'[]');existing.push(record);localStorage.setItem(key,JSON.stringify(existing));button.textContent='Recorded: '+button.dataset.choice+' (no application sent)';window.dispatchEvent(new CustomEvent('career-radar-start-review',{detail:{vacancyId:String(job.id),decision:button.dataset.choice}}));}catch{button.textContent='Could not save review';}
     });
   }
   function renderBasic(j){return `<article class="job"><h3>${esc(j.title)}</h3><div class="company">${esc(j.company)} · ${esc(j.location)}</div><p class="risk">Not rated — CV missing.</p><a href="${esc(validUrl(j.url))}" target="_blank" rel="noopener noreferrer">View on Adzuna ↗</a></article>`}
