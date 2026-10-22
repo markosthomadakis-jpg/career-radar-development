@@ -6,7 +6,7 @@
 //   4. candidate evidence         (CV quote / partial / self-attested / not found / explicit absence)
 //   5. eligibility                (hard constraints and pre-employment conditions)
 // Engine limitations are never reported as candidate shortcomings.
-export const MODEL_VERSION='5.5.2';
+export const MODEL_VERSION='5.5.3';
 const MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
 const day=(y,m,d)=>{const dt=new Date(Date.UTC(y,m-1,d));return dt.getUTCFullYear()===y&&dt.getUTCMonth()===m-1&&dt.getUTCDate()===d?`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`:null;};
 export function parseDate(value){
@@ -526,6 +526,7 @@ export function describeVacancy(vacancy={}){return extract(vacancy.description,v
 // Strict visible-shortlist policy. Missing facts are not inferred from search estimates.
 export function vacancyReadiness(v={},asOf){
  const missing=[],text=String(v.description||''),close=closingDate(v),date=parseDate(asOf||'');
+ if(v.source_provider==='adzuna'&&v.source_verification?.status!=='retrieved')missing.push('Original source not verified');
  if(!close.date)missing.push('Published closing date');else if(date&&close.date<date)missing.push('Vacancy closed');
  const pay=salaryFromText(text),hasStructured=Number(v.salary_min)>0||Number(v.salary_max)>0;
  const period=pay?.period||v.salary_period;

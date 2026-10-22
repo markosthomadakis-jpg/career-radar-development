@@ -22,3 +22,5 @@ copyFileSync('drizzle/meta/_journal.json','dist/drizzle/meta/_journal.json');
 console.log('Career Radar V3 Worker built');
 
 copyFileSync('worker/vacancy-input.mjs','dist/server/vacancy-input.mjs');
+
+copyFileSync('worker/source-verification.mjs','dist/server/source-verification.mjs');
