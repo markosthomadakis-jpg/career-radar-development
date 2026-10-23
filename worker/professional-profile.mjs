@@ -28,12 +28,23 @@ export const SECTORS=[['financial','Financial services',/\b(?:bank(?:ing)?|finan
 export function concepts(text){return CONCEPTS.filter(c=>String(text).split(/[.!?;\n]+/).some(sentence=>{const match=c.re.exec(sentence);return match&&!/\b(?:no|not|without|never)\b[^,;.!?]{0,45}$/i.test(sentence.slice(0,match.index));})).map(c=>c.id);}
 export {fingerprint} from './intelligence-v1.mjs';
 
+// Normalise typography only; return an exact span from the original source, never a paraphrase.
+export function resolveQuotation(cv,quote){
+ const q=String(quote||'').trim();if(q.length<12)return null;
+ const literal=cv.indexOf(q);if(literal>=0)return {text:cv.slice(literal,literal+q.length),start:literal,end:literal+q.length,method:'exact'};
+ function normalise(text){let out='',starts=[],ends=[];for(let i=0;i<text.length;){const ch=String.fromCodePoint(text.codePointAt(i)),end=i+ch.length;let value=ch.normalize('NFKC').toLowerCase().replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[‐‑‒–—−]/g,'-');if(/\s/u.test(value))value=' ';if(value===' '&&out.endsWith(' ')){ends[ends.length-1]=end;i=end;continue;}for(let j=0;j<value.length;j++){out+=value[j];starts.push(i);ends.push(end);}i=end;}return {text:out,starts,ends};}
+ const source=normalise(cv),needle=normalise(q).text.trim();const index=source.text.indexOf(needle);if(index<0)return null;
+ const start=source.starts[index],end=source.ends[index+needle.length-1];return {text:cv.slice(start,end),start,end,method:'typography_normalised'};
+}
+export function repairEvidence(profile,cv){
+ let changed=false;for(const row of [...profile.capabilities,...profile.roles]){const match=resolveQuotation(cv,row.evidence);if(match){if(row.evidence!==match.text||!row.verified_quote){row.original_ai_evidence??=row.evidence;row.evidence=match.text;changed=true;}row.verified_quote=true;row.quote_match=match.method;row.source_span={start:match.start,end:match.end};if(row.concepts)row.concepts=concepts(row.evidence);}else{if(row.verified_quote)changed=true;row.verified_quote=false;row.quote_match='unverified';delete row.source_span;}}if(changed){profile.status='draft';profile.confirmed_at=null;delete profile.profile_sha256;}return changed;
+}
 export function validateDraft(ai,cv){
  if(!ai||!Array.isArray(ai.capabilities)||!Array.isArray(ai.roles))throw Error('Invalid profile response');
- const exact=q=>typeof q==='string'&&q.trim().length>=12&&cv.includes(q.trim());
+ const exact=q=>Boolean(resolveQuotation(cv,q));
  const capabilities=ai.capabilities.slice(0,35).map((c,i)=>({id:'cap-'+i,name:String(c.name||'').slice(0,200),evidence:String(c.evidence||'').trim(),verified_quote:exact(c.evidence),concepts:concepts(c.evidence),category:['core','secondary','additional'].includes(c.category)?c.category:'secondary',scope:['support','independent','coordination','people_management','budget_ownership'].includes(c.scope)?c.scope:'support',review:'pending',use_search:true}));
  const roles=ai.roles.slice(0,20).map((r,i)=>({id:'role-'+i,title:String(r.title||''),employer:String(r.employer||''),scope:String(r.scope||''),dates:String(r.dates||'Unknown'),evidence:String(r.evidence||'').trim(),verified_quote:exact(r.evidence),review:'pending'}));
- return {schema_version:PROFILE_VERSION,dictionary_version:CONCEPT_VERSION,status:'draft',identity:String(ai.professional_identity||''),summary:String(ai.summary||''),capabilities,roles,uncertainties:Array.isArray(ai.uncertainties)?ai.uncertainties.map(String):[],suggested_families:FAMILIES.filter(f=>f.re.test([ai.professional_identity,...capabilities.map(c=>c.name+' '+c.evidence)].join(' '))).map(f=>f.id),confirmed_at:null};
+ const draft={schema_version:PROFILE_VERSION,dictionary_version:CONCEPT_VERSION,status:'draft',identity:String(ai.professional_identity||''),summary:String(ai.summary||''),capabilities,roles,uncertainties:Array.isArray(ai.uncertainties)?ai.uncertainties.map(String):[],suggested_families:FAMILIES.filter(f=>f.re.test([ai.professional_identity,...capabilities.map(c=>c.name+' '+c.evidence)].join(' '))).map(f=>f.id),confirmed_at:null};repairEvidence(draft,cv);return draft;
 }
 export function confirmProfile(draft,cvHash,preferences,now){
  if(draft.cv_sha256!==cvHash)throw Error('CV changed. Analyse or restore the original CV before confirming.');
