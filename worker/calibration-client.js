@@ -99,9 +99,9 @@
     const key=String(job.title)+'\u0000'+String(job.description);if(key!==attestedFor){attestations={};attestedFor=key;}
     if(intelligence&&job.source_url){if(!intelligence.sourceUrl(job.source_url))inputNotes.push('The source URL is not a usable https address (or is a placeholder/reserved domain); it is not shown as the advert source.');else if(intelligence.isDocumentationDomain?.(job.source_url))inputNotes.push('The source URL uses a documentation/test domain (example.com/.org/.net); check it is the real advert address.');}
     if(el('calSector').value)job={...job,sector:el('calSector').value};
-    const preferences={salaryFloor:Number(el('calSalary').value)||0,minContractMonths:Number(el('calMonths').value)||0};
-    const originalOutcome=model.evaluateV53(cv,job,preferences,attestations);
-    const outcome={...originalOutcome,decision:originalOutcome.decision==='Skip'?'Discard-Skip':'Apply',decision_reason:(originalOutcome.decision.startsWith('Apply')||originalOutcome.decision==='Skip'?'':'Provisional: complete the listed checks before applying. ')+originalOutcome.decision_reason};
+    const approved=window.__careerRadarProfessionalProfile;if(window.__careerRadarProfileModel&&!approved){el('calStatus').textContent='Confirm your professional profile before evaluating a vacancy.';go('matching');return;}const preferences={salaryFloor:Number(el('calSalary').value)||0,minContractMonths:Number(el('calMonths').value)||0,...(approved?{professionalProfileVersion:approved.schema_version,profileCvSha256:approved.cv_sha256,profileConfirmedAt:approved.confirmed_at}:{})};
+    const originalOutcome=model.evaluateV53(window.__careerRadarProfessionalProfile&&window.__careerRadarProfileModel?window.__careerRadarProfileModel.confirmedEvidence(window.__careerRadarProfessionalProfile):cv,job,preferences,attestations);
+    const outcome={...originalOutcome,decision:originalOutcome.decision==='Skip'?'Discard-Skip':originalOutcome.decision.startsWith('Apply')?'Apply':'Your decision: Apply / Discard-Skip',decision_reason:(originalOutcome.decision.startsWith('Apply')||originalOutcome.decision==='Skip'?'':'Provisional: complete the listed checks before applying. ')+originalOutcome.decision_reason};
     const run=++evaluationRun;el('calStatus').textContent='Preparing local context…';
     await intelReady;
     let intel=null;
