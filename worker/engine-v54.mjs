@@ -6,7 +6,7 @@
 //   4. candidate evidence         (CV quote / partial / self-attested / not found / explicit absence)
 //   5. eligibility                (hard constraints and pre-employment conditions)
 // Engine limitations are never reported as candidate shortcomings.
-export const MODEL_VERSION='5.5.1-r4';
+export const MODEL_VERSION='5.5.1-r5';
 const MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
 const day=(y,m,d)=>{const dt=new Date(Date.UTC(y,m-1,d));return dt.getUTCFullYear()===y&&dt.getUTCMonth()===m-1&&dt.getUTCDate()===d?`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`:null;};
 export function parseDate(value){

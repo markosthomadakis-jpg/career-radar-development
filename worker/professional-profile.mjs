@@ -36,8 +36,28 @@ export function resolveQuotation(cv,quote){
  const source=normalise(cv),needle=normalise(q).text.trim();const index=source.text.indexOf(needle);if(index<0)return null;
  const start=source.starts[index],end=source.ends[index+needle.length-1];return {text:cv.slice(start,end),start,end,method:'typography_normalised'};
 }
+export function evidenceParts(value){
+ const raw=String(value||'').trim();const quoted=[...raw.matchAll(/["“]([^"“”]+)["”]/g)];
+ if(quoted.length){let cursor=0,valid=true;for(const q of quoted){if(!/^[\s;,]*$/.test(raw.slice(cursor,q.index)))valid=false;cursor=q.index+q[0].length;}if(!/^[\s;,]*$/.test(raw.slice(cursor)))valid=false;if(valid)return quoted.map(q=>q[1].trim());}
+ return [raw];
+}
 export function repairEvidence(profile,cv){
- let changed=false;for(const row of [...profile.capabilities,...profile.roles]){const match=resolveQuotation(cv,row.evidence);if(match){if(row.evidence!==match.text||!row.verified_quote){row.original_ai_evidence??=row.evidence;row.evidence=match.text;changed=true;}row.verified_quote=true;row.quote_match=match.method;row.source_span={start:match.start,end:match.end};if(row.concepts)row.concepts=concepts(row.evidence);}else{if(row.verified_quote)changed=true;row.verified_quote=false;row.quote_match='unverified';delete row.source_span;}}if(changed){profile.status='draft';profile.confirmed_at=null;delete profile.profile_sha256;}return changed;
+ let changed=false;for(const row of [...profile.capabilities,...profile.roles]){
+ const prior=JSON.stringify({evidence:row.evidence,verified:row.verified_quote,passages:row.source_passages,unresolved:row.unresolved_evidence});
+ const parts=row.source_passages?.length&&row.verified_quote?row.source_passages.map(p=>p.text):evidenceParts(row.evidence);
+ const matches=parts.map(q=>({requested:q,match:resolveQuotation(cv,q)}));
+ row.source_passages=matches.filter(x=>x.match).map(x=>({...x.match,method:row.source_passages?.find(p=>p.start===x.match.start&&p.end===x.match.end)?.method||x.match.method}));
+ row.unresolved_evidence=matches.filter(x=>!x.match).map(x=>x.requested);
+ row.verified_quote=parts.length>0&&row.unresolved_evidence.length===0;
+ row.quote_match=row.verified_quote?(parts.length>1?'multiple_source_passages':row.source_passages[0].method):row.source_passages.length?'partial_source_passages':'unverified';
+ if(row.verified_quote){const text=row.source_passages.map(p=>p.text).join('\n');if(row.evidence!==text)row.original_ai_evidence??=row.evidence;row.evidence=text;if(row.concepts)row.concepts=concepts(text);}
+ if(row.source_passages.length===1)row.source_span={start:row.source_passages[0].start,end:row.source_passages[0].end};else delete row.source_span;
+ if(prior!==JSON.stringify({evidence:row.evidence,verified:row.verified_quote,passages:row.source_passages,unresolved:row.unresolved_evidence}))changed=true;
+ }if(changed){profile.status='draft';profile.confirmed_at=null;delete profile.profile_sha256;}return changed;
+}
+export function useVerifiedPassages(row){
+ if(!row.source_passages?.length)throw Error('No verified passages available');
+ row.original_ai_evidence??=row.evidence;row.omitted_ai_evidence=[...(row.unresolved_evidence||[])];row.evidence=row.source_passages.map(p=>p.text).join('\n');row.unresolved_evidence=[];row.verified_quote=true;row.evidence_origin='user_selected_verified_passages';row.review='pending';if(row.concepts)row.concepts=concepts(row.evidence);
 }
 export function validateDraft(ai,cv){
  if(!ai||!Array.isArray(ai.capabilities)||!Array.isArray(ai.roles))throw Error('Invalid profile response');
@@ -72,4 +92,4 @@ export function assessRelevance(profile,job){
  return {visible:true,signals:matched.map(f=>f.label),overlap:overlap.map(id=>({id,label:CONCEPTS.find(c=>c.id===id).label,evidence:selected.filter(c=>c.concepts.includes(id)).map(c=>c.evidence)})),sector:sector?.label||'Unknown',sector_preferred:!preferred.length?null:sector?preferred.includes(sector.id):null,reason:'Preliminary relevance from supplied text; full requirements still need assessment'};
 }
 export function searchTerms(p){return FAMILIES.filter(f=>p.preferences?.families?.includes(f.id)).flatMap(f=>f.titles);}
-export function confirmedEvidence(profile){return [...new Set([...profile.capabilities,...profile.roles].filter(c=>c.review==='confirmed'&&c.verified_quote).map(c=>c.evidence))].join('\n');}
+export function confirmedEvidence(profile){return [...new Set([...profile.capabilities,...profile.roles].filter(c=>c.review==='confirmed'&&c.verified_quote).flatMap(c=>c.source_passages?.length?c.source_passages.map(p=>p.text):[c.evidence]))].join('\n');}
