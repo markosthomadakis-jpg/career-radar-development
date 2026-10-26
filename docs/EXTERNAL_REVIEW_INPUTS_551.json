@@ -1,0 +1,24 @@
+{
+  "base_commit": "1eddf83704b01de8d5b834af7e5bcf9882e37443",
+  "integration_engine": "5.5.1",
+  "date": "2026-10-22",
+  "sources": [
+    {
+      "file": "CareerRadar_V550.patch",
+      "sha256": "abba776c66e6df51907f481a41a022c30a99fae5349075bb67e6ab08cda67751"
+    },
+    {
+      "file": "CareerRadar_V550_source.zip",
+      "sha256": "bee437ab09f4aeb12d28e50f7f04414944c906db4c64b21f3e0734bca4096905"
+    },
+    {
+      "file": "CareerRadar_V546_Review_GR.md",
+      "sha256": "55f30b49fee4cb1cc0298e15e9a4ee01b449ee3b6b454c321cfd5585f37b6aac"
+    },
+    {
+      "file": "CareerRadar_Sector_Table_v3.md",
+      "sha256": "26b6aa5f87401349253fc9fe5db2ff70743f873e59957c2df92d6b659b8685be"
+    }
+  ],
+  "integration": "Selected source implementations and revised regression cases; external generated reports and compiled output were not copied. Reports rebuilt locally."
+}

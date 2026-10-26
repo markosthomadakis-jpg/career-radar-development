@@ -1,0 +1,9 @@
+# V5.5.1-r5 — evidence lists
+
+Investigation of the supplied profile export and DOCX showed that AI evidence fields contained quoted lists of multiple noncontiguous excerpts. Comparing the entire string literally caused valid passages to fail. The uploaded profile contains 18 findings: against both the DOCX paragraph text and the existing application parser output, the repaired verifier identifies 14 fully sourced, 3 partly sourced, and 1 unsourced finding. No candidate scoring or paid AI request was run. The reconstructed parser text does not share the exported CV hash; exact browser input byte identity is not asserted. Recovery in the browser remains gated on the original source CV hash.
+
+The verifier parses only explicit quoted lists separated by whitespace, semicolons or commas. Each fragment must independently resolve to the source; no fuzzy semantic verification. Each verified source passage retains text, offsets and matching method. Full findings preserve human review and original AI evidence. Partial findings remain unverified unless the user explicitly elects to keep only verified passages, which resets human review to pending and retains omitted wording in provenance. Unmatched findings retain source-link/exclusion controls.
+
+Confirmed matching evidence consists of verified source passages, not composite AI wording. Reverification is idempotent so reloads do not repeatedly invalidate a confirmed profile. Future AI instructions request one continuous plain source excerpt per item. Existing results are repaired locally without API calls.
+
+Validation: 181 offline tests, including grouped excerpts, mixed supported/unsupported lists, idempotent migration and source-only matching text. Real attachments used solely for diagnostic source comparison, not stored in source fixtures.

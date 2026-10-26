@@ -1,0 +1,2561 @@
+{
+  "source_provenance": {
+    "source_url": "https://www.adzuna.co.uk/jobs/details/5917530834",
+    "captured_at": "2026-10-22",
+    "method": "Owner-supplied full advert text extracted from Pasted text(3).txt; not independently refetched",
+    "sha256": "e731af362fe06504d349a057a901ddb5997403695911f63ab31a276c1fe4ef7f",
+    "hash_scope": "Exact retained UTF-8 description, with LF newlines; excludes UI and personal evidence"
+  },
+  "personal_cv_used": false,
+  "human_labels_used": false,
+  "profile": "Synthetic four-sentence generic administrative profile",
+  "extracted": {
+    "requirements": [
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_recruitment",
+        "label": "Recruitment administration",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-3",
+            "text": "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-10",
+            "text": "Supporting Recruitment and Onboarding processes",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "records",
+        "label": "Records / data quality",
+        "specificity": "generic",
+        "sources": [
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-9",
+            "text": "Creating and update HR paper file",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_payroll_support",
+        "label": "Payroll queries / document liaison (scope to verify)",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-7",
+            "text": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_employment_changes",
+        "label": "Employment changes / leavers",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-12",
+            "text": "Processing leavers, changes, maternity and paternity",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_workforce_compliance",
+        "label": "Workforce / operational compliance checks",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-13",
+            "text": "Reviewing ongoing compliance checks",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_general_skills",
+        "label": "Organisation / communication / time management",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-5",
+            "text": "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved.",
+            "section": "context"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+        "importance_basis": "Duty / contextual wording",
+        "id": "documentation",
+        "label": "Documentation",
+        "specificity": "generic",
+        "sources": [
+          {
+            "unit_id": "unit-7",
+            "text": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+        "importance_basis": "Duty / contextual wording",
+        "id": "stakeholders",
+        "label": "Stakeholder / client support",
+        "specificity": "generic",
+        "sources": [
+          {
+            "unit_id": "unit-7",
+            "text": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Supporting with covering Reception area",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_reception",
+        "label": "Reception / front desk",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-8",
+            "text": "Supporting with covering Reception area",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Creating and update HR paper file",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_hr_records",
+        "label": "HR / personnel records",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-9",
+            "text": "Creating and update HR paper file",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Supporting Recruitment and Onboarding processes",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_onboarding",
+        "label": "Employee onboarding / induction",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-10",
+            "text": "Supporting Recruitment and Onboarding processes",
+            "section": "duties"
+          },
+          {
+            "unit_id": "unit-11",
+            "text": "Administration for Induction/New Starters",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Variation to Contract paperwork",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_contract_paperwork",
+        "label": "Employment contract paperwork",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-14",
+            "text": "Variation to Contract paperwork",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Administration of Unit4 employee system and Honeydew absence management system",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_named_systems",
+        "label": "Named systems / platforms",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-15",
+            "text": "Administration of Unit4 employee system and Honeydew absence management system",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Administration of internal ER processes",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_er_processes",
+        "label": "Employee relations processes",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-16",
+            "text": "Administration of internal ER processes",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "id": "ambiguous_reporting",
+        "label": "Ambiguous duty — clarify scope",
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Reporting",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-17",
+            "text": "Reporting",
+            "section": "duties"
+          }
+        ]
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Secretarial and/or Administration experience",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_admin_experience",
+        "label": "Stated administrative / secretarial experience",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-19",
+            "text": "Secretarial and/or Administration experience",
+            "section": "criteria"
+          }
+        ]
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent",
+        "importance_basis": "Candidate criteria heading",
+        "id": "credential_4_gcse_s_at_grade_c_or_above_including_english_and_mathematics_or_equivalent",
+        "label": "Stated qualification / credential — verify full condition",
+        "specificity": "credential",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-20",
+            "text": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent",
+            "section": "criteria"
+          }
+        ]
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "importance_basis": "Candidate criteria heading",
+        "id": "excel",
+        "label": "Excel / spreadsheets",
+        "specificity": "generic",
+        "sources": [
+          {
+            "unit_id": "unit-21",
+            "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+            "section": "criteria"
+          }
+        ]
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_word",
+        "label": "Microsoft Word",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-21",
+            "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+            "section": "criteria"
+          }
+        ]
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_powerpoint",
+        "label": "Microsoft PowerPoint",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-21",
+            "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+            "section": "criteria"
+          }
+        ]
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_outlook",
+        "label": "Microsoft Outlook",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-21",
+            "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+            "section": "criteria"
+          }
+        ]
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Awareness and knowledge in following confidentiality and security",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_confidentiality",
+        "label": "Confidentiality / information security",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-22",
+            "text": "Awareness and knowledge in following confidentiality and security",
+            "section": "criteria"
+          }
+        ]
+      }
+    ],
+    "audit": [
+      {
+        "unit_id": "unit-1",
+        "source": "Become a Workforce Administrator/PA at Emerald Place Clinic.",
+        "section": "context",
+        "disposition": "context_unreviewed",
+        "reason": "Context text; no reliable requirement boundary identified.",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-2",
+        "source": "It’s more than just admin.",
+        "section": "context",
+        "disposition": "context_unreviewed",
+        "reason": "Context text; no reliable requirement boundary identified.",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-3",
+        "source": "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre.",
+        "section": "context",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_recruitment"
+        ]
+      },
+      {
+        "unit_id": "unit-4",
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "section": "context",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "records",
+          "manual_payroll_support",
+          "manual_recruitment",
+          "manual_employment_changes",
+          "manual_workforce_compliance"
+        ]
+      },
+      {
+        "unit_id": "unit-5",
+        "source": "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved.",
+        "section": "context",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_general_skills"
+        ]
+      },
+      {
+        "unit_id": "unit-6",
+        "source": "As a Workforce Administrator you will be:",
+        "section": "duties",
+        "disposition": "heading",
+        "reason": "Published duties heading",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-7",
+        "source": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "documentation",
+          "stakeholders",
+          "manual_payroll_support"
+        ]
+      },
+      {
+        "unit_id": "unit-8",
+        "source": "Supporting with covering Reception area",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_reception"
+        ]
+      },
+      {
+        "unit_id": "unit-9",
+        "source": "Creating and update HR paper file",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "records",
+          "manual_hr_records"
+        ]
+      },
+      {
+        "unit_id": "unit-10",
+        "source": "Supporting Recruitment and Onboarding processes",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_recruitment",
+          "manual_onboarding"
+        ]
+      },
+      {
+        "unit_id": "unit-11",
+        "source": "Administration for Induction/New Starters",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_onboarding"
+        ]
+      },
+      {
+        "unit_id": "unit-12",
+        "source": "Processing leavers, changes, maternity and paternity",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_employment_changes"
+        ]
+      },
+      {
+        "unit_id": "unit-13",
+        "source": "Reviewing ongoing compliance checks",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_workforce_compliance"
+        ]
+      },
+      {
+        "unit_id": "unit-14",
+        "source": "Variation to Contract paperwork",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_contract_paperwork"
+        ]
+      },
+      {
+        "unit_id": "unit-15",
+        "source": "Administration of Unit4 employee system and Honeydew absence management system",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_named_systems"
+        ]
+      },
+      {
+        "unit_id": "unit-16",
+        "source": "Administration of internal ER processes",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_er_processes"
+        ]
+      },
+      {
+        "unit_id": "unit-17",
+        "source": "Reporting",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Short duty/heading retained for clarification; no competence inferred.",
+        "requirement_ids": [
+          "ambiguous_reporting"
+        ]
+      },
+      {
+        "unit_id": "unit-18",
+        "source": "To be successful in this role, you will have:",
+        "section": "criteria",
+        "disposition": "heading",
+        "reason": "Candidate criteria heading",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-19",
+        "source": "Secretarial and/or Administration experience",
+        "section": "criteria",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_admin_experience"
+        ]
+      },
+      {
+        "unit_id": "unit-20",
+        "source": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent",
+        "section": "criteria",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "credential_4_gcse_s_at_grade_c_or_above_including_english_and_mathematics_or_equivalent"
+        ]
+      },
+      {
+        "unit_id": "unit-21",
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "section": "criteria",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "excel",
+          "manual_word",
+          "manual_powerpoint",
+          "manual_outlook"
+        ]
+      },
+      {
+        "unit_id": "unit-22",
+        "source": "Awareness and knowledge in following confidentiality and security",
+        "section": "criteria",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_confidentiality"
+        ]
+      },
+      {
+        "unit_id": "unit-23",
+        "source": "Where you will be working:",
+        "section": "employer_context",
+        "disposition": "heading",
+        "reason": "Employer/location/application context heading",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-24",
+        "source": "Location: Emerald Place Clinic, Farmfield Drive, Charlwood, Horley, RH6 0BN",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-25",
+        "source": "Emerald Place Clinic is a general adolescent inpatient unit for the care and treatment of young people aged 13 up to the age of 18.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-26",
+        "source": "Young people who are admitted to the unit will have a primary diagnosis of mental illness across a wide range of disorders and complex needs.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-27",
+        "source": "These could include mental health conditions such as mood disorders and acute psychosis.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-28",
+        "source": "Additionally young people may have co-existing additional needs such as neurodevelopmental disorders, including mild learning disabilities or autism.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-29",
+        "source": "A young person could also be admitted if they have disordered eating.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-30",
+        "source": "What You’ll Get",
+        "section": "benefits",
+        "disposition": "heading",
+        "reason": "Employer benefits heading",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-31",
+        "source": "At Elysium Healthcare, we believe in taking care of the people who care for others, you’ll enjoy a comprehensive benefits package designed to support your wellbeing, growth, and future:",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-32",
+        "source": "Annual base salary of £28,000",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-33",
+        "source": "The equivalent of 33 days annual leave (including bank holidays) – plus your birthday off and the option to buy additional annual leave, in our annual selection window.",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-34",
+        "source": "Career development and training to help you achieve your professional goals",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-35",
+        "source": "Access to our Rewards & Benefits platform Ely-Vate;",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-36",
+        "source": "Your one-stop destination for everyday savings, exclusive benefits, and wellbeing hub!",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-37",
+        "source": "Wellbeing support and activities to help you maintain a healthy work-life balance",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-38",
+        "source": "Access to Blue Light Card, which provides a range of exclusive offers and discounts",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-39",
+        "source": "Life Assurance, for added peace of mind",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-40",
+        "source": "Stream – instant access to earned wages when you need it, plus access to save, directly from your wages, alongside financial wellbeing support.",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-41",
+        "source": "24/7 GP service and second medical opinion, to ensure you are the best you can be",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-42",
+        "source": "Enhanced Maternity Package, so you can truly enjoy this special time",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-43",
+        "source": "Pension contribution, to help secure your future",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-44",
+        "source": "Free meals and free parking",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      }
+    ],
+    "summary": {
+      "source_units": 44,
+      "classified_units": 0,
+      "manual_review_units": 18,
+      "excluded_units": 20,
+      "context_unreviewed_units": 2,
+      "semantic_completeness": "unverified"
+    }
+  },
+  "result": {
+    "version": "5.4.6",
+    "engine_version": "5.4.6",
+    "evaluation_date": "2026-10-22",
+    "fit_score": null,
+    "band": "Not assessable",
+    "decision": "Not assessable",
+    "eligibility": {
+      "status": "unknown",
+      "reasons": [
+        {
+          "name": "Closing date",
+          "status": "unknown",
+          "source": "Not supplied"
+        }
+      ]
+    },
+    "hard_constraints": [
+      {
+        "name": "Closing date",
+        "status": "unknown",
+        "source": "Not supplied"
+      }
+    ],
+    "advert_completeness": {
+      "score": 1,
+      "missing": []
+    },
+    "confidence": {
+      "label": "Low",
+      "reason": "Too little demonstrated evidence for the detected requirements. Published duties or criteria need manual review; they are not automatically classified as candidate deficits. Eligibility facts remain unknown."
+    },
+    "requirements": [
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_recruitment",
+        "label": "Recruitment administration",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-3",
+            "text": "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-10",
+            "text": "Supporting Recruitment and Onboarding processes",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "records",
+        "label": "Records / data quality",
+        "specificity": "generic",
+        "sources": [
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-9",
+            "text": "Creating and update HR paper file",
+            "section": "duties"
+          }
+        ],
+        "status": "demonstrated",
+        "evidence": "Maintained records at a fictional office.",
+        "cv_evidence": "Maintained records at a fictional office.",
+        "evidence_basis": "performed action"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_payroll_support",
+        "label": "Payroll queries / document liaison (scope to verify)",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-7",
+            "text": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_employment_changes",
+        "label": "Employment changes / leavers",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-12",
+            "text": "Processing leavers, changes, maternity and paternity",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_workforce_compliance",
+        "label": "Workforce / operational compliance checks",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-4",
+            "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+            "section": "context"
+          },
+          {
+            "unit_id": "unit-13",
+            "text": "Reviewing ongoing compliance checks",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved.",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_general_skills",
+        "label": "Organisation / communication / time management",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-5",
+            "text": "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved.",
+            "section": "context"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+        "importance_basis": "Duty / contextual wording",
+        "id": "documentation",
+        "label": "Documentation",
+        "specificity": "generic",
+        "sources": [
+          {
+            "unit_id": "unit-7",
+            "text": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+            "section": "duties"
+          }
+        ],
+        "status": "demonstrated",
+        "evidence": "Prepared documentation.",
+        "cv_evidence": "Prepared documentation.",
+        "evidence_basis": "performed action"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+        "importance_basis": "Duty / contextual wording",
+        "id": "stakeholders",
+        "label": "Stakeholder / client support",
+        "specificity": "generic",
+        "sources": [
+          {
+            "unit_id": "unit-7",
+            "text": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+            "section": "duties"
+          }
+        ],
+        "status": "demonstrated",
+        "evidence": "Liaised with customers.",
+        "cv_evidence": "Liaised with customers.",
+        "evidence_basis": "performed action"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Supporting with covering Reception area",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_reception",
+        "label": "Reception / front desk",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-8",
+            "text": "Supporting with covering Reception area",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Creating and update HR paper file",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_hr_records",
+        "label": "HR / personnel records",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-9",
+            "text": "Creating and update HR paper file",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Supporting Recruitment and Onboarding processes",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_onboarding",
+        "label": "Employee onboarding / induction",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-10",
+            "text": "Supporting Recruitment and Onboarding processes",
+            "section": "duties"
+          },
+          {
+            "unit_id": "unit-11",
+            "text": "Administration for Induction/New Starters",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Variation to Contract paperwork",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_contract_paperwork",
+        "label": "Employment contract paperwork",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-14",
+            "text": "Variation to Contract paperwork",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Administration of Unit4 employee system and Honeydew absence management system",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_named_systems",
+        "label": "Named systems / platforms",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-15",
+            "text": "Administration of Unit4 employee system and Honeydew absence management system",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Administration of internal ER processes",
+        "importance_basis": "Duty / contextual wording",
+        "id": "manual_er_processes",
+        "label": "Employee relations processes",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-16",
+            "text": "Administration of internal ER processes",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "id": "ambiguous_reporting",
+        "label": "Ambiguous duty — clarify scope",
+        "importance": "context",
+        "tier": "context",
+        "weight": 2,
+        "source": "Reporting",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-17",
+            "text": "Reporting",
+            "section": "duties"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Secretarial and/or Administration experience",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_admin_experience",
+        "label": "Stated administrative / secretarial experience",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-19",
+            "text": "Secretarial and/or Administration experience",
+            "section": "criteria"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent",
+        "importance_basis": "Candidate criteria heading",
+        "id": "credential_4_gcse_s_at_grade_c_or_above_including_english_and_mathematics_or_equivalent",
+        "label": "Stated qualification / credential — verify full condition",
+        "specificity": "credential",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-20",
+            "text": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent",
+            "section": "criteria"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "importance_basis": "Candidate criteria heading",
+        "id": "excel",
+        "label": "Excel / spreadsheets",
+        "specificity": "generic",
+        "sources": [
+          {
+            "unit_id": "unit-21",
+            "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+            "section": "criteria"
+          }
+        ],
+        "status": "demonstrated",
+        "evidence": "Prepared reports in Excel.",
+        "cv_evidence": "Prepared reports in Excel.",
+        "evidence_basis": "performed action"
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_word",
+        "label": "Microsoft Word",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-21",
+            "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+            "section": "criteria"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_powerpoint",
+        "label": "Microsoft PowerPoint",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-21",
+            "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+            "section": "criteria"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_outlook",
+        "label": "Microsoft Outlook",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-21",
+            "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+            "section": "criteria"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      },
+      {
+        "importance": "essential",
+        "tier": "essential",
+        "weight": 3,
+        "source": "Awareness and knowledge in following confidentiality and security",
+        "importance_basis": "Candidate criteria heading",
+        "id": "manual_confidentiality",
+        "label": "Confidentiality / information security",
+        "specificity": "unclassified",
+        "uncatalogued": true,
+        "sources": [
+          {
+            "unit_id": "unit-22",
+            "text": "Awareness and knowledge in following confidentiality and security",
+            "section": "criteria"
+          }
+        ],
+        "status": "unknown",
+        "evidence": null,
+        "cv_evidence": null,
+        "evidence_basis": "no demonstrated evidence"
+      }
+    ],
+    "extraction_audit": [
+      {
+        "unit_id": "unit-1",
+        "source": "Become a Workforce Administrator/PA at Emerald Place Clinic.",
+        "section": "context",
+        "disposition": "context_unreviewed",
+        "reason": "Context text; no reliable requirement boundary identified.",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-2",
+        "source": "It’s more than just admin.",
+        "section": "context",
+        "disposition": "context_unreviewed",
+        "reason": "Context text; no reliable requirement boundary identified.",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-3",
+        "source": "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre.",
+        "section": "context",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_recruitment"
+        ]
+      },
+      {
+        "unit_id": "unit-4",
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "section": "context",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "records",
+          "manual_payroll_support",
+          "manual_recruitment",
+          "manual_employment_changes",
+          "manual_workforce_compliance"
+        ]
+      },
+      {
+        "unit_id": "unit-5",
+        "source": "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved.",
+        "section": "context",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_general_skills"
+        ]
+      },
+      {
+        "unit_id": "unit-6",
+        "source": "As a Workforce Administrator you will be:",
+        "section": "duties",
+        "disposition": "heading",
+        "reason": "Published duties heading",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-7",
+        "source": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "documentation",
+          "stakeholders",
+          "manual_payroll_support"
+        ]
+      },
+      {
+        "unit_id": "unit-8",
+        "source": "Supporting with covering Reception area",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_reception"
+        ]
+      },
+      {
+        "unit_id": "unit-9",
+        "source": "Creating and update HR paper file",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "records",
+          "manual_hr_records"
+        ]
+      },
+      {
+        "unit_id": "unit-10",
+        "source": "Supporting Recruitment and Onboarding processes",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_recruitment",
+          "manual_onboarding"
+        ]
+      },
+      {
+        "unit_id": "unit-11",
+        "source": "Administration for Induction/New Starters",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_onboarding"
+        ]
+      },
+      {
+        "unit_id": "unit-12",
+        "source": "Processing leavers, changes, maternity and paternity",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_employment_changes"
+        ]
+      },
+      {
+        "unit_id": "unit-13",
+        "source": "Reviewing ongoing compliance checks",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_workforce_compliance"
+        ]
+      },
+      {
+        "unit_id": "unit-14",
+        "source": "Variation to Contract paperwork",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_contract_paperwork"
+        ]
+      },
+      {
+        "unit_id": "unit-15",
+        "source": "Administration of Unit4 employee system and Honeydew absence management system",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_named_systems"
+        ]
+      },
+      {
+        "unit_id": "unit-16",
+        "source": "Administration of internal ER processes",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_er_processes"
+        ]
+      },
+      {
+        "unit_id": "unit-17",
+        "source": "Reporting",
+        "section": "duties",
+        "disposition": "manual_review",
+        "reason": "Short duty/heading retained for clarification; no competence inferred.",
+        "requirement_ids": [
+          "ambiguous_reporting"
+        ]
+      },
+      {
+        "unit_id": "unit-18",
+        "source": "To be successful in this role, you will have:",
+        "section": "criteria",
+        "disposition": "heading",
+        "reason": "Candidate criteria heading",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-19",
+        "source": "Secretarial and/or Administration experience",
+        "section": "criteria",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_admin_experience"
+        ]
+      },
+      {
+        "unit_id": "unit-20",
+        "source": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent",
+        "section": "criteria",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "credential_4_gcse_s_at_grade_c_or_above_including_english_and_mathematics_or_equivalent"
+        ]
+      },
+      {
+        "unit_id": "unit-21",
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "section": "criteria",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "excel",
+          "manual_word",
+          "manual_powerpoint",
+          "manual_outlook"
+        ]
+      },
+      {
+        "unit_id": "unit-22",
+        "source": "Awareness and knowledge in following confidentiality and security",
+        "section": "criteria",
+        "disposition": "manual_review",
+        "reason": "Source retained. Category matches do not certify complete interpretation of every clause.",
+        "requirement_ids": [
+          "manual_confidentiality"
+        ]
+      },
+      {
+        "unit_id": "unit-23",
+        "source": "Where you will be working:",
+        "section": "employer_context",
+        "disposition": "heading",
+        "reason": "Employer/location/application context heading",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-24",
+        "source": "Location: Emerald Place Clinic, Farmfield Drive, Charlwood, Horley, RH6 0BN",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-25",
+        "source": "Emerald Place Clinic is a general adolescent inpatient unit for the care and treatment of young people aged 13 up to the age of 18.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-26",
+        "source": "Young people who are admitted to the unit will have a primary diagnosis of mental illness across a wide range of disorders and complex needs.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-27",
+        "source": "These could include mental health conditions such as mood disorders and acute psychosis.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-28",
+        "source": "Additionally young people may have co-existing additional needs such as neurodevelopmental disorders, including mild learning disabilities or autism.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-29",
+        "source": "A young person could also be admitted if they have disordered eating.",
+        "section": "employer_context",
+        "disposition": "excluded",
+        "reason": "Employer/location/application context",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-30",
+        "source": "What You’ll Get",
+        "section": "benefits",
+        "disposition": "heading",
+        "reason": "Employer benefits heading",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-31",
+        "source": "At Elysium Healthcare, we believe in taking care of the people who care for others, you’ll enjoy a comprehensive benefits package designed to support your wellbeing, growth, and future:",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-32",
+        "source": "Annual base salary of £28,000",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-33",
+        "source": "The equivalent of 33 days annual leave (including bank holidays) – plus your birthday off and the option to buy additional annual leave, in our annual selection window.",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-34",
+        "source": "Career development and training to help you achieve your professional goals",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-35",
+        "source": "Access to our Rewards & Benefits platform Ely-Vate;",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-36",
+        "source": "Your one-stop destination for everyday savings, exclusive benefits, and wellbeing hub!",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-37",
+        "source": "Wellbeing support and activities to help you maintain a healthy work-life balance",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-38",
+        "source": "Access to Blue Light Card, which provides a range of exclusive offers and discounts",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-39",
+        "source": "Life Assurance, for added peace of mind",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-40",
+        "source": "Stream – instant access to earned wages when you need it, plus access to save, directly from your wages, alongside financial wellbeing support.",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-41",
+        "source": "24/7 GP service and second medical opinion, to ensure you are the best you can be",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-42",
+        "source": "Enhanced Maternity Package, so you can truly enjoy this special time",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-43",
+        "source": "Pension contribution, to help secure your future",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      },
+      {
+        "unit_id": "unit-44",
+        "source": "Free meals and free parking",
+        "section": "benefits",
+        "disposition": "excluded",
+        "reason": "Employer benefit; not a candidate requirement",
+        "requirement_ids": []
+      }
+    ],
+    "extraction_summary": {
+      "source_units": 44,
+      "classified_units": 0,
+      "manual_review_units": 18,
+      "excluded_units": 20,
+      "context_unreviewed_units": 2,
+      "semantic_completeness": "unverified"
+    },
+    "screening_evidence": {
+      "criteria": [
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre.",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_recruitment",
+          "label": "Recruitment administration",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-3",
+              "text": "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre.",
+              "section": "context"
+            },
+            {
+              "unit_id": "unit-4",
+              "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+              "section": "context"
+            },
+            {
+              "unit_id": "unit-10",
+              "text": "Supporting Recruitment and Onboarding processes",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+          "importance_basis": "Duty / contextual wording",
+          "id": "records",
+          "label": "Records / data quality",
+          "specificity": "generic",
+          "sources": [
+            {
+              "unit_id": "unit-4",
+              "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+              "section": "context"
+            },
+            {
+              "unit_id": "unit-9",
+              "text": "Creating and update HR paper file",
+              "section": "duties"
+            }
+          ],
+          "status": "demonstrated",
+          "evidence": "Maintained records at a fictional office.",
+          "cv_evidence": "Maintained records at a fictional office.",
+          "evidence_basis": "performed action"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_payroll_support",
+          "label": "Payroll queries / document liaison (scope to verify)",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-4",
+              "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+              "section": "context"
+            },
+            {
+              "unit_id": "unit-7",
+              "text": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_employment_changes",
+          "label": "Employment changes / leavers",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-4",
+              "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+              "section": "context"
+            },
+            {
+              "unit_id": "unit-12",
+              "text": "Processing leavers, changes, maternity and paternity",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_workforce_compliance",
+          "label": "Workforce / operational compliance checks",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-4",
+              "text": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+              "section": "context"
+            },
+            {
+              "unit_id": "unit-13",
+              "text": "Reviewing ongoing compliance checks",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved.",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_general_skills",
+          "label": "Organisation / communication / time management",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-5",
+              "text": "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved.",
+              "section": "context"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+          "importance_basis": "Duty / contextual wording",
+          "id": "documentation",
+          "label": "Documentation",
+          "specificity": "generic",
+          "sources": [
+            {
+              "unit_id": "unit-7",
+              "text": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+              "section": "duties"
+            }
+          ],
+          "status": "demonstrated",
+          "evidence": "Prepared documentation.",
+          "cv_evidence": "Prepared documentation.",
+          "evidence_basis": "performed action"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+          "importance_basis": "Duty / contextual wording",
+          "id": "stakeholders",
+          "label": "Stakeholder / client support",
+          "specificity": "generic",
+          "sources": [
+            {
+              "unit_id": "unit-7",
+              "text": "Liaising with head office/payroll, ensuring any relevant documents are sent",
+              "section": "duties"
+            }
+          ],
+          "status": "demonstrated",
+          "evidence": "Liaised with customers.",
+          "cv_evidence": "Liaised with customers.",
+          "evidence_basis": "performed action"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "Supporting with covering Reception area",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_reception",
+          "label": "Reception / front desk",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-8",
+              "text": "Supporting with covering Reception area",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "Creating and update HR paper file",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_hr_records",
+          "label": "HR / personnel records",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-9",
+              "text": "Creating and update HR paper file",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "Supporting Recruitment and Onboarding processes",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_onboarding",
+          "label": "Employee onboarding / induction",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-10",
+              "text": "Supporting Recruitment and Onboarding processes",
+              "section": "duties"
+            },
+            {
+              "unit_id": "unit-11",
+              "text": "Administration for Induction/New Starters",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "Variation to Contract paperwork",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_contract_paperwork",
+          "label": "Employment contract paperwork",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-14",
+              "text": "Variation to Contract paperwork",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "Administration of Unit4 employee system and Honeydew absence management system",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_named_systems",
+          "label": "Named systems / platforms",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-15",
+              "text": "Administration of Unit4 employee system and Honeydew absence management system",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "Administration of internal ER processes",
+          "importance_basis": "Duty / contextual wording",
+          "id": "manual_er_processes",
+          "label": "Employee relations processes",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-16",
+              "text": "Administration of internal ER processes",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "id": "ambiguous_reporting",
+          "label": "Ambiguous duty — clarify scope",
+          "importance": "context",
+          "tier": "context",
+          "weight": 2,
+          "source": "Reporting",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-17",
+              "text": "Reporting",
+              "section": "duties"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "essential",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Secretarial and/or Administration experience",
+          "importance_basis": "Candidate criteria heading",
+          "id": "manual_admin_experience",
+          "label": "Stated administrative / secretarial experience",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-19",
+              "text": "Secretarial and/or Administration experience",
+              "section": "criteria"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "essential",
+          "tier": "essential",
+          "weight": 3,
+          "source": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent",
+          "importance_basis": "Candidate criteria heading",
+          "id": "credential_4_gcse_s_at_grade_c_or_above_including_english_and_mathematics_or_equivalent",
+          "label": "Stated qualification / credential — verify full condition",
+          "specificity": "credential",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-20",
+              "text": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent",
+              "section": "criteria"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "essential",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+          "importance_basis": "Candidate criteria heading",
+          "id": "excel",
+          "label": "Excel / spreadsheets",
+          "specificity": "generic",
+          "sources": [
+            {
+              "unit_id": "unit-21",
+              "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+              "section": "criteria"
+            }
+          ],
+          "status": "demonstrated",
+          "evidence": "Prepared reports in Excel.",
+          "cv_evidence": "Prepared reports in Excel.",
+          "evidence_basis": "performed action"
+        },
+        {
+          "importance": "essential",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+          "importance_basis": "Candidate criteria heading",
+          "id": "manual_word",
+          "label": "Microsoft Word",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-21",
+              "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+              "section": "criteria"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "essential",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+          "importance_basis": "Candidate criteria heading",
+          "id": "manual_powerpoint",
+          "label": "Microsoft PowerPoint",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-21",
+              "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+              "section": "criteria"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "essential",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+          "importance_basis": "Candidate criteria heading",
+          "id": "manual_outlook",
+          "label": "Microsoft Outlook",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-21",
+              "text": "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+              "section": "criteria"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        },
+        {
+          "importance": "essential",
+          "tier": "essential",
+          "weight": 3,
+          "source": "Awareness and knowledge in following confidentiality and security",
+          "importance_basis": "Candidate criteria heading",
+          "id": "manual_confidentiality",
+          "label": "Confidentiality / information security",
+          "specificity": "unclassified",
+          "uncatalogued": true,
+          "sources": [
+            {
+              "unit_id": "unit-22",
+              "text": "Awareness and knowledge in following confidentiality and security",
+              "section": "criteria"
+            }
+          ],
+          "status": "unknown",
+          "evidence": null,
+          "cv_evidence": null,
+          "evidence_basis": "no demonstrated evidence"
+        }
+      ]
+    },
+    "critical_evidence_gaps": [
+      {
+        "id": "manual_admin_experience",
+        "label": "Stated administrative / secretarial experience",
+        "status": "unknown",
+        "severity": "manual review",
+        "source": "Secretarial and/or Administration experience"
+      },
+      {
+        "id": "credential_4_gcse_s_at_grade_c_or_above_including_english_and_mathematics_or_equivalent",
+        "label": "Stated qualification / credential — verify full condition",
+        "status": "unknown",
+        "severity": "critical",
+        "source": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent"
+      },
+      {
+        "id": "manual_word",
+        "label": "Microsoft Word",
+        "status": "unknown",
+        "severity": "manual review",
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook"
+      },
+      {
+        "id": "manual_powerpoint",
+        "label": "Microsoft PowerPoint",
+        "status": "unknown",
+        "severity": "manual review",
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook"
+      },
+      {
+        "id": "manual_outlook",
+        "label": "Microsoft Outlook",
+        "status": "unknown",
+        "severity": "manual review",
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook"
+      },
+      {
+        "id": "manual_confidentiality",
+        "label": "Confidentiality / information security",
+        "status": "unknown",
+        "severity": "manual review",
+        "source": "Awareness and knowledge in following confidentiality and security"
+      }
+    ],
+    "evidence_coverage": {
+      "evidenced": 4,
+      "total": 22,
+      "ratio": 0.18181818181818182
+    },
+    "expected_capability_gaps": [],
+    "expected_capability_details": [],
+    "verification_actions": [
+      {
+        "criterion": "Closing date",
+        "action": "Check the original vacancy is still accepting applications and confirm any deadline."
+      },
+      {
+        "criterion": "Recruitment administration",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre."
+      },
+      {
+        "criterion": "Payroll queries / document liaison (scope to verify)",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order."
+      },
+      {
+        "criterion": "Employment changes / leavers",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order."
+      },
+      {
+        "criterion": "Workforce / operational compliance checks",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order."
+      },
+      {
+        "criterion": "Organisation / communication / time management",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved."
+      },
+      {
+        "criterion": "Reception / front desk",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Supporting with covering Reception area"
+      },
+      {
+        "criterion": "HR / personnel records",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Creating and update HR paper file"
+      },
+      {
+        "criterion": "Employee onboarding / induction",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Supporting Recruitment and Onboarding processes"
+      },
+      {
+        "criterion": "Employment contract paperwork",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Variation to Contract paperwork"
+      },
+      {
+        "criterion": "Named systems / platforms",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Administration of Unit4 employee system and Honeydew absence management system"
+      },
+      {
+        "criterion": "Employee relations processes",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Administration of internal ER processes"
+      },
+      {
+        "criterion": "Ambiguous duty — clarify scope",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Reporting"
+      },
+      {
+        "criterion": "Stated administrative / secretarial experience",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Secretarial and/or Administration experience"
+      },
+      {
+        "criterion": "Stated qualification / credential — verify full condition",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent"
+      },
+      {
+        "criterion": "Microsoft Word",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook"
+      },
+      {
+        "criterion": "Microsoft PowerPoint",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook"
+      },
+      {
+        "criterion": "Microsoft Outlook",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook"
+      },
+      {
+        "criterion": "Confidentiality / information security",
+        "action": "Review the full published condition and your actual evidence; this item was retained but not automatically matched.",
+        "source": "Awareness and knowledge in following confidentiality and security"
+      }
+    ],
+    "decision_reason": "Too little demonstrated evidence for the detected requirements. Published duties or criteria need manual review; they are not automatically classified as candidate deficits. Eligibility facts remain unknown.",
+    "tailoring_examples": [
+      {
+        "criterion": "Records / data quality",
+        "what_to_evidence": "Use this existing example to address the quoted duty; do not claim broader expertise.",
+        "evidence": "Maintained records at a fictional office.",
+        "source": "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order."
+      },
+      {
+        "criterion": "Documentation",
+        "what_to_evidence": "Use this existing example to address the quoted duty; do not claim broader expertise.",
+        "evidence": "Prepared documentation.",
+        "source": "Liaising with head office/payroll, ensuring any relevant documents are sent"
+      },
+      {
+        "criterion": "Stakeholder / client support",
+        "what_to_evidence": "Use this existing example to address the quoted duty; do not claim broader expertise.",
+        "evidence": "Liaised with customers.",
+        "source": "Liaising with head office/payroll, ensuring any relevant documents are sent"
+      },
+      {
+        "criterion": "Excel / spreadsheets",
+        "what_to_evidence": "Use this existing example to address the quoted duty; do not claim broader expertise.",
+        "evidence": "Prepared reports in Excel.",
+        "source": "Strong skills in MS Word, Excel, PowerPoint, and Outlook"
+      }
+    ],
+    "tailoring_prompts": [
+      {
+        "criterion": "Stated administrative / secretarial experience",
+        "what_to_evidence": "Provide an accurate example if you have one; do not invent experience."
+      },
+      {
+        "criterion": "Microsoft Word",
+        "what_to_evidence": "Provide an accurate example if you have one; do not invent experience."
+      },
+      {
+        "criterion": "Microsoft PowerPoint",
+        "what_to_evidence": "Provide an accurate example if you have one; do not invent experience."
+      },
+      {
+        "criterion": "Microsoft Outlook",
+        "what_to_evidence": "Provide an accurate example if you have one; do not invent experience."
+      },
+      {
+        "criterion": "Confidentiality / information security",
+        "what_to_evidence": "Provide an accurate example if you have one; do not invent experience."
+      }
+    ],
+    "contextual_fit": {
+      "status": "disabled",
+      "signals": [],
+      "reason": "Context does not change candidate fit or eligibility."
+    },
+    "assessment_scope": {
+      "classified": 4,
+      "manual_review": [
+        "It’s working across the service for all aspects of workforce management, to keep recruitment and the service moving forward, having a real impact on the smooth running of the centre.",
+        "You will be an integral part of the friendly and supportive administrative function as you aid the corporate recruitment team, monitor workforce compliance, process employment changes and payroll queries as well as keeping files in order.",
+        "Supporting Recruitment and Onboarding processes",
+        "Liaising with head office/payroll, ensuring any relevant documents are sent",
+        "Processing leavers, changes, maternity and paternity",
+        "Reviewing ongoing compliance checks",
+        "With previous experience in a similar role, and good organisational, communication and time management skills, you can enjoy a long and rewarding career, where a range of training opportunities are available that can see your career grow and career aspirations achieved.",
+        "Supporting with covering Reception area",
+        "Creating and update HR paper file",
+        "Administration for Induction/New Starters",
+        "Variation to Contract paperwork",
+        "Administration of Unit4 employee system and Honeydew absence management system",
+        "Administration of internal ER processes",
+        "Reporting",
+        "Secretarial and/or Administration experience",
+        "4 GCSE’s at grade C or above (including English and Mathematics) or equivalent",
+        "Strong skills in MS Word, Excel, PowerPoint, and Outlook",
+        "Awareness and knowledge in following confidentiality and security"
+      ],
+      "demonstrated": 4,
+      "unknown": 18,
+      "partial": 0,
+      "complete_job_coverage": false
+    },
+    "score_meaning": "Evidence coverage within detected capability categories only; not overall job suitability or hiring probability. Full requirement extraction is not guaranteed.",
+    "limitations": [
+      "Limited rule catalogue; uncatalogued requirements need human review.",
+      "Scores are provisional and uncalibrated.",
+      "Structured salary/location/contract facts require verified input; absent facts are not inferred."
+    ]
+  }
+}

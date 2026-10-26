@@ -1,0 +1,67 @@
+{
+  "base_site_version": 13,
+  "base_commit": "4f64039d4c2d2973c5548096760a6191664cc9f4",
+  "local_branch": "local/reliability-v541-final",
+  "engine_version": "5.4.1-local",
+  "engine_sha256": "3026db322980007790607871e9ce0d92111f64fd5cf7ea97ffe6d0d38af9b541",
+  "built_worker_sha256": "e46a21eb23bd03c5dc99f17d9cbcdd6234cc178bc9a4a50766a3912b7031e657",
+  "fixture_sha256": "af5017e0cfb819107c40d488be1d15ca75088f416e3d6f11962878e2246f0fbb",
+  "browser_qa": {
+    "checked_at": "2026-10-21T21:43:19.147Z",
+    "browser": "Cloud Chromium via supervised local preview",
+    "base_version": 13,
+    "base_commit": "4f64039d4c2d2973c5548096760a6191664cc9f4",
+    "tabs": [
+      {
+        "name": "\u25a6 Daily dashboard",
+        "hasVisibleView": true
+      },
+      {
+        "name": "\u25c9 Career profile",
+        "hasVisibleView": true
+      },
+      {
+        "name": "\u25a4 Application tracker",
+        "hasVisibleView": true
+      },
+      {
+        "name": "\u2699 Search preferences",
+        "hasVisibleView": true
+      },
+      {
+        "name": "\u25c8 Evidence matching",
+        "hasVisibleView": true
+      },
+      {
+        "name": "\u2727 Semantic AI (V5)",
+        "hasVisibleView": true
+      },
+      {
+        "name": "\u2696 Fit Calibration (V5.4)",
+        "hasVisibleView": true
+      },
+      {
+        "name": "\u2315 Live vacancies",
+        "hasVisibleView": true
+      }
+    ],
+    "synthetic_profile_only": true,
+    "mocked_jobs_only": true,
+    "calibration_rendered": true,
+    "review_choices_persisted": [
+      "apply",
+      "skip",
+      "investigate"
+    ],
+    "expired_unrated": true,
+    "specialist_investigate_59": true,
+    "application_console_errors": [],
+    "scope": "Local preview only. No publication or real job/API request."
+  },
+  "tests_passed": 45,
+  "remote_pushed": false,
+  "github_modified": false,
+  "published": false,
+  "personal_cv_used": false,
+  "human_labels_used": false
+}

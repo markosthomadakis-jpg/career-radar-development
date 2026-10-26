@@ -1,0 +1,11 @@
+{
+  "name": "career-radar-development",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node qa-preview/server.mjs",
+    "build": "node scripts/build-v3.mjs",
+    "test": "node --test tests/reliability/*.test.mjs",
+    "simulate": "node simulate.mjs"
+  }
+}
