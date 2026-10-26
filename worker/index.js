@@ -1,9 +1,14 @@
 import {normalizeAdzunaJob} from './vacancy-input.mjs';
+import {createRegistry} from './sources/registry.mjs';
+const remoteRegistry=createRegistry();
+const remoteCache=new Map();
+
 const originalHtml = __HTML_LITERAL__;
 const matchingScript = __MATCHING_LITERAL__;
 const semanticScript = __SEMANTIC_LITERAL__;
 const professionalProfileModule=__PROFESSIONAL_PROFILE_LITERAL__;
 const calibrationScript = __CALIBRATION_LITERAL__;
+const remoteClient = __REMOTE_CLIENT_LITERAL__;
 const calibrationModel = __CALIBRATION_MODEL_LITERAL__;
 const calibrationV53 = __CALIBRATION_V53_LITERAL__;
 const engineV54 = __ENGINE_V54_LITERAL__;
@@ -13,7 +18,8 @@ const intelligenceV1 = __INTELLIGENCE_V1_LITERAL__;
 const employerContextData = __EMPLOYER_CONTEXT_LITERAL__;
 const liveHtml = `<section class="view hide" id="live"><div class="eyebrow">Adzuna / UK vacancies</div><h1>Search live vacancies.</h1><p class="sub">Live source listings. Always verify the position is still open before applying.</p><div class="panel"><form class="fields" id="liveForm"><div class="field"><label>Keywords</label><input name="what" value="learning coordinator" maxlength="100" required></div><div class="field"><label>Location</label><input name="where" value="Crawley" maxlength="80" required></div><div class="field"><label>Radius (miles)</label><input name="distance" value="10" type="number" min="1" max="100"></div><div class="field"><label>Minimum salary (£)</label><input name="salary_min" type="number" min="0" max="250000" value="30000"></div><div class="row wide"><button class="btn" type="submit">Search Adzuna</button><small id="liveMessage">Confirm your profile, then search live vacancies.</small></div></form><div class="callout">Your API credentials never appear in the browser. Listings are not exclusive or verified open. No application is submitted automatically.</div></div><div class="sectionhead"><h2>Results</h2></div><div class="cards" id="liveResults"></div></section>`;
 const addon = `<script>(()=>{const btn='<button data-view="live"><span>⌕</span> Live vacancies</button>';document.querySelector('.sidebar .nav').insertAdjacentHTML('beforeend',btn);document.querySelector('.mobile').insertAdjacentHTML('beforeend',btn);document.querySelectorAll('[data-view="live"]').forEach(b=>b.onclick=()=>go('live'));const form=document.querySelector('#liveForm'),msg=document.querySelector('#liveMessage'),results=document.querySelector('#liveResults');const safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));form.onsubmit=async e=>{e.preventDefault();msg.textContent='Searching…';results.innerHTML='';const p=new URLSearchParams(new FormData(form));try{const r=await fetch('/api/jobs?'+p);const data=await r.json();if(!r.ok)throw Error(data.error||'Search failed');msg.textContent=data.results.length+' results · powered by Adzuna';results.innerHTML=data.results.map(j=>'<article class="job"><h3>'+safe(j.title)+'</h3><div class="company">'+safe(j.company)+' · '+safe(j.location)+'</div><div class="tags"><span>'+safe(j.salary_min?'£'+Math.round(j.salary_min).toLocaleString('en-GB'):'Salary not disclosed')+'</span><span>Adzuna</span></div><p class="risk">Check the original listing for availability and conditions.</p><a target="_blank" rel="noopener noreferrer" href="'+(String(j.url).startsWith('https://')?safe(j.url):'#')+'">View listing ↗</a></article>').join('')||'<div class="empty">No results for these filters.</div>';}catch(err){msg.textContent=err.message}}})();</script>`;
-const html=originalHtml.replace('evidence analysis stays in your browser.','CV analysis uses OpenAI only with consent; confirmed profiles remain in this browser.').replace('Your data stays in this browser.','Your confirmed profile stays in this browser; AI analysis requires consent.').replace('<section class="view hide" id="profile">',liveHtml+'<section class="view hide" id="profile">').replace('</body>',addon+'<script src="/matching-client.js?v=5.5.1-r5" defer></script><script src="/semantic-client.js?v=5.5.1-r5" defer></script><script src="/calibration-client.js?v=5.5.1-r5" defer></script></body>');
+const remoteHtml = `<section class="view hide" id="remote"><div class="eyebrow">UK-eligible remote opportunities · Source: Jobicy</div><h1>Find remote work.</h1><p class="sub">Remote-provider vacancies published in the past seven days. UK eligibility shown as known or uncertain. No CV data is transmitted.</p><div class="panel"><form class="fields" id="remoteForm"><div class="field"><label>Keywords (optional)</label><input name="tag" placeholder="learning coordinator, business support, reporting…" maxlength="50"></div><div class="row wide"><button class="btn" type="submit">Search remote jobs</button><small id="remoteMessage">Jobicy public API · Results may be incomplete</small></div></form></div><div class="sectionhead"><h2>Remote opportunities</h2></div><div class="cards" id="remoteResults"></div><div class="row"><button class="btn secondary" id="remoteMore" type="button" hidden>Load more</button></div><p class="sub">Credit: Jobicy. These third-party listings are not employer-verified full adverts. Add a vacancy to Fit Calibration, then confirm its original requirements before numeric scoring or applying.</p></section>`;
+const html=originalHtml.replace('evidence analysis stays in your browser.','CV analysis uses OpenAI only with consent; confirmed profiles remain in this browser.').replace('Your data stays in this browser.','Your confirmed profile stays in this browser; AI analysis requires consent.').replace('<section class="view hide" id="profile">',liveHtml+remoteHtml+'<section class="view hide" id="profile">').replace('</body>',addon+'<script src="/matching-client.js?v=5.5.1-r5" defer></script><script src="/semantic-client.js?v=5.5.1-r5" defer></script><script src="/calibration-client.js?v=5.5.1-r5" defer></script><script src="/remote-client.js?v=1" defer></script></body>');
 
 const profileSchema={type:'object',additionalProperties:false,required:['professional_identity','summary','roles','capabilities','career_paths','uncertainties'],properties:{
   professional_identity:{type:'string'},summary:{type:'string'},
@@ -140,6 +146,39 @@ async function semantic(request,env,kind){
 export default {async fetch(request,env){const url=new URL(request.url);
   if(url.pathname==='/api/ai/profile-once')return cvProfileOnce(request,env);
   if(url.pathname==='/api/ai/test-once')return syntheticTrial(request,env);
+  if(url.pathname==='/remote-client.js')return new Response(remoteClient,{headers:{'content-type':'application/javascript; charset=utf-8','cache-control':'no-store'}});
+  if(url.pathname==='/api/sources/remote'){
+    if(request.method!=='GET')return fail('GET required',405);
+    const provider=url.searchParams.get('provider')||'all';
+    const available=remoteRegistry.list().map(x=>x.id);
+    const providers=provider==='all'?available:provider.split(',').filter(x=>available.includes(x));
+    if(!providers.length||provider!=='all'&&provider.split(',').length!==providers.length)return fail('Remote provider not registered',400);
+    const tag=(url.searchParams.get('tag')||'').trim();
+    if(tag.length&&(tag.length<3||tag.length>50))return fail('Jobicy keyword must contain 3–50 characters',400);
+    const cursor=url.searchParams.get('cursor')||null;
+    if(cursor&&cursor.length>2048)return fail('Invalid cursor',400);
+    const count=Math.min(200,Math.max(1,Number(url.searchParams.get('count'))||100));
+    let cursors={};
+    try{const supplied=url.searchParams.get('cursors');if(supplied){if(supplied.length>5000)return fail('Cursor payload too large',400);const parsed=JSON.parse(supplied);if(!parsed||Array.isArray(parsed)||typeof parsed!=='object')return fail('Invalid cursor payload',400);for(const [id,t] of Object.entries(parsed)){if(!providers.includes(id)||typeof t!=='string'||t.length>2048)return fail('Invalid cursor value',400)}cursors=parsed;}}catch{return fail('Invalid cursor payload',400)}
+    const key=JSON.stringify({providers,tag,cursor,cursors,count}),cached=remoteCache.get(key);
+    if(cached&&Date.now()-cached.at<3600000)return Response.json(cached.data,{headers:{'cache-control':'public, max-age=600'}});
+    try{const data=await remoteRegistry.page({providers,cursors,cursor,tag,count});
+      if(remoteCache.size>300)remoteCache.clear();
+      remoteCache.set(key,{data,at:Date.now()});
+      return Response.json(data,{headers:{'cache-control':'public, max-age=600'}});
+    }catch(e){return Response.json({error:'Jobicy search temporarily unavailable',details:String(e.message).slice(0,120)},{status:502,headers:{'cache-control':'no-store'}})}
+  }
+  if(url.pathname==='/api/sources/remote/status'){
+    if(request.method!=='GET')return fail('GET required',405);
+    const id=url.searchParams.get('id')||'';
+    const provider=url.searchParams.get('provider')||'jobicy';
+    if(!remoteRegistry.list().some(x=>x.id===provider)||!/^\d{1,16}$/.test(id))return fail('Invalid status request',400);
+    const key='status:'+provider+':'+id,cached=remoteCache.get(key);
+    if(cached&&Date.now()-cached.at<3600000)return Response.json({id,status:cached.data.status});
+    try{const statuses=await remoteRegistry.statuses(provider,[id]);const status=statuses[id]||'unknown';
+      remoteCache.set(key,{at:Date.now(),data:{status}});return Response.json({id,status},{headers:{'cache-control':'public, max-age=600'}});
+    }catch{return Response.json({error:'Status check temporarily unavailable'},{status:502})}
+  }
   if(url.pathname==='/semantic-client.js')return new Response(semanticScript,{headers:{'content-type':'application/javascript; charset=utf-8'}});
   if(url.pathname==='/calibration-client.js')return new Response(calibrationScript,{headers:{'content-type':'application/javascript; charset=utf-8'}});
   if(url.pathname==='/feedback-cycle.mjs')return new Response(feedbackCycle,{headers:{'content-type':'text/javascript; charset=utf-8','cache-control':'no-store'}});
