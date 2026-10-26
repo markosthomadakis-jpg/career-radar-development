@@ -24,7 +24,8 @@ test('bare employer slogan about safeguarding is not a candidate condition; staf
  assert.ok(ids('About us\nWe expect all staff to share this commitment to safeguarding.').includes('condition_safeguarding'));
 });
 test('full owner-supplied advert keeps the DBS and safeguarding tail, with exact source text',()=>{
- assert.equal(createHash('sha256').update(full).digest('hex'),'bd5968a699944f94aa5c7fb032c3116fb822df0f5c243613b780661f19ade323');
+ const canonical=full.replace(/\r\n/g,'\n');
+ assert.equal(createHash('sha256').update(canonical).digest('hex'),'bd5968a699944f94aa5c7fb032c3116fb822df0f5c243613b780661f19ade323');
  const x=extractVacancyRequirements(full,'Workforce Administrator/PA');
  const dbs=x.requirements.find(r=>r.id==='condition_dbs'),sg=x.requirements.find(r=>r.id==='condition_safeguarding');
  assert.ok(dbs&&sg);for(const r of [dbs,sg])for(const s of r.sources)assert.ok(full.includes(s.text));
