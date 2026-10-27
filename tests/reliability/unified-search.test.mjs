@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {mergeUnifiedVacancies,runUnifiedSearch} from '../../worker/unified-search.mjs';
 
 const vacancy=(provider,id,overrides={})=>({
+  requisition_id:'synthetic-shared-requisition',
   id:`${provider}:${id}`,provider,source_id:id,title:'Learning Coordinator',company:'Example Ltd',
   location:'London',source_url:`https://${provider}.example/jobs/${id}`,
   canonical_key:'role:example-ltd:learning-coordinator:london',
@@ -35,3 +36,7 @@ test('unified search works without configured employer boards',async()=>{
   assert.equal(result.results.length,0);
   assert.equal(result.partial,false);
 });
+
+test('same provider with different source IDs remains separate',()=>{const results=mergeUnifiedVacancies([vacancy('greenhouse','1',{requisition_id:null}),vacancy('greenhouse','2',{requisition_id:null})]);assert.equal(results.length,2);assert.ok(results.every(item=>item.possible_duplicate_key));});
+
+test('nested provider failures and pagination remain visible',async()=>{const result=await runUnifiedSearch({adzunaUrl:'/api/jobs',remoteUrl:'/api/sources/remote',boards:[],fetchJson:async url=>url.includes('/api/jobs')?{results:[vacancy('adzuna','1')]}:{results:[],partial:true,nextCursors:{jobicy:'next'},errors:[{source:'jobicy',message:'Temporary failure'}]}});assert.equal(result.results.length,1);assert.equal(result.partial,true);assert.equal(result.incomplete,true);assert.equal(result.errors[0].source,'jobicy');});
