@@ -23,6 +23,16 @@ test('deduplication merges cross-source records and prefers richer reliable evid
  const [merged]=deduplicate([aggregate,official]);assert.equal(merged.provider,'greenhouse');assert.equal(merged.full_description,true);assert.equal(merged.sources.length,2);assert.equal(merged.duplicate_count,2);assert.equal(merged.source_reliability.level,'high');
 });
 
+test('real Adzuna and Greenhouse adapters deduplicate the same vacancy',()=>{
+ const aggregate=normalizeAdzunaJob({id:'a2',title:'Learning Coordinator',company:{display_name:'Example Ltd'},location:{display_name:'London'},description:'Summary',redirect_url:'https://www.adzuna.co.uk/jobs/details/a2',created:'2026-10-26T12:00:00Z'});
+ const official=normalizeGreenhouse({id:'g2',title:'Learning Coordinator',content:'Full official advert',absolute_url:'https://boards.greenhouse.io/example/jobs/g2',location:{name:'London'}},'Example','example');
+ const merged=deduplicate([aggregate,official]);
+ assert.equal(aggregate.canonical_key,official.canonical_key);
+ assert.equal(merged.length,1);
+ assert.equal(merged[0].provider,'greenhouse');
+ assert.equal(merged[0].sources.length,2);
+});
+
 test('same title at different locations remains distinct',()=>{
  const base={provider:'jobicy',title:'Programme Coordinator',company:'Acme',description:'Description'};
  const jobs=[normaliseJob({...base,source_id:'1',location:'London',source_url:'https://jobicy.com/jobs/1'}),normaliseJob({...base,source_id:'2',location:'Manchester',source_url:'https://jobicy.com/jobs/2'})];

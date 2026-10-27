@@ -24,7 +24,6 @@ export function remoteMode(title='',description='',sourceIsRemote=false){const s
 export function sourceReliability(provider){return {...(SOURCE_RELIABILITY[String(provider||'').toLowerCase()]||{level:'unknown',score:null,kind:'unknown',reason:'Source has not yet been reliability-classified'})};}
 function slug(value=''){return textOnly(value).toLowerCase().replace(/&/g,'and').replace(/\b(?:limited|ltd|plc|inc|llc)\b/g,'').replace(/[^a-z0-9]+/g,' ').trim().replace(/\s+/g,'-');}
 export function vacancyCanonicalKey(job){
- const official=httpLink(job?.canonical_employer_url);if(official)return 'url:'+official.replace(/[?#].*$/,'').replace(/\/$/,'').toLowerCase();
  return ['role',slug(job?.company),slug(job?.title),slug(job?.location)].join(':');
 }
 export function normaliseJob(raw){
