@@ -1,4 +1,5 @@
 // Reviewed professional facts are distinct from search preferences. No network or storage.
+import {resolveReferences} from './structured-cv.mjs';
 export const PROFILE_VERSION='1.0.0';
 export const CONCEPT_VERSION='cr-profile-1';
 export const CONCEPTS=[
@@ -43,6 +44,7 @@ export function evidenceParts(value){
 }
 export function repairEvidence(profile,cv){
  let changed=false;for(const row of [...profile.capabilities,...profile.roles]){
+ if(row.evidence_origin==='structured_cv_references'&&row.source_passages?.length&&row.source_passages.every(p=>p.paragraph_id)){row.verified_quote=true;row.quote_match='paragraph_references';continue;}
  const prior=JSON.stringify({evidence:row.evidence,verified:row.verified_quote,passages:row.source_passages,unresolved:row.unresolved_evidence});
  const parts=row.source_passages?.length&&row.verified_quote?row.source_passages.map(p=>p.text):evidenceParts(row.evidence);
  const matches=parts.map(q=>({requested:q,match:resolveQuotation(cv,q)}));
@@ -59,12 +61,13 @@ export function useVerifiedPassages(row){
  if(!row.source_passages?.length)throw Error('No verified passages available');
  row.original_ai_evidence??=row.evidence;row.omitted_ai_evidence=[...(row.unresolved_evidence||[])];row.evidence=row.source_passages.map(p=>p.text).join('\n');row.unresolved_evidence=[];row.verified_quote=true;row.evidence_origin='user_selected_verified_passages';row.review='pending';if(row.concepts)row.concepts=concepts(row.evidence);
 }
-export function validateDraft(ai,cv){
+export function validateDraft(ai,cv,sourceDocument=null){
  if(!ai||!Array.isArray(ai.capabilities)||!Array.isArray(ai.roles))throw Error('Invalid profile response');
  const exact=q=>Boolean(resolveQuotation(cv,q));
- const capabilities=ai.capabilities.slice(0,35).map((c,i)=>({id:'cap-'+i,name:String(c.name||'').slice(0,200),evidence:String(c.evidence||'').trim(),verified_quote:exact(c.evidence),concepts:concepts(c.evidence),category:['core','secondary','additional'].includes(c.category)?c.category:'secondary',scope:['support','independent','coordination','people_management','budget_ownership'].includes(c.scope)?c.scope:'support',review:'pending',use_search:true}));
- const roles=ai.roles.slice(0,20).map((r,i)=>({id:'role-'+i,title:String(r.title||''),employer:String(r.employer||''),scope:String(r.scope||''),dates:String(r.dates||'Unknown'),evidence:String(r.evidence||'').trim(),verified_quote:exact(r.evidence),review:'pending'}));
- const draft={schema_version:PROFILE_VERSION,dictionary_version:CONCEPT_VERSION,status:'draft',identity:String(ai.professional_identity||''),summary:String(ai.summary||''),capabilities,roles,uncertainties:Array.isArray(ai.uncertainties)?ai.uncertainties.map(String):[],suggested_families:FAMILIES.filter(f=>f.re.test([ai.professional_identity,...capabilities.map(c=>c.name+' '+c.evidence)].join(' '))).map(f=>f.id),confirmed_at:null};repairEvidence(draft,cv);return draft;
+ const makeEvidence=row=>{const passages=resolveReferences(sourceDocument,row.evidence_refs),referenced=passages.length>0&&passages.length===(row.evidence_refs||[]).length;const evidence=referenced?passages.map(p=>p.text).join('\n'):String(row.evidence||'').trim();return {evidence,evidence_refs:passages.map(p=>p.paragraph_id),source_passages:passages,verified_quote:referenced||exact(evidence),quote_match:referenced?'paragraph_references':undefined,evidence_origin:referenced?'structured_cv_references':'ai_exact_quote'};};
+ const capabilities=ai.capabilities.slice(0,35).map((c,i)=>{const ev=makeEvidence(c);return {id:'cap-'+i,name:String(c.name||'').slice(0,200),...ev,concepts:concepts(ev.evidence),category:['core','secondary','additional'].includes(c.category)?c.category:'secondary',scope:['support','independent','coordination','people_management','budget_ownership'].includes(c.scope)?c.scope:'support',review:'pending',use_search:true};});
+ const roles=ai.roles.slice(0,20).map((r,i)=>({id:'role-'+i,title:String(r.title||''),employer:String(r.employer||''),scope:String(r.scope||''),dates:String(r.dates||'Unknown'),...makeEvidence(r),review:'pending'}));
+ const draft={schema_version:PROFILE_VERSION,dictionary_version:CONCEPT_VERSION,source_document_version:sourceDocument?.schema_version||null,status:'draft',identity:String(ai.professional_identity||''),summary:String(ai.summary||''),capabilities,roles,uncertainties:Array.isArray(ai.uncertainties)?ai.uncertainties.map(String):[],suggested_families:FAMILIES.filter(f=>f.re.test([ai.professional_identity,...capabilities.map(c=>c.name+' '+c.evidence)].join(' '))).map(f=>f.id),confirmed_at:null};repairEvidence(draft,cv);return draft;
 }
 export function confirmProfile(draft,cvHash,preferences,now){
  if(draft.cv_sha256!==cvHash)throw Error('CV changed. Analyse or restore the original CV before confirming.');

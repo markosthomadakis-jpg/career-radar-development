@@ -1,4 +1,4 @@
-/* Career Radar V4: local, explainable evidence matching. No CV text leaves the browser. */
+/* Career Radar: local CV structuring and consent-bound semantic profile analysis. */
 (()=>{
   let engine=null;import('/engine-v54.mjs').then(m=>{engine=m;if(jobs.length)displayJobs(jobs)}).catch(()=>{const target=document.querySelector('#matchStatus');if(target)target.textContent='Evidence engine unavailable. Results are not scored.';});
   const STORE='career-radar-v4-profile';
@@ -12,9 +12,9 @@
   ];
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const validUrl=v=>{try{const u=new URL(v);return u.protocol==='https:'?u.href:'#'}catch{return '#'}};
-  let profile='',jobs=[];
+  let profile='',jobs=[],structuredCv=null;
   const applicationOpenedAt=new Date().toISOString();
-  const settings=`<section class="view hide" id="matching"><div class="eyebrow">Career Radar V5.4 / Evidence engine</div><h1>Your professional evidence.</h1><p class="sub">Analyse your own CV locally and compare it with live vacancies. Evidence matches are indicative, not hiring probabilities. No CV content is uploaded to our server or Adzuna.</p><div class="panel"><div class="fields"><div class="field wide"><label for="matchFile">CV file (.txt, .docx, .pdf)</label><input id="matchFile" type="file" accept=".txt,.docx,.pdf"><small>Files are processed in your browser. PDF parsing needs an optional third-party PDF.js script; if unavailable, paste text below.</small></div><div class="field wide"><label for="matchText">Your experience — review and edit before analysis</label><textarea id="matchText" rows="9" placeholder="Paste your CV or upload a supported file. Include real responsibilities, not just a list of skills."></textarea></div><div class="row wide"><button class="btn" id="matchAnalyse">Build evidence profile</button><button class="btn outline" id="matchClear">Clear local CV data</button></div></div><div id="matchStatus" class="callout">No professional evidence analysed yet.</div><div id="matchProfile" style="margin-top:16px"></div></div><div class="sectionhead"><h2>Matching methodology</h2></div><div class="panel"><p class="sub">This initial engine detects evidence against published requirements and specialist criteria and checks which are requested by each job description. It does not invent qualifications or assess protected characteristics. Missing evidence is labelled unknown, not absent. Results with limited descriptions are marked low confidence.</p><p class="sub">To rank jobs, enter your CV here, then visit <b>Live vacancies</b> and run a search. Results will include an explainable fit assessment.</p></div></section>`;
+  const settings=`<section class="view hide" id="matching"><div class="eyebrow">Career Radar V5.4 / Evidence engine</div><h1>Your professional evidence.</h1><p class="sub">Your CV is structured locally and compared with live vacancies. It is never sent to a vacancy provider; optional AI profile analysis occurs only after explicit consent.</p><div class="panel"><div class="fields"><div class="field wide"><label for="matchFile">CV file (.txt, .docx, .pdf)</label><input id="matchFile" type="file" accept=".txt,.docx,.pdf"><small>Word and text files are structured in your browser. PDF parsing needs an optional PDF.js reader; if unavailable, paste text below.</small></div><div class="field wide"><label for="matchText">Your experience — review and edit before analysis</label><textarea id="matchText" rows="9" placeholder="Paste your CV or upload a supported file. Include real responsibilities, not just a list of skills."></textarea></div><div class="row wide"><button class="btn" id="matchAnalyse">Build evidence profile</button><button class="btn outline" id="matchClear">Clear local CV data</button></div></div><div id="matchStatus" class="callout">No professional evidence analysed yet.</div><div id="matchProfile" style="margin-top:16px"></div></div><div class="sectionhead"><h2>Matching methodology</h2></div><div class="panel"><p class="sub">This initial engine detects evidence against published requirements and specialist criteria and checks which are requested by each job description. It does not invent qualifications or assess protected characteristics. Missing evidence is labelled unknown, not absent. Results with limited descriptions are marked low confidence.</p><p class="sub">To rank jobs, enter your CV here, then visit <b>Live vacancies</b> and run a search. Results will include an explainable fit assessment.</p></div></section>`;
   document.querySelector('#profile').insertAdjacentHTML('beforebegin',settings);
   const button='<button data-view="matching"><span>◈</span> Evidence matching</button>';
   document.querySelector('.sidebar .nav').insertAdjacentHTML('beforeend',button);
@@ -35,27 +35,28 @@
   document.querySelector('#matchFile').onchange=async e=>{
     const file=e.target.files?.[0];if(!file)return;stat.textContent='Reading CV locally…';
     try{
-      let text;if(/\.txt$/i.test(file.name))text=await file.text();
-      else if(/\.docx$/i.test(file.name))text=await parseDocx(file);
+      structuredCv ||= await import('/structured-cv.mjs');
+      let text,document;if(/\.txt$/i.test(file.name)){text=await file.text();document=structuredCv.structurePlainText(text,{sourceType:'text',fileName:file.name});}
+      else if(/\.docx$/i.test(file.name)){document=await parseDocx(file);text=structuredCv.toPlainText(document);}
       else if(/\.pdf$/i.test(file.name))text=await parsePdf(file);
       else throw Error('Unsupported file type');
-      if(!text.trim())throw Error('No readable CV text found');cv.value=text.slice(0,60000);stat.textContent='File extracted locally. Please review the text and select Build evidence profile.';
+      if(!text.trim())throw Error('No readable CV text found');cv.value=text.slice(0,60000);window.__careerRadarStructuredCv=document||structuredCv.structurePlainText(text,{sourceType:'pdf',fileName:file.name});stat.textContent=`Structured CV ready: ${window.__careerRadarStructuredCv.paragraphs.length} source paragraphs recognised locally. Review the text, then analyse.`;
     }catch(err){stat.textContent=err.message+' — you can paste the CV text instead.'}
   };
   async function parseDocx(file){
-    const bytes=new Uint8Array(await file.arrayBuffer());let pos=0;
-    while(pos+30<bytes.length){const dv=new DataView(bytes.buffer,bytes.byteOffset+pos);
-      if(dv.getUint32(0,true)!==0x04034b50)break;
-      const flags=dv.getUint16(6,true),method=dv.getUint16(8,true),compressed=dv.getUint32(18,true),nameLen=dv.getUint16(26,true),extra=dv.getUint16(28,true);
-      const name=new TextDecoder().decode(bytes.slice(pos+30,pos+30+nameLen));const start=pos+30+nameLen+extra;
-      if(flags&8)throw Error('Unsupported DOCX layout; paste CV text');
+    const bytes=new Uint8Array(await file.arrayBuffer()),view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);let eocd=-1;
+    for(let i=Math.max(0,bytes.length-65557);i<=bytes.length-22;i++)if(view.getUint32(i,true)===0x06054b50)eocd=i;
+    if(eocd<0)throw Error('Invalid DOCX container');let pos=view.getUint32(eocd+16,true),entries=view.getUint16(eocd+10,true);
+    for(let index=0;index<entries&&pos+46<=bytes.length;index++){
+      if(view.getUint32(pos,true)!==0x02014b50)break;
+      const method=view.getUint16(pos+10,true),compressed=view.getUint32(pos+20,true),nameLen=view.getUint16(pos+28,true),extra=view.getUint16(pos+30,true),comment=view.getUint16(pos+32,true),local=view.getUint32(pos+42,true);
+      const name=new TextDecoder().decode(bytes.slice(pos+46,pos+46+nameLen));
       if(name==='word/document.xml'){
-        let raw=bytes.slice(start,start+compressed);
-        if(method===8){const stream=new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'));raw=new Uint8Array(await new Response(stream).arrayBuffer())}
-        else if(method!==0)throw Error('Unsupported DOCX compression');
-        return new TextDecoder().decode(raw).replace(/<w:tab\b[^>]*\/>/g,'\t').replace(/<\/w:p>/g,'\n').replace(/<[^>]*>/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/[ \t]+/g,' ').slice(0,60000);
+        if(view.getUint32(local,true)!==0x04034b50)throw Error('Invalid DOCX document entry');const start=local+30+view.getUint16(local+26,true)+view.getUint16(local+28,true);let raw=bytes.slice(start,start+compressed);
+        if(method===8){const stream=new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'));raw=new Uint8Array(await new Response(stream).arrayBuffer())}else if(method!==0)throw Error('Unsupported DOCX compression');
+        return structuredCv.parseDocxXml(new TextDecoder().decode(raw),{fileName:file.name});
       }
-      pos=start+compressed;
+      pos+=46+nameLen+extra+comment;
     }throw Error('Could not locate document text in DOCX');
   }
   async function parsePdf(file){
