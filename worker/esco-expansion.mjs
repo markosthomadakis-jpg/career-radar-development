@@ -1,0 +1,23 @@
+// Bounded offline ESCO v1.2.0 snapshot, verified from the European Commission API on 2026-10-27.
+// These mappings expand vocabulary only. They never establish candidate experience.
+export const ESCO_SNAPSHOT={version:'v1.2.0',language:'en',verified_at:'2026-10-27',source:'https://ec.europa.eu/esco/api'};
+export const ESCO_SKILLS=[
+ {id:'training_organisation',label:'Organise training',uri:'http://data.europa.eu/esco/skill/90e8f54b-064f-4721-8ccc-b5f61968b227',aliases:['organise training','organize training','training organisation','training organization'],families:['learning'],specificity:'domain'},
+ {id:'training_evaluation',label:'Evaluate training',uri:'http://data.europa.eu/esco/skill/728ad40d-4a79-4b4d-b77b-a48d094d73fa',aliases:['evaluate training','training evaluation','evaluate learning'],families:['learning'],specificity:'domain'},
+ {id:'training_needs',label:'Identify training needs',uri:'http://data.europa.eu/esco/skill/4dafe480-f2ae-46b5-bd5e-8d4e538f50c7',aliases:['identify training needs','training needs analysis','learning needs analysis'],families:['learning'],specificity:'domain'},
+ {id:'records_management',label:'Perform records management',uri:'http://data.europa.eu/esco/skill/12428071-1ec8-4d52-a0ce-3eee78e1e1be',aliases:['perform records management','records management','maintain records','record keeping'],families:['business_support','learning','programme'],specificity:'generic'},
+ {id:'work_reports',label:'Write work-related reports',uri:'http://data.europa.eu/esco/skill/918f5211-b99f-4b29-9a34-6e475583ef55',aliases:['write work-related reports','prepare work reports','operational reporting','management reports'],families:['reporting','business_support','programme'],specificity:'generic'},
+ {id:'task_scheduling',label:'Manage schedule of tasks',uri:'http://data.europa.eu/esco/skill/0e1fe34b-f4e7-4642-8c8b-5a05ac3438e5',aliases:['manage schedule of tasks','task scheduling','manage schedules','coordinate schedules'],families:['learning','programme','business_support'],specificity:'generic'},
+ {id:'event_coordination',label:'Coordinate events',uri:'http://data.europa.eu/esco/skill/2111dff8-f830-46ad-80ce-7885893b3134',aliases:['coordinate events','event coordination','organise events','organize events'],families:['learning','programme'],specificity:'generic'},
+ {id:'stakeholder_engagement',label:'Engage with stakeholders',uri:'http://data.europa.eu/esco/skill/99c4c69a-025c-464f-adda-874c7f107a31',aliases:['engage with stakeholders','stakeholder engagement','liaise with stakeholders','stakeholder liaison'],families:['learning','programme','business_support','commercial'],specificity:'generic'},
+ {id:'project_progress_documentation',label:'Document project progress',uri:'http://data.europa.eu/esco/skill/4d38b095-6730-4157-9807-8049dd7b43b8',aliases:['document project progress','project progress documentation','project status documentation'],families:['programme'],specificity:'domain'}
+];
+export const ESCO_OCCUPATIONS=[
+ {label:'Project support officer',uri:'http://data.europa.eu/esco/occupation/5ccb2c34-e860-43a5-9869-342487518115',code:'3343.1.6',aliases:['project support officer','project support coordinator','project support administrator'],family:'programme',search_eligible:true},
+ {label:'Education programme coordinator',uri:'http://data.europa.eu/esco/occupation/d23f4d59-2bea-4bd8-bcdb-5e23b1c50552',code:'1345.1.3',aliases:['education programme coordinator','education program coordinator'],family:'learning',search_eligible:false,reason:'Education-specific scope requires manual review'},
+ {label:'Corporate training manager',uri:'http://data.europa.eu/esco/occupation/a14e96a7-6c4d-4d69-8c6f-7ccadf77bac5',code:'1212.4',aliases:['corporate training manager','training and development coordinator'],family:'learning',search_eligible:false,reason:'ESCO groups a coordinator alternative label under a management occupation; never infer management'}
+];
+const escaped=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/\s+/g,'\\s+');
+export function aliasPattern(aliases){return new RegExp(`\\b(?:${aliases.map(escaped).join('|')})\\b`,'i');}
+export function escoSkillMatches(text){const source=String(text||'');return ESCO_SKILLS.filter(x=>aliasPattern(x.aliases).test(source)).map(x=>({...x,match_type:'lexical',candidate_evidence_required:true}));}
+export function escoRoleMatches(title,{searchEligibleOnly=false}={}){const source=String(title||'');return ESCO_OCCUPATIONS.filter(x=>(!searchEligibleOnly||x.search_eligible)&&aliasPattern(x.aliases).test(source)).map(x=>({...x,match_type:'related_occupation',candidate_experience_claimed:false}));}

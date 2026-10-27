@@ -8,6 +8,7 @@ const originalHtml = __HTML_LITERAL__;
 const matchingScript = __MATCHING_LITERAL__;
 const semanticScript = __SEMANTIC_LITERAL__;
 const professionalProfileModule=__PROFESSIONAL_PROFILE_LITERAL__;
+const escoExpansionModule=__ESCO_EXPANSION_LITERAL__;
 const structuredCvModule=__STRUCTURED_CV_LITERAL__;
 const calibrationScript = __CALIBRATION_LITERAL__;
 const remoteClient = __REMOTE_CLIENT_LITERAL__;
@@ -204,6 +205,7 @@ export default {async fetch(request,env){const url=new URL(request.url);
     return Response.json({enabled:Boolean(env.OPENAI_API_KEY&&env.AI_BILLING_APPROVED==='true'),professionalProfileEnabled:Boolean(env.OPENAI_API_KEY&&env.AI_PROFILE_APPROVED==='true'),profileOnceAvailable},{headers:{'cache-control':'no-store'}});
   }
   if(url.pathname==='/professional-profile.mjs')return new Response(professionalProfileModule,{headers:{'content-type':'application/javascript; charset=utf-8','cache-control':'no-store'}});
+  if(url.pathname==='/esco-expansion.mjs')return new Response(escoExpansionModule,{headers:{'content-type':'application/javascript; charset=utf-8','cache-control':'public, max-age=86400'}});
   if(url.pathname==='/structured-cv.mjs')return new Response(structuredCvModule,{headers:{'content-type':'application/javascript; charset=utf-8','cache-control':'no-store'}});
   if(url.pathname==='/api/ai/professional-profile')return semantic(request,env,'professional');
   if(url.pathname==='/api/ai/profile')return semantic(request,env,'profile');
