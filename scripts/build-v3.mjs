@@ -1,5 +1,6 @@
 import {readFileSync,writeFileSync,mkdirSync,copyFileSync,cpSync} from 'node:fs';
-const source=readFileSync('worker/index.js','utf8');
+const unifiedSearch=readFileSync('worker/unified-search.mjs','utf8');
+const source=readFileSync('worker/index.js','utf8').replace('__UNIFIED_SEARCH_LITERAL__',()=>JSON.stringify(unifiedSearch));
 const remoteClient=readFileSync('worker/remote-client.js','utf8');
 const watchlistClient=readFileSync('worker/watchlist-client.js','utf8');
 const html=readFileSync('dist/index.html','utf8');
