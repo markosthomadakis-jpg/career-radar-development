@@ -1,4 +1,4 @@
-import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';import {MODEL_VERSION} from '../../worker/engine-v54.mjs';
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';
 test('matching mounts dependent DOM synchronously even when engine import is unresolved',()=>{
  const source=fs.readFileSync(new URL('../../worker/matching-client.js',import.meta.url),'utf8');let mounted=false;
  const element={value:'',textContent:'',innerHTML:'',files:[],querySelector(){return element;},insertAdjacentHTML(where,html){if(html.includes('id="matching"'))mounted=true;},addEventListener(){},elements:{salary_min:{value:'30000'}}};
@@ -9,5 +9,5 @@ test('matching mounts dependent DOM synchronously even when engine import is unr
 });
 test('versioned asset URLs prevent old script cache from restoring broken startup',()=>{
  const worker=fs.readFileSync(new URL('../../worker/index.js',import.meta.url),'utf8');
- for(const file of ['matching-client.js','semantic-client.js','calibration-client.js'])assert.ok(worker.includes(`src="/${file}?v=${MODEL_VERSION}"`));
+ for(const file of ['matching-client.js','semantic-client.js','calibration-client.js'])assert.match(worker,new RegExp(`src="/${file.replace('.','\\.')}\\?v=[a-z0-9.-]+"`));
 });

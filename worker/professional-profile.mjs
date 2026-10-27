@@ -1,7 +1,9 @@
 // Reviewed professional facts are distinct from search preferences. No network or storage.
+import {resolveReferences} from './structured-cv.mjs';
+import {ESCO_SKILLS,ESCO_OCCUPATIONS,escoSkillMatches,escoRoleMatches} from './esco-expansion.mjs';
 export const PROFILE_VERSION='1.0.0';
-export const CONCEPT_VERSION='cr-profile-1';
-export const CONCEPTS=[
+export const CONCEPT_VERSION='cr-profile-esco-1';
+const LOCAL_CONCEPTS=[
  ['training_operations','Training operations',/\b(?:learning operations|training operations|training admin\w*|course admin\w*|learning coordination|training coordination|training coordinator|l&d coordinator)\b/i],
  ['programme_support','Programme support',/\b(?:program(?:me)? support|program(?:me)? coordinat\w*|project support|pmo|program(?:me)? admin\w*)\b/i],
  ['records','Records and data quality',/\b(?:records?|data quality|data entry|reconcil\w*|accurate data)\b/i],
@@ -16,7 +18,8 @@ export const CONCEPTS=[
  ['line_management','Line management',/\b(?:direct reports?|line manag\w*|managed a team|people management)\b/i],
  ['training_delivery','Training delivery',/\b(?:deliver(?:ed|ing)? training|facilitat(?:ed|ing) workshops?|classroom instruction)\b/i],
  ['accreditation','Accreditation administration',/\b(?:accreditation|awarding bod\w*|certification administration)\b/i]
-].map(([id,label,re])=>({id,label,re}));
+].map(([id,label,re])=>({id,label,re,source:'career_radar'}));
+export const CONCEPTS=[...LOCAL_CONCEPTS,...ESCO_SKILLS.map(x=>({...x,re:null,source:'esco',evidence_rule:'confirmed_cv_passage_required'}))];
 export const FAMILIES=[
  {id:'business_support',label:'Business and operations support',titles:['Business Support Administrator','Operations Administrator','Business Support Coordinator'],re:/\b(?:business support|office admin\w*|operations admin\w*|administrative (?:assistant|coordinator)|executive assistant)\b/i},
  {id:'learning',label:'Learning and training operations',titles:['Learning Operations Coordinator','Training Coordinator','Learning and Development Coordinator'],re:/\b(?:learning|training|l&d|course|accreditation)\b/i},
@@ -25,7 +28,7 @@ export const FAMILIES=[
  {id:'commercial',label:'Commercial operations support',titles:['Commercial Administrator','Commercial Operations Coordinator'],re:/\b(?:commercial (?:operations|admin|support)|sales operations)\b/i}
 ];
 export const SECTORS=[['financial','Financial services',/\b(?:bank(?:ing)?|financial services|insurance|wealth|asset management)\b/i],['education','Education and training',/\b(?:university|college|education|training provider|professional learning|academy)\b/i],['professional','Professional services',/\b(?:professional services|consultancy|consulting|accountancy|law firm|legal services)\b/i],['public','Public and nonprofit services',/\b(?:council|local authority|public sector|charity|nonprofit)\b/i],['healthcare','Healthcare',/\b(?:healthcare|hospital|clinical|patient|nhs|care home)\b/i],['construction','Construction',/\b(?:construction|building site|civil engineering)\b/i],['logistics','Warehousing and logistics',/\b(?:warehouse|warehousing|distribution centre|freight|logistics)\b/i]].map(([id,label,re])=>({id,label,re}));
-export function concepts(text){return CONCEPTS.filter(c=>String(text).split(/[.!?;\n]+/).some(sentence=>{const match=c.re.exec(sentence);return match&&!/\b(?:no|not|without|never)\b[^,;.!?]{0,45}$/i.test(sentence.slice(0,match.index));})).map(c=>c.id);}
+export function concepts(text){const source=String(text),local=LOCAL_CONCEPTS.filter(c=>source.split(/[.!?;\n]+/).some(sentence=>{const match=c.re.exec(sentence);return match&&!/\b(?:no|not|without|never)\b[^,;.!?]{0,45}$/i.test(sentence.slice(0,match.index));})).map(c=>c.id),esco=escoSkillMatches(source).filter(c=>source.split(/[.!?;\n]+/).some(sentence=>c.aliases.some(alias=>sentence.toLowerCase().includes(alias.toLowerCase()))&&!/\b(?:no|not|without|never)\b[^,;.!?]{0,55}(?:experience|skill|knowledge|ability|responsib|perform|manage|organis|organiz|engage|write|maintain|document)/i.test(sentence))).map(c=>c.id);return [...new Set([...local,...esco])];}
 export {fingerprint} from './intelligence-v1.mjs';
 
 // Normalise typography only; return an exact span from the original source, never a paraphrase.
@@ -43,6 +46,7 @@ export function evidenceParts(value){
 }
 export function repairEvidence(profile,cv){
  let changed=false;for(const row of [...profile.capabilities,...profile.roles]){
+ if(row.evidence_origin==='structured_cv_references'&&row.source_passages?.length&&row.source_passages.every(p=>p.paragraph_id)){row.verified_quote=true;row.quote_match='paragraph_references';continue;}
  const prior=JSON.stringify({evidence:row.evidence,verified:row.verified_quote,passages:row.source_passages,unresolved:row.unresolved_evidence});
  const parts=row.source_passages?.length&&row.verified_quote?row.source_passages.map(p=>p.text):evidenceParts(row.evidence);
  const matches=parts.map(q=>({requested:q,match:resolveQuotation(cv,q)}));
@@ -59,12 +63,13 @@ export function useVerifiedPassages(row){
  if(!row.source_passages?.length)throw Error('No verified passages available');
  row.original_ai_evidence??=row.evidence;row.omitted_ai_evidence=[...(row.unresolved_evidence||[])];row.evidence=row.source_passages.map(p=>p.text).join('\n');row.unresolved_evidence=[];row.verified_quote=true;row.evidence_origin='user_selected_verified_passages';row.review='pending';if(row.concepts)row.concepts=concepts(row.evidence);
 }
-export function validateDraft(ai,cv){
+export function validateDraft(ai,cv,sourceDocument=null){
  if(!ai||!Array.isArray(ai.capabilities)||!Array.isArray(ai.roles))throw Error('Invalid profile response');
  const exact=q=>Boolean(resolveQuotation(cv,q));
- const capabilities=ai.capabilities.slice(0,35).map((c,i)=>({id:'cap-'+i,name:String(c.name||'').slice(0,200),evidence:String(c.evidence||'').trim(),verified_quote:exact(c.evidence),concepts:concepts(c.evidence),category:['core','secondary','additional'].includes(c.category)?c.category:'secondary',scope:['support','independent','coordination','people_management','budget_ownership'].includes(c.scope)?c.scope:'support',review:'pending',use_search:true}));
- const roles=ai.roles.slice(0,20).map((r,i)=>({id:'role-'+i,title:String(r.title||''),employer:String(r.employer||''),scope:String(r.scope||''),dates:String(r.dates||'Unknown'),evidence:String(r.evidence||'').trim(),verified_quote:exact(r.evidence),review:'pending'}));
- const draft={schema_version:PROFILE_VERSION,dictionary_version:CONCEPT_VERSION,status:'draft',identity:String(ai.professional_identity||''),summary:String(ai.summary||''),capabilities,roles,uncertainties:Array.isArray(ai.uncertainties)?ai.uncertainties.map(String):[],suggested_families:FAMILIES.filter(f=>f.re.test([ai.professional_identity,...capabilities.map(c=>c.name+' '+c.evidence)].join(' '))).map(f=>f.id),confirmed_at:null};repairEvidence(draft,cv);return draft;
+ const makeEvidence=row=>{const passages=resolveReferences(sourceDocument,row.evidence_refs),referenced=passages.length>0&&passages.length===(row.evidence_refs||[]).length;const evidence=referenced?passages.map(p=>p.text).join('\n'):String(row.evidence||'').trim();return {evidence,evidence_refs:passages.map(p=>p.paragraph_id),source_passages:passages,verified_quote:referenced||exact(evidence),quote_match:referenced?'paragraph_references':undefined,evidence_origin:referenced?'structured_cv_references':'ai_exact_quote'};};
+ const capabilities=ai.capabilities.slice(0,35).map((c,i)=>{const ev=makeEvidence(c);return {id:'cap-'+i,name:String(c.name||'').slice(0,200),...ev,concepts:concepts(ev.evidence),category:['core','secondary','additional'].includes(c.category)?c.category:'secondary',scope:['support','independent','coordination','people_management','budget_ownership'].includes(c.scope)?c.scope:'support',review:'pending',use_search:true};});
+ const roles=ai.roles.slice(0,20).map((r,i)=>({id:'role-'+i,title:String(r.title||''),employer:String(r.employer||''),scope:String(r.scope||''),dates:String(r.dates||'Unknown'),...makeEvidence(r),review:'pending'}));
+ const draft={schema_version:PROFILE_VERSION,dictionary_version:CONCEPT_VERSION,source_document_version:sourceDocument?.schema_version||null,status:'draft',identity:String(ai.professional_identity||''),summary:String(ai.summary||''),capabilities,roles,uncertainties:Array.isArray(ai.uncertainties)?ai.uncertainties.map(String):[],suggested_families:FAMILIES.filter(f=>f.re.test([ai.professional_identity,...capabilities.map(c=>c.name+' '+c.evidence)].join(' '))).map(f=>f.id),confirmed_at:null};repairEvidence(draft,cv);return draft;
 }
 export function confirmProfile(draft,cvHash,preferences,now){
  if(draft.cv_sha256!==cvHash)throw Error('CV changed. Analyse or restore the original CV before confirming.');
@@ -84,12 +89,13 @@ export function assessRelevance(profile,job){
  const managementSentences=text.split(/[.!?\n]+/).filter(s=>!/\b(?:no|without|not) (?:direct reports?|line management|people management)/i.test(s));
  if(prefs.level==='individual'&&managementSentences.some(s=>/\b(?:you will (?:line )?manage (?:a |the )?team|responsib\w* for (?:line |people )?management|(?:have|with|managing) \d+ direct reports)\b/i.test(s)))return {visible:false,reason:'Explicit people-management responsibility outside selected remit',signals:[]};
  const generic=/^(?:administrator|administrative assistant|coordinator|assistant|officer|operations administrator|business support administrator)$/i.test(title.trim());
- const matched=FAMILIES.filter(f=>prefs.families?.includes(f.id)&&(f.re.test(title)||(generic&&f.re.test(text))));
+ const escoFamilies=new Set(escoRoleMatches(title,{searchEligibleOnly:true}).map(x=>x.family));
+ const matched=FAMILIES.filter(f=>prefs.families?.includes(f.id)&&(f.re.test(title)||(generic&&f.re.test(text))||escoFamilies.has(f.id)));
  if(!matched.length)return {visible:false,reason:'No selected role-family signal in the available title or summary',signals:[]};
  const selected=profile.capabilities.filter(c=>c.review==='confirmed'&&c.use_search!==false),ids=new Set(selected.flatMap(c=>c.concepts));
  const overlap=concepts(text).filter(id=>ids.has(id));
  const sector=SECTORS.find(s=>s.re.test(text));const preferred=prefs.sectors||[];
  return {visible:true,signals:matched.map(f=>f.label),overlap:overlap.map(id=>({id,label:CONCEPTS.find(c=>c.id===id).label,evidence:selected.filter(c=>c.concepts.includes(id)).map(c=>c.evidence)})),sector:sector?.label||'Unknown',sector_preferred:!preferred.length?null:sector?preferred.includes(sector.id):null,reason:'Preliminary relevance from supplied text; full requirements still need assessment'};
 }
-export function searchTerms(p){return FAMILIES.filter(f=>p.preferences?.families?.includes(f.id)).flatMap(f=>f.titles);}
+export function searchTerms(p){const selected=p.preferences?.families||[],local=FAMILIES.filter(f=>selected.includes(f.id)).flatMap(f=>f.titles),esco=ESCO_OCCUPATIONS.filter(x=>x.search_eligible&&selected.includes(x.family)).map(x=>x.label);return [...new Set([...local,...esco])];}
 export function confirmedEvidence(profile){return [...new Set([...profile.capabilities,...profile.roles].filter(c=>c.review==='confirmed'&&c.verified_quote).flatMap(c=>c.source_passages?.length?c.source_passages.map(p=>p.text):[c.evidence]))].join('\n');}

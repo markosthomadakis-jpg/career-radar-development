@@ -5,7 +5,14 @@
   "scripts": {
     "dev": "node qa-preview/server.mjs",
     "build": "node scripts/build-v3.mjs",
-    "test": "node --test tests/reliability/*.test.mjs",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "node --test tests/reliability/*.test.mjs",
+    "test:e2e": "playwright test",
+    "qa": "npm run build && npm test",
     "simulate": "node simulate.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1"
   }
 }

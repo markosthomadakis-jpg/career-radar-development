@@ -1,0 +1,6 @@
+.env.local
+.codex-api-key-temp/
+node_modules/
+test-results/
+reports/playwright-html/
+playwright-report/
