@@ -25,6 +25,7 @@ const served=[
  ...list(src('web/clients')).map(f=>['/clients/'+relative(src('web/clients'),f),f,JS,NO_STORE]),
  ...list(src('engine')).map(f=>['/engine/'+relative(src('engine'),f),f,JS,NO_STORE]),
  ...list(src('profile')).map(f=>['/profile/'+relative(src('profile'),f),f,JS,f.endsWith('esco-expansion.mjs')?'public, max-age=86400':NO_STORE]),
+ ['/vacancies/sources/normalization.mjs',src('vacancies/sources/normalization.mjs'),JS,NO_STORE],
  ['/vacancies/unified-search.mjs',src('vacancies/unified-search.mjs'),JS,NO_STORE],
  ['/vacancies/shortlist.mjs',src('vacancies/shortlist.mjs'),JS,NO_STORE]
 ];

@@ -13,10 +13,20 @@ export function textOnly(input=''){
 }
 export function httpLink(value,allowedHost=null){try{const url=new URL(String(value||''));if(url.protocol!=='https:')return null;if(allowedHost&&url.hostname!==allowedHost&&!url.hostname.endsWith('.'+allowedHost))return null;return url.href;}catch{return null;}}
 export function publishedInLast7Days(value,now=new Date()){const pub=Date.parse(value),instant=+new Date(now);return Number.isFinite(pub)&&pub<=instant&&pub>=instant-DAYS7;}
+// Applicant geography is distinct from customer markets, suppliers or personal right to work.
 export function ukEligibility(location='',description=''){
  const geo=String(location||'').toLowerCase(),body=textOnly(description).toLowerCase(),combined=`${geo} ${body}`;
- if(/\b(?:excluding|except|not available in|not hiring in|cannot hire in|outside of)\s+(?:the\s+)?(?:uk|u\.k\.|united kingdom|britain)\b/i.test(combined))return 'ineligible';
- if(/\b(?:us(?:a)?[- ]only|united states only|canada only|eu[- ]only|european union only|must be (?:based|located|resident) in (?:the )?(?:united states|us|usa|canada|eu)\b)/i.test(combined))return 'ineligible';
+ if(/\b(?:excluding|except|not available in|not hiring in|cannot hire(?: candidates| applicants| people)? in|unable to hire(?: candidates| applicants| people)? in|outside of)\s+(?:the\s+)?(?:uk|u\.k\.|united kingdom|britain)\b/i.test(combined))return 'ineligible';
+ if(/\b(?:must be|required to be) (?:based|located|resident) in (?:the )?(?:united states|us|usa|canada|eu|european union)\b/i.test(combined))return 'ineligible';
+ if(/\b(?:us|usa|american|canadian|eu|european union)[- ]+(?:applicants?|candidates?|residents?) only\b/i.test(combined))return 'ineligible';
+ const restricted=/\b(?:us(?:a)?|united states|canada|eu|european union)[- ]only\b/gi;
+ for(const match of combined.matchAll(restricted)){
+  const before=combined.slice(Math.max(0,match.index-65),match.index),after=combined.slice(match.index+match[0].length);
+  // A negated restriction is not an exclusion; a market qualifier is not applicant geography.
+  if(/\bnot(?: (?:restricted|limited) to)?\s*$/i.test(before))continue;
+  if(/^\s+(?:customers?|clients?|suppliers?|markets?|products?|benefits?|contracts?)\b/i.test(after))continue;
+  return 'ineligible';
+ }
  if(/\b(?:united kingdom|\bu\.k\.|\buk\b|britain|great britain)\b/i.test(geo))return 'eligible';
  if(/\b(?:worldwide|anywhere|global|globally|all countries)\b/i.test(geo))return 'eligible';
  return 'unknown';

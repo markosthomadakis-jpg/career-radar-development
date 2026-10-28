@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {ukEligibility} from '../../src/vacancies/sources/normalization.mjs';
+import {evaluate} from '../../src/engine/evaluate.mjs';
+const run=description=>evaluate({profile:'Coordinated training schedules and maintained accurate records.',vacancy:{title:'Training Coordinator',location:'United Kingdom',uk_eligibility:'eligible',description,contract_type:'permanent',closing_date:'2026-11-30',salary_min:36000,salary_max:40000},preferences:{salaryFloor:30000,minContractMonths:6,requireUkEligibility:true},evaluationDate:'2026-10-28'});
+for(const description of ['Coordinate training for US-only customers.','Maintain records for Canada-only suppliers.','This role is not US only. UK applicants are welcome.','Support a Europe-only product launch. UK applicants may apply.'])test('unrelated or negated geography does not reject applicants: '+description,()=>{assert.equal(ukEligibility('United Kingdom',description),'eligible');assert.notEqual(run(description).eligibility.status,'ineligible');});
+for(const description of ['US only. Coordinate training schedules.','Applicants must be based in the United States.','This role is open to Canadian applicants only.','We cannot hire candidates in the UK.'])test('explicit applicant restriction still gates: '+description,()=>{assert.equal(ukEligibility('United Kingdom',description),'ineligible');assert.equal(run(description).fit_score,null);assert.equal(run(description).decision,'Skip');});

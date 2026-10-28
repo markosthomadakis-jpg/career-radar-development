@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import worker from '../../dist/server/index.js';
+import {evaluate} from '../../src/engine/evaluate.mjs';
+const vacancy={title:'Training Coordinator',company:'Fictional Learning',location:'United Kingdom',description:'Coordinate training schedules and maintain accurate records. Permanent role.',closing_date:'2026-11-30',contract_type:'permanent',salary_min:36000};
+const run=job=>evaluate({profile:'Coordinated training schedules and maintained accurate records.',vacancy:{...vacancy,...job},preferences:{salaryFloor:30000,minContractMonths:6},evaluationDate:'2026-10-28'});
+test('provider UK ineligibility blocks scoring before matching overlaps',()=>{const result=run({uk_eligibility:'ineligible'});assert.equal(result.eligibility.status,'ineligible');assert.equal(result.decision,'Skip');assert.equal(result.fit_score,null);assert.ok(result.hard_constraints.some(check=>check.name==='UK applicant geography'&&check.status==='not_met'));});
+test('an explicit foreign-only restriction overrides UK provider metadata',()=>{const result=run({uk_eligibility:'eligible',description:'US only. Must be based in the United States. '+vacancy.description});assert.equal(result.eligibility.status,'ineligible');assert.equal(result.fit_score,null);assert.equal(result.decision,'Skip');});
+test('a pasted foreign-only advert is gated without a provider eligibility field',()=>{const result=run({description:'Canada only. '+vacancy.description});assert.equal(result.eligibility.status,'ineligible');assert.equal(result.decision,'Skip');});
+test('unknown geography remains unresolved rather than passing eligibility',()=>{const result=run({location:'Europe',uk_eligibility:'unknown'});assert.equal(result.eligibility.status,'unknown');assert.ok(result.hard_constraints.some(check=>check.name==='UK applicant geography'&&check.status==='unknown'));});
+test('a supported geography field is not represented as proof of personal right to work',()=>{const result=run({uk_eligibility:'eligible'});const check=result.hard_constraints.find(check=>check.name==='UK applicant geography');assert.equal(check.status,'supported');assert.match(check.source,/not personal right to work/);});
+test('the built worker serves the shared normalizer imported by the browser engine',async()=>{const response=await worker.fetch(new Request('https://offline.example/vacancies/sources/normalization.mjs'),{});assert.equal(response.status,200);assert.equal(await response.text(),fs.readFileSync('src/vacancies/sources/normalization.mjs','utf8'));});
