@@ -4,3 +4,6 @@ node_modules/
 test-results/
 reports/playwright-html/
 playwright-report/
+
+# Local Playwright output
+career-radar-playwright-results/

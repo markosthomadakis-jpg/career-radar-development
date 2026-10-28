@@ -1,13 +1,16 @@
 import fs from 'node:fs';
 import zlib from 'node:zlib';
 import {createHash} from 'node:crypto';
-import {parseDocxXml,toPlainText,toAnalysisText} from '../worker/structured-cv.mjs';
-import {validateDraft} from '../worker/professional-profile.mjs';
+import {parseDocxXml,toPlainText,toAnalysisText} from '../src/profile/structured-cv.mjs';
+import {validateDraft} from '../src/profile/professional-profile.mjs';
 
 const [filePath,...options]=process.argv.slice(2);if(!filePath)throw Error('DOCX path required');
 function documentXml(path){const bytes=fs.readFileSync(path),view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);let eocd=-1;for(let i=Math.max(0,bytes.length-65557);i<=bytes.length-22;i++)if(view.getUint32(i,true)===0x06054b50)eocd=i;if(eocd<0)throw Error('Invalid DOCX');let pos=view.getUint32(eocd+16,true),entries=view.getUint16(eocd+10,true);for(let i=0;i<entries;i++){const method=view.getUint16(pos+10,true),size=view.getUint32(pos+20,true),nameLen=view.getUint16(pos+28,true),extra=view.getUint16(pos+30,true),comment=view.getUint16(pos+32,true),local=view.getUint32(pos+42,true),name=bytes.subarray(pos+46,pos+46+nameLen).toString();if(name==='word/document.xml'){const start=local+30+view.getUint16(local+26,true)+view.getUint16(local+28,true),raw=bytes.subarray(start,start+size);return (method===8?zlib.inflateRawSync(raw):raw).toString('utf8')}pos+=46+nameLen+extra+comment}throw Error('document.xml unavailable');}
 const document=parseDocxXml(documentXml(filePath),{fileName:'real-cv.docx'}),original=toPlainText(document);
-const redacted=toAnalysisText(document).replace(/\bMarkos\s+Thomadakis\b/gi,'[name removed]').replace(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/gi,'[email removed]').replace(/(?:https?:\/\/|www\.|linkedin\.com\/)[^\s|,;]+/gi,'[link removed]').replace(/(?:\+44\s?\(?0?\)?|\b0)(?:[\s().-]*\d){9,11}\b/g,'[phone removed]');
+// Names to mask come from REDACT_NAMES (comma-separated), never from source code.
+const names=String(process.env.REDACT_NAMES||'').split(',').map(x=>x.trim()).filter(Boolean);
+const namePattern=names.length?new RegExp('\\b(?:'+names.map(n=>n.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/\s+/g,'\\s+')).join('|')+')\\b','gi'):/$^/;
+const redacted=toAnalysisText(document).replace(namePattern,'[name removed]').replace(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/gi,'[email removed]').replace(/(?:https?:\/\/|www\.|linkedin\.com\/)[^\s|,;]+/gi,'[link removed]').replace(/(?:\+44\s?\(?0?\)?|\b0)(?:[\s().-]*\d){9,11}\b/g,'[phone removed]');
 if(options.includes('--local-only')){const sections=Object.fromEntries([...new Set(document.paragraphs.map(paragraph=>paragraph.section))].map(section=>[section,document.paragraphs.filter(paragraph=>paragraph.section===section).length]));console.log(JSON.stringify({mode:'local_only',api_requests:0,file_sha256:createHash('sha256').update(fs.readFileSync(filePath)).digest('hex'),paragraphs:document.paragraphs.length,sections,plain_text_characters:original.length,analysis_text_characters:redacted.length,stable_references:document.paragraphs.every((paragraph,index)=>paragraph.id===`P${String(index+1).padStart(4,'0')}`),manual_copy_paste_required:false},null,2));process.exit(0);}
 const envText=fs.readFileSync(new URL('../.env.local',import.meta.url),'utf8');
 const key=(envText.match(/^OPENAI_API_KEY=(.*)$/m)||[])[1]?.trim();if(!key)throw Error('OPENAI_API_KEY unavailable');

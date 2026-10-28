@@ -3,16 +3,27 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node qa-preview/server.mjs",
-    "build": "node scripts/build-v3.mjs",
-    "test": "npm run test:unit && npm run test:e2e",
-    "test:unit": "node --test tests/reliability/*.test.mjs",
+    "dev": "npm run build && node qa-preview/server.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check-syntax.mjs",
+    "test": "npm run build && npm run check && npm run test:unit && npm run test:legacy && npm run test:e2e",
+    "test:unit": "node --test tests/unit/*.test.mjs",
+    "test:legacy": "node --test tests/legacy/*.test.mjs",
     "test:e2e": "playwright test",
-    "qa": "npm run build && npm test",
-    "simulate": "node simulate.mjs"
+    "qa": "npm test",
+    "simulate": "node scripts/simulate.mjs",
+    "validate": "node scripts/validate.mjs",
+    "manifest": "node scripts/manifest.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.64.1"
+  },
+  "version": "35.0.0",
+  "description": "Career Radar \u2014 UK career-intelligence app: evidence-based vacancy assessment that advises, never applies.",
+  "author": "Markos Thomadakis",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22"
   }
 }

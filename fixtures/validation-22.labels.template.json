@@ -1,0 +1,118 @@
+{
+  "instructions": "Pre-register one label per advert BEFORE running npm run validate. label: apply | investigate | skip. Rationale: one sentence on why. Do not look at engine output first. Save as fixtures/validation-22.labels.json and commit.",
+  "labeller": "",
+  "labelled_at": "",
+  "profile": "SYN-ADMIN-01",
+  "labels": {
+    "SRC-06": {
+      "title": "Event Support Executive",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-24": {
+      "title": "Building Maintenance Surveyor",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-05": {
+      "title": "Sales Support & Customer Service Administrator",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-09": {
+      "title": "Office Coordinator / Sales Administrator",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-14": {
+      "title": "Lead Developer – Dynamics 365",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-02": {
+      "title": "Personal Assistant",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-12": {
+      "title": "Connection Agreements Coordinator (82921)",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-10": {
+      "title": "Events Support Administrator",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-20": {
+      "title": "Accounts Payable Assistant",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-15": {
+      "title": "Programme Administrator",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-04": {
+      "title": "Facilities and Administration Coordinator",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-23": {
+      "title": "Housing Options Team Leader (Accommodation)",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-17": {
+      "title": "Programme Administrator (Maternity cover)",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-21": {
+      "title": "Procurement Officer (Senior progression)",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-16": {
+      "title": "Programme Administrator, Masters in Finance",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-08": {
+      "title": "PA to Sales Team",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-11": {
+      "title": "Business Support & Operations Administrator",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-25": {
+      "title": "Cemeteries and Allotments Assistant",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-01": {
+      "title": "Shared Service Centre Administrator",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-19": {
+      "title": "Postgraduate Researcher Development Manager",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-13": {
+      "title": "Early Careers Learning and Development Coordinator",
+      "label": null,
+      "rationale": ""
+    },
+    "SRC-18": {
+      "title": "Programme Administration Manager",
+      "label": null,
+      "rationale": ""
+    }
+  }
+}

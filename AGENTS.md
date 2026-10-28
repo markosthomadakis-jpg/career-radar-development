@@ -69,6 +69,18 @@ Hosting versions (13, 2) are deployment revisions, **not** engine versions (V4, 
 - **Not verified in this V13 run:** live end-to-end UI or current Private Beta script health. Do not claim that the reported Beta W1–W10 observations were freshly reproduced.
 - **Unresolved:** the original 26-vacancy validation corpus is **lost**, never saved as a file. Do not substitute the 26 records in the Career Intelligence Tracker as if identical. T9 creates a new clearly labelled corpus with pre-registered human labels.
 
+### 2.4 Release 35.0.0 (V35) — Development repository
+
+Verified in this repository on 28 October 2026 (owner: Markos Thomadakis). Baseline: V34, commit `21817ae` (PR #5). PR #6 is not included.
+
+- **Layout:** source lives in `src/` (engine, profile, vacancies, server, web); superseded engines in `legacy/engines/`; see `docs/ARCHITECTURE.md`. Paths such as `worker/engine-v54.mjs` in older notes now map to `src/engine/evaluate.mjs`.
+- **One engine (T4):** `src/engine/evaluate.mjs` is the only scoring implementation, imported by the browser, tests, `simulate` and `validate`. Engine rule version `5.5.1-r5` is unchanged in V35.
+- **Front-end parse safety (T1/T2 equivalent for this repo):** no inline scripts or handlers; `npm run check` parses every shipped script; browser smoke tests run in `npm test`. The Private Beta (W1) is a separate repository and was not touched.
+- **Decisions shown unaltered:** the UI no longer maps every non-Skip result to "Apply". History (Discard-Skip reviews; tracker Applied/Interview/Rejected/Withdrawn) now gates eligibility in search.
+- **Cost and security:** daily D1 usage caps on Adzuna and OpenAI routes (fail closed); enforcing CSP and security headers; PDF.js pinned with SRI and `isEvalSupported:false`.
+- **Validation (T9/T10):** `npm run validate` is deterministic; `fixtures/validation-22.json` still has **no pre-registered human labels**, so no accuracy or agreement figure exists. Template: `fixtures/validation-22.labels.template.json`.
+- **Still open:** user accounts/authentication, two search tracks (T12), Stretch decision and High confidence (see `docs/RELEASE_V35.md`, Open decisions), two-account isolation (T17, not applicable until accounts exist).
+
 ---
 
 ## 3. Product principles (non-negotiable)

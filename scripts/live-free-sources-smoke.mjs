@@ -1,10 +1,10 @@
 import fs from 'node:fs';
 import zlib from 'node:zlib';
-import {createJobicySource} from '../worker/sources/jobicy.mjs';
-import {fetchEmployerBoard} from '../worker/sources/ats.mjs';
-import {mergeUnifiedVacancies} from '../worker/unified-search.mjs';
-import {parseDocxXml,toPlainText} from '../worker/structured-cv.mjs';
-import {evaluate} from '../worker/engine-v54.mjs';
+import {createJobicySource} from '../src/vacancies/sources/jobicy.mjs';
+import {fetchEmployerBoard} from '../src/vacancies/sources/ats.mjs';
+import {mergeUnifiedVacancies} from '../src/vacancies/unified-search.mjs';
+import {parseDocxXml,toPlainText} from '../src/profile/structured-cv.mjs';
+import {evaluate} from '../src/engine/evaluate.mjs';
 
 const startedAt=new Date().toISOString();
 const checks=[];

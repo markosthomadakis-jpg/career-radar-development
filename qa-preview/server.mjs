@@ -1,5 +1,8 @@
 import http from 'node:http';
-import worker from '../dist/server/index.js';
+// Offline QA preview: synthetic fixtures only. Server-side outbound network is disabled before the
+// worker loads, so no route can reach a live provider; the server listens on loopback only.
+globalThis.fetch=async url=>{throw new Error('Offline QA preview: outbound request blocked ('+String(url).slice(0,80)+')');};
+const {default:worker}=await import('../dist/server/index.js');
 const portArgument=process.argv.find((value)=>value.startsWith('--port='));
 const port=Number(portArgument?.slice('--port='.length)||process.env.PORT||4173);
 const description='Coordinate course schedules and participant registrations. Maintain Excel reporting and accurate records. Liaise with instructors and suppliers. Prepare process documentation and project action logs. Respond to customer service queries. '+('The administrative team supports course delivery and bookings. '.repeat(15));
@@ -7,12 +10,14 @@ const fixtures=[{id:'qa-admin',company:'Fictional Learning Centre',title:'Course
 for(const f of fixtures){f.created=new Date(Date.now()-3600000).toISOString();f.source_provider='adzuna';f.description_kind='summary';f.full_description=false;}
 fixtures.push({created:new Date(Date.now()-3600000).toISOString(),id:'qa-warehouse',title:'Operations Administrator',company:'Fictional Warehouse',description:'Warehouse picking and packing, manual handling and loading and unloading.',description_kind:'summary',salary_min:28000,location:'Crawley',url:'https://example.org/warehouse'},{id:'qa-short',title:'Temporary Administrator',company:'Fictional Agency',description:'Contract: Temporary, initially 3–4 weeks with possible extension.',contract_type:'temporary',salary_min:28000,salary_max:30000,location:'Crawley',description_kind:'summary',full_description:false,url:'https://example.org/qa-short'},{id:'qa-panel',title:'Administrator - Focus Group Panelists',company:'Fictional Research Panel',description:'Paid participation in focus group studies. Earn up to £700 per week.',description_kind:'summary',full_description:false,url:'https://example.org/qa-panel'});
 http.createServer(async(req,res)=>{try{
- const url=new URL(req.url,`http://terminal.local:${port}`);let response;
+ const url=new URL(req.url,`http://127.0.0.1:${port}`);let response;
  if(url.pathname==='/api/jobs')response=Response.json({count:fixtures.length,results:fixtures});
  else if(url.pathname==='/api/ai/status')response=Response.json({enabled:false,professionalProfileEnabled:true,profileOnceAvailable:false});
  else if(url.pathname==='/api/ai/professional-profile'){response=Response.json({model:'synthetic-qa-not-openai',result:{professional_identity:'Training operations coordinator',summary:'Synthetic UI test only',capabilities:[{name:'Training coordination',category:'core',scope:'coordination',evidence:'"Coordinated training schedules"; "Maintained accurate records"'},{name:'Records and Excel reporting',category:'secondary',scope:'independent',evidence:'Maintained accurate records and Excel reporting.'}],roles:[{title:'Administrator',employer:'Fictional',dates:'2020–2024',scope:'Supported learning operations',evidence:'"Coordinated training schedules"; "Invented fictional responsibility"'}],uncertainties:['Confirm whether any role had direct reports.']}});}
+ else if(url.pathname==='/api/sources/remote')response=Response.json({results:[],errors:[],sources:['jobicy'],partial:false,synthetic:true});
+ else if(url.pathname==='/api/watchlist/jobs')response=Response.json({results:[],count:0,synthetic:true});
  else if(url.pathname.startsWith('/api/ai/'))response=Response.json({enabled:false,profileOnceAvailable:false,error:'Paid APIs disabled in local QA'},{status:url.pathname.endsWith('/status')?200:403});
  else response=await worker.fetch(new Request(url),{});
  res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));
  }catch(e){res.writeHead(500);res.end('Local QA server error: '+e.message);}
-}).listen(port,'0.0.0.0',()=>console.log(`QA preview http://terminal.local:${port} — synthetic fixtures, paid APIs blocked`));
+}).listen(port,'127.0.0.1',()=>console.log(`Offline QA preview http://127.0.0.1:${port} — synthetic fixtures, outbound network blocked`));
