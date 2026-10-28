@@ -15,22 +15,22 @@ test('all vacancy sources produce the same core schema',()=>{
  assert.equal(records[0].source_reliability.level,'medium');assert.equal(records[1].source_reliability.level,'high');
 });
 
-test('deduplication merges cross-source records and prefers richer reliable evidence',()=>{
- const aggregate=normaliseJob({provider:'adzuna',source_id:'a1',title:'Learning & Development Coordinator',company:'Example Ltd',location:'London',description:'Short summary',source_url:'https://www.adzuna.co.uk/jobs/details/a1'});
- const official=normaliseJob({provider:'greenhouse',source_id:'g1',title:'Learning and Development Coordinator',company:'Example',location:'London',description:'A complete official description with essential criteria and responsibilities.',source_url:'https://boards.greenhouse.io/example/jobs/g1',full_description:true});
+test('deduplication merges cross-source records only when vacancy identity is corroborated',()=>{
+ const aggregate=normaliseJob({provider:'adzuna',source_id:'a1',requisition_id:'REQ-42',title:'Learning & Development Coordinator',company:'Example Ltd',location:'London',description:'Short summary',source_url:'https://www.adzuna.co.uk/jobs/details/a1'});
+ const official=normaliseJob({provider:'greenhouse',source_id:'g1',requisition_id:'REQ-42',title:'Learning and Development Coordinator',company:'Example',location:'London',description:'A complete official description with essential criteria and responsibilities.',source_url:'https://boards.greenhouse.io/example/jobs/g1',full_description:true});
  // The canonical fingerprint intentionally normalises ampersands and legal suffixes.
  assert.equal(aggregate.canonical_key,official.canonical_key);
  const [merged]=deduplicate([aggregate,official]);assert.equal(merged.provider,'greenhouse');assert.equal(merged.full_description,true);assert.equal(merged.sources.length,2);assert.equal(merged.duplicate_count,2);assert.equal(merged.source_reliability.level,'high');
 });
 
-test('real Adzuna and Greenhouse adapters deduplicate the same vacancy',()=>{
+test('Adzuna and Greenhouse lookalikes remain separate without shared identity evidence',()=>{
  const aggregate=normalizeAdzunaJob({id:'a2',title:'Learning Coordinator',company:{display_name:'Example Ltd'},location:{display_name:'London'},description:'Summary',redirect_url:'https://www.adzuna.co.uk/jobs/details/a2',created:'2026-10-26T12:00:00Z'});
  const official=normalizeGreenhouse({id:'g2',title:'Learning Coordinator',content:'Full official advert',absolute_url:'https://boards.greenhouse.io/example/jobs/g2',location:{name:'London'}},'Example','example');
  const merged=deduplicate([aggregate,official]);
  assert.equal(aggregate.canonical_key,official.canonical_key);
- assert.equal(merged.length,1);
- assert.equal(merged[0].provider,'greenhouse');
- assert.equal(merged[0].sources.length,2);
+ assert.equal(merged.length,2);
+ assert.ok(merged.every(item=>item.possible_duplicate_key));
+ assert.deepEqual(merged.map(item=>item.sources.length),[1,1]);
 });
 
 test('same title at different locations remains distinct',()=>{

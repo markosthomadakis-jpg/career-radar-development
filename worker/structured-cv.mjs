@@ -2,7 +2,7 @@ export const STRUCTURED_CV_VERSION='1.0.0';
 
 const SECTION_PATTERNS=[
  ['profile',/^(?:professional\s+)?(?:profile|summary|introduction|personal statement|about me)$/i],
- ['experience',/^(?:professional\s+|employment\s+|work\s+)?(?:experience|history)|career history$/i],
+ ['experience',/^(?:(?:professional|employment|work)\s+)?(?:experience|history)$|^career history$/i],
  ['education',/^(?:education|academic background|qualifications)$/i],
  ['skills',/^(?:key |core |additional |technical )?(?:skills|capabilities|competencies)$/i],
  ['certifications',/^(?:certifications?|professional development|training|courses)$/i],
@@ -10,9 +10,9 @@ const SECTION_PATTERNS=[
  ['languages',/^languages?$/i]
 ];
 const clean=s=>String(s||'').replace(/\u00a0/g,' ').replace(/[ \t]+/g,' ').trim();
-const decode=s=>String(s||'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&');
+const decode=value=>String(value||'').replace(/&(?:lt|gt|quot|apos|amp|#x[0-9a-f]+|#\d+);/gi,entity=>{const names={'&lt;':'<','&gt;':'>','&quot;':'"','&apos;':"'",'&amp;':'&'};if(names[entity])return names[entity];const digits=entity.slice(2,-1),point=digits[0].toLowerCase()==='x'?parseInt(digits.slice(1),16):Number(digits);return point>0&&point<=0x10ffff&&!(point>=0xd800&&point<=0xdfff)?String.fromCodePoint(point):entity;});
 function headingType(text,style=''){
- const value=clean(text),known=SECTION_PATTERNS.find(([,re])=>re.test(value));
+ const value=clean(text).replace(/:$/,''),known=SECTION_PATTERNS.find(([,re])=>re.test(value));
  if(known)return known[0];
  if(/^Heading[1-6]$/i.test(style)||/^(?:Title|Subtitle)$/i.test(style))return 'other';
  if(value.length<=70&&value.split(/\s+/).length<=8&&(/^[A-Z][A-Z &/+-]+$/.test(value)||/:$/.test(value)))return 'other';
@@ -37,7 +37,7 @@ export function parseDocxXml(xml,options={}){
  for(const match of String(xml||'').matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)){
   const block=match[0],style=(block.match(/<w:pStyle\b[^>]*w:val=["']([^"']+)/)||[])[1]||'';
   const list=/<w:numPr\b/.test(block);let text='';
-  for(const token of block.matchAll(/<w:t\b[^>]*>([\s\S]*?)<\/w:t>|<w:tab\b[^>]*\/?\s*>|<w:br\b[^>]*\/?\s*>/g))text+=token[1]!=null?decode(token[1]):(/w:tab/.test(token[0])?'\t':'\n');
+  for(const token of block.matchAll(/<w:t\b[^>]*>([\s\S]*?)<\/w:t>|<w:tab\b[^>]*\/?\s*>|<w:(?:br|cr)\b[^>]*\/?\s*>/g))text+=token[1]!=null?decode(token[1]):(/w:tab/.test(token[0])?'\t':'\n');
   paragraphs.push({text,style,list});
  }
  return structureParagraphs(paragraphs,{...options,sourceType:'docx'});

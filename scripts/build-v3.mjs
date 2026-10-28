@@ -1,8 +1,11 @@
 import {readFileSync,writeFileSync,mkdirSync,copyFileSync,cpSync} from 'node:fs';
 const unifiedSearch=readFileSync('worker/unified-search.mjs','utf8');
-const source=readFileSync('worker/index.js','utf8').replace('__UNIFIED_SEARCH_LITERAL__',()=>JSON.stringify(unifiedSearch));
+let source=readFileSync('worker/index.js','utf8').replace('__UNIFIED_SEARCH_LITERAL__',()=>JSON.stringify(unifiedSearch));
 const remoteClient=readFileSync('worker/remote-client.js','utf8');
 const watchlistClient=readFileSync('worker/watchlist-client.js','utf8');
+const shortlistClient=readFileSync('worker/shortlist-client.js','utf8');
+const shortlist=readFileSync('worker/shortlist.mjs','utf8');
+source=source.replace('__SHORTLIST_CLIENT_LITERAL__',()=>JSON.stringify(shortlistClient)).replace('__SHORTLIST_LITERAL__',()=>JSON.stringify(shortlist));
 const html=readFileSync('dist/index.html','utf8');
 const accessibleHtml=html.replace('</style>',`.eyebrow{color:#365f4c}.sub,.company,.empty,.field small,.source-note,#profileSearchStatus,th,td{color:#52616a}.metric small{color:#4b6157}.light>div:last-child{color:#3f604f!important}.score.weak{color:#6f4d1c}.foot{color:#5e6b72}</style>`);
 const matching=readFileSync('worker/matching-client.js','utf8');
@@ -29,3 +32,4 @@ cpSync('worker/sources','dist/server/sources',{recursive:true,force:true});
 console.log('Career Radar V3 Worker built');
 
 copyFileSync('worker/vacancy-input.mjs','dist/server/vacancy-input.mjs');
+copyFileSync('worker/unified-search.mjs','dist/server/unified-search.mjs');

@@ -11,6 +11,29 @@ test('application loads without browser errors and every navigation view opens',
 test('paid and live APIs are not contacted during smoke navigation',async({page})=>{
  const calls=[];page.on('request',request=>{if(request.url().includes('/api/'))calls.push(new URL(request.url()).pathname)});await page.goto('/');for(const view of expectedViews)await page.locator(`[data-view="${view}"]:visible`).first().click();expect(calls.filter(path=>path!=='/api/ai/status')).toEqual([]);
 });
+test('first-use guidance preserves the confirmed-evidence workflow',async({page})=>{
+ await page.goto('/');
+ await expect(page.locator('.first-use-guide')).toContainText('Confirm evidence from your CV');
+ await expect(page.locator('.first-use-guide')).toContainText('Search all configured vacancy sources');
+ await page.locator('[data-shortlist-view="matching"]').click();
+ await expect(page.locator('#matching')).toBeVisible();
+ await page.locator('[data-view="dashboard"]:visible').first().click();
+ await page.locator('[data-shortlist-view="live"]').click();
+ await expect(page.locator('#live')).toBeVisible();
+ await expect(page.locator('#liveForm button[type="submit"]')).toHaveText('Search all vacancy sources');
+});
+test('mobile navigation stays inside the viewport and remains clickable',async({page})=>{
+ await page.setViewportSize({width:412,height:915});await page.goto('/');
+ const navigation=page.locator('.mobile');await expect(navigation).toBeVisible();
+ const viewport=page.viewportSize();
+ for(const view of expectedViews){const control=navigation.locator(`[data-view="${view}"]`).first(),box=await control.boundingBox();expect(box,`${view} has a rendered mobile control`).not.toBeNull();expect(box.x,`${view} starts inside the viewport`).toBeGreaterThanOrEqual(0);expect(box.x+box.width,`${view} ends inside the viewport`).toBeLessThanOrEqual(viewport.width+1);await control.click();await expect(page.locator(`#${view}`)).toBeVisible();}
+});
+test('saved shortlist renders evidence, provenance and unresolved checks',async({page})=>{
+ const profile={status:'confirmed',cv_sha256:'synthetic-cv-hash',confirmed_at:'2026-10-27T08:00:00Z'};
+ const lead={id:'vacancy-synthetic',title:'Training Coordinator',employer:'Fictional Learning',location:'Crawley',url:'https://jobs.example.test/training-coordinator',status:'Saved',sources:[{provider:'fixture',source_id:'qa-1',url:'https://jobs.example.test/training-coordinator'}],assessment_summary:{version:1,saved_at:'2026-10-27T09:00:00Z',advert_sha256:'synthetic-advert-hash',profile_cv_sha256:profile.cv_sha256,profile_confirmed_at:profile.confirmed_at,engine_version:'5.5.1',eligibility:'eligible',source_kind:'full',supported:[{requirement:'Training administration',cv_evidence:'Coordinated training schedules and participant records.',advert_evidence:'Coordinate training schedules and maintain participant records.'}],unresolved:['Confirm workplace attendance'],conditions:[],next_action:'Review remaining requirements and decide whether to pursue.'}};
+ await page.addInitScript(({profile,lead})=>{localStorage.setItem('career-radar-professional-profile-v1',JSON.stringify(profile));localStorage.setItem('career-radar-v1',JSON.stringify({manualJobs:[lead]}));},{profile,lead});
+ await page.goto('/');await expect(page.locator('#dashboard .shortlist-overview')).toContainText('Training Coordinator');await expect(page.locator('#dashboard .shortlist-overview')).toContainText('Training administration');await expect(page.locator('#dashboard .shortlist-overview')).toContainText('Confirm workplace attendance');await expect(page.locator('#dashboard .shortlist-overview a')).toHaveAttribute('rel','noopener noreferrer');
+});
 test('every active view has no serious or critical WCAG A/AA violations',async({page},testInfo)=>{
  await page.goto('/');const blocking=[];for(const view of expectedViews){await page.locator(`[data-view="${view}"]:visible`).first().click();const results=await new AxeBuilder({page}).include(`#${view}`).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();await testInfo.attach(`axe-${view}`,{body:Buffer.from(JSON.stringify(results,null,2)),contentType:'application/json'});for(const violation of results.violations.filter(x=>['serious','critical'].includes(x.impact)))blocking.push({view,id:violation.id,impact:violation.impact,help:violation.help,nodes:violation.nodes.map(n=>n.target)});}expect(blocking).toEqual([]);
 });

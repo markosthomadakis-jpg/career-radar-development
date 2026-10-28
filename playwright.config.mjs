@@ -1,6 +1,7 @@
 import {defineConfig,devices} from '@playwright/test';
 export default defineConfig({
  testDir:'./tests/e2e',fullyParallel:false,forbidOnly:true,retries:0,workers:1,
+ outputDir:`${process.env.TEMP || process.env.TMP || '.'}/career-radar-playwright-results`,
  reporter:[['list'],['html',{outputFolder:'reports/playwright-html',open:'never'}]],
  use:{baseURL:'http://127.0.0.1:4187',trace:'retain-on-failure',screenshot:'only-on-failure',video:'retain-on-failure'},
  projects:[{name:'desktop-chromium',use:{...devices['Desktop Chrome']}},{name:'mobile-chromium',use:{...devices['Pixel 7']}}],
