@@ -1,12 +1,18 @@
 # Career Radar: controlled daily use
 
+## What the decision labels mean (V35)
+
+Search results and Fit Calibration now show the engine's own assessment unaltered: Apply, Apply with tailoring, Investigate, Not assessable or Skip. Earlier releases displayed every non-Skip result as "Apply"; that is no longer the case. Your own choice is recorded separately with the "Your decision: Apply / Discard-Skip" buttons and never submits an application.
+
+Vacancies you marked Discard-Skip, and vacancies in your tracker with status Applied, Interview, Rejected or Withdrawn, are now treated as previously handled and come back as Skip, so they do not resurface as new leads.
+
 Use Evidence matching to review your evidence profile, then Live vacancies for real source listings. The landing dashboard contains clearly marked illustrative demo cards; those are not current vacancies or engine outputs. Fit Calibration provides the full requirement/evidence table with its own visible salary and contract controls. Set these controls before evaluating a role.
 
 Apply, Apply with tailoring, Investigate, Not assessable and Skip are advisory triage. Missing statements are unknown, not inability. You make the final Apply / Skip / Investigate choice. These buttons record a browser-local review only; no application is sent. Review records do not automatically retrain the engine. Use the original source link to verify availability and requirements before applying.
 
 Unknown or small employers receive no penalty. Limited intelligence is enabled by default in Fit Calibration and can be switched off per evaluation. It provides dated official-source employer descriptions (initially Elysium Healthcare and gategroup), questions triggered by advert text, and up to three distinct sourced comparisons from the latest search. It does not run automatic web searches, assess employer quality, or change fit scores/recommendations. Unknown employers receive no penalty. Source links, dates, excerpts and SHA-256 fingerprints are available in provenance details. Provider summaries remain labelled summaries. Personal-profile fine tuning, two-track commute automation and broader research coverage are later work. Both search and calibration must use the intended salary/contract settings; there is no automatic London/local preference migration in this release.
 
-Development runs `npm test`, `npm run simulate` (22-source synthetic run), and `npm run build`. `npm run dev` is a local mocked QA server: it does not call Adzuna/OpenAI and is not the production server. Hosting uses the built Worker in dist/server/index.js.
+Development runs `npm test` (build, syntax/CSP check, unit, legacy and browser tests), `npm run simulate` and `npm run validate` (22-source synthetic runs), and `npm run build`. `npm run dev` is a local offline QA server on 127.0.0.1: it blocks all outbound requests and is not the production server. Hosting uses the built Worker in dist/server/index.js. See docs/ARCHITECTURE.md for layout and configuration.
 
 The deterministic core does not send CV text to an external model. The inherited Semantic AI tab is a separate opt-in workflow and may require paid API consent/configuration; it was not exercised by this release. Personal data stays outside tests.
 
@@ -28,7 +34,7 @@ Use Requirement extraction coverage and its expandable source-unit table to insp
 
 ## Daily human review (5.5.1)
 
-Use Fit Calibration (V5.5), supply the full original advert and Evaluate evidence. Check the explicit checkbox linking the paste to a selected provider listing only when they are the same vacancy. Published requirements and inferred sector context are distinct; the sector selector is advisory.
+Use Fit Calibration, supply the full original advert and Evaluate evidence. Check the explicit checkbox linking the paste to a selected provider listing only when they are the same vacancy. Published requirements and inferred sector context are distinct; the sector selector is advisory.
 
 For items not evidenced automatically, the checklist records your own confirmation; it does not invent a CV quotation. Unknown remains distinct from an explicit “I do not meet this”. Critical credentials and existing clearance need separate verification even if other essentials reach the threshold.
 
