@@ -7,7 +7,8 @@
 //   5. eligibility                (hard constraints and pre-employment conditions)
 // Engine limitations are never reported as candidate shortcomings.
 // Engine rule version: stamped on every result and saved assessment. Changes only when rules change.
-export const ENGINE_VERSION='5.5.1-r5';
+import {ukEligibility} from '../vacancies/sources/normalization.mjs';
+export const ENGINE_VERSION='5.5.1-r6';
 export {historyFromRecords} from './history.mjs';
 export const MODEL_VERSION=ENGINE_VERSION; // historical name kept for saved-data compatibility
 const MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
@@ -227,6 +228,11 @@ function eligibility(v,p,date){
  textPermanent=!type&&/\bpermanent\b/i.test(text)&&!/\b(?:temporary|fixed.term|ftc|maternity cover|interim|secondment)\b/i.test(text);
  }
  if(min){const permanent=/^permanent$/i.test(type.trim())||textPermanent;add('Contract duration',weeks&&weeks<min*4?'not_met':permanent?'supported':months?months<min?'not_met':'supported':'unknown',weeks?`Initially up to ${weeks} weeks; extension not guaranteed`:permanent?(type||'Permanent (from advert text)'):months?`${months} months`:type||'Not supplied');}
+ const inferredUk=ukEligibility(v.location,v.description);
+ if(p.requireUkEligibility||v.uk_eligibility!==undefined||inferredUk==='ineligible'){
+  const geography=v.uk_eligibility==='ineligible'||inferredUk==='ineligible'?'not_met':v.uk_eligibility==='eligible'||inferredUk==='eligible'?'supported':'unknown';
+  add('UK applicant geography',geography,geography==='not_met'?'Source or advert restricts UK applicants':geography==='supported'?'Source geography permits UK applicants; not personal right to work':'UK applicant geography is not confirmed');
+ }
  if(v.location_eligible!==undefined)add('Location',v.location_eligible===true?'supported':v.location_eligible===false?'not_met':'unknown',v.location||'Not supplied');
  else if(p.requireLocationCheck)add('Location','unknown','Walking distance / approved area not verified');
  const status=String(v.history_status||p.history?.find(x=>(v.id&&(x.id===v.id||x.vacancy_id===String(v.id)))||(v.source_url&&x.source_url===v.source_url))?.status||'').toLowerCase();
